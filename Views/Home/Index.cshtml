@@ -1,8 +1,417 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+	Layout = "_HomeLayout";
+	ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<!-- Working Here -->
+<section class="working__section pt-120 pb-120">
+	<div class="container">
+		<div class="row justify-content-center wow fadeInDown">
+			<div class="col-lg-6">
+				<div class="section__header section__center pb__40">
+					<h2>How It Work</h2>
+					<p>
+						There are many variations of passages of Lorem Ipsum available,
+						but the majority have suffered alteration in some form
+					</p>
+				</div>
+			</div>
+		</div>
+		<div class="row align-items-center wow fadeInUp" data-wow-duration="2s">
+			<div class="col-xl-6 col-lg-7">
+				<div class="main__work__content">
+					<ul class="nav nav-tabs" id="myTab" role="tablist">
+						<li class="nav-item" role="presentation">
+							<button class="nav-link active"
+									id="home-tabwormain"
+									data-bs-toggle="tab"
+									data-bs-target="#homewormain"
+									type="button"
+									role="tab"
+									aria-controls="homewormain"
+									aria-selected="true">
+								<span class="list"> 1 </span>
+								<span class="contents">
+									<span class="title"> Choose what to do </span>
+									<span class="pra">
+										Lorem ipsum dolor sit amt, consectietur adipscring elit
+										Morbit in metus justo consecteture adliiscing elit.
+										morbi in metus justo.
+									</span>
+								</span>
+							</button>
+						</li>
+						<li class="nav-item" role="presentation">
+							<button class="nav-link"
+									id="profile-tabwormain"
+									data-bs-toggle="tab"
+									data-bs-target="#profilewormain"
+									type="button"
+									role="tab"
+									aria-controls="profilewormain"
+									aria-selected="false">
+								<span class="list"> 2 </span>
+								<span class="contents">
+									<span class="title"> Find what you want </span>
+									<span class="pra">
+										Lorem ipsum dolor sit amt, consectietur adipscring elit
+										Morbit in metus justo consecteture adliiscing elit.
+										morbi in metus justo.
+									</span>
+								</span>
+							</button>
+						</li>
+						<li class="nav-item" role="presentation">
+							<button class="nav-link"
+									id="contact-tabwormain"
+									data-bs-toggle="tab"
+									data-bs-target="#contactwormain"
+									type="button"
+									role="tab"
+									aria-controls="contactwormain"
+									aria-selected="false">
+								<span class="list"> 3 </span>
+								<span class="contents">
+									<span class="title"> Explore amazing code </span>
+									<span class="pra">
+										Lorem ipsum dolor sit amt, consectietur adipscring elit
+										Morbit in metus justo consecteture adliiscing elit.
+										morbi in metus justo.
+									</span>
+								</span>
+							</button>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div class="col-xl-4 col-lg-4 col-md-8">
+				<div class="tab-content" id="myTabContentwork">
+					<div class="tab-pane fade show active"
+						 id="homewormain"
+						 role="tabpanel">
+						<div class="work__mainthumb">
+							<img src="~/Home/~/Home/assets/img/working/workmain.png" alt="img" />
+						</div>
+					</div>
+					<div class="tab-pane fade" id="profilewormain" role="tabpanel">
+						<div class="work__mainthumb">
+							<img src="~/Home/~/Home/assets/img/working/bandk.png" alt="img" />
+						</div>
+					</div>
+					<div class="tab-pane fade" id="contactwormain" role="tabpanel">
+						<div class="work__mainthumb">
+							<img src="~/Home/~/Home/assets/img/working/workmain.png" alt="img" />
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="maishape__work">
+		<img src="~/Home/~/Home/assets/img/working/workshape-main.png" alt="img" />
+	</div>
+</section>
+<!-- Working End -->
+<!-- question here -->
+<section class="question__section bgsection pt-120 pb-120">
+	<div class="container">
+		<div class="row flex-row-reverse justify-content-between align-items-center">
+			<div class="col-xl-6 col-lg-6">
+				<div class="qustion__content relative">
+					<div class="section__header pb__40 wow fadeInDown">
+						<h2>If you got questions we have answer</h2>
+						<p>
+							There are many variations of passages of Lorem Ipsum
+							available, but the have suffered alteration in some form, by
+							injected humour, or randomised words which don't look even
+							slightly believable. If you are going to use... have suffered
+							alteration in some form, by injected humour, or randomised
+							words which don't look even slightly believable. If you are
+							going to use...
+						</p>
+					</div>
+					<div class="accordion__wrap">
+						<div class="accordion" id="accordionExample">
+							<!--Accordion items-->
+							<div class="accordion-item wow fadeInUp"
+								 data-wow-duration="0.9s">
+								<h2 class="accordion-header" id="headingOne">
+									<button class="accordion-button"
+											type="button"
+											data-bs-toggle="collapse"
+											data-bs-target="#collapseOne"
+											aria-expanded="true"
+											aria-controls="collapseOne">
+										What is e recharge?
+									</button>
+								</h2>
+								<div id="collapseOne"
+									 class="accordion-collapse collapse show"
+									 aria-labelledby="headingOne"
+									 data-bs-parent="#accordionExample">
+									<div class="accordion-body">
+										<p>
+											Lorem Ipsum is simply dummy text of the printing and
+											typesetting industry. Lorem Ipsum has been the
+											industry's standard dummy text ever since the 1500s,
+											when
+										</p>
+									</div>
+								</div>
+							</div>
+							<!--Accordion items-->
+							<div class="accordion-item wow fadeInUp"
+								 data-wow-duration="1.2s">
+								<h2 class="accordion-header" id="headingTwo">
+									<button class="accordion-button collapsed"
+											type="button"
+											data-bs-toggle="collapse"
+											data-bs-target="#collapseTwo"
+											aria-expanded="false"
+											aria-controls="collapseTwo">
+										What is recharge credit?
+									</button>
+								</h2>
+								<div id="collapseTwo"
+									 class="accordion-collapse collapse"
+									 aria-labelledby="headingTwo"
+									 data-bs-parent="#accordionExample">
+									<div class="accordion-body">
+										<p>
+											Lorem Ipsum is simply dummy text of the printing and
+											typesetting industry. Lorem Ipsum has been the
+											industry's standard dummy text ever since the 1500s,
+											when
+										</p>
+									</div>
+								</div>
+							</div>
+							<!--Accordion items-->
+							<div class="accordion-item wow fadeInUp"
+								 data-wow-duration="1.4s">
+								<h2 class="accordion-header" id="headingThree">
+									<button class="accordion-button collapsed"
+											type="button"
+											data-bs-toggle="collapse"
+											data-bs-target="#collapseThree"
+											aria-expanded="false"
+											aria-controls="collapseThree">
+										How reliable is recharge com?
+									</button>
+								</h2>
+								<div id="collapseThree"
+									 class="accordion-collapse collapse"
+									 aria-labelledby="headingThree"
+									 data-bs-parent="#accordionExample">
+									<div class="accordion-body">
+										<p>
+											Lorem Ipsum is simply dummy text of the printing and
+											typesetting industry. Lorem Ipsum has been the
+											industry's standard dummy text ever since the 1500s,
+											when
+										</p>
+									</div>
+								</div>
+							</div>
+							<!--Accordion items-->
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-xl-5 col-lg-5 wow fadeInDown" data-wow-duration="0.9">
+				<div class="qustion__thumb">
+					<img src="~/Home/~/Home/assets/img/refer/qustion.png" alt="" />
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="qustion__shape">
+		<img src="~/Home/~/Home/assets/img/refer/qustion-shape.png" alt="img" />
+	</div>
+</section>
+<!-- question End -->
+<!-- testimonial Here -->
+<section class="testimonial__section pt-120 pb-120">
+	<div class="container">
+		<div class="row justify-content-center">
+			<div class="col-lg-7">
+				<div class="section__header text-center pb__40 wow fadeInDown">
+					<h2>What does the client say?</h2>
+					<p class="max600">
+						There are many variations of passages of Lorem Ipsum available,
+						but the majority have suffered alteration in some form
+					</p>
+				</div>
+			</div>
+		</div>
+		<div class="testimoial__wrap owl-theme owl-carousel wow fadeInUp">
+			<div class="testimonial__item">
+				<div class="star__wrap pb__20 d-flex align-items-center gap-2 justify-content-center">
+					<span>
+						<img src="~/Home/~/Home/assets/img/testimonial/star.png" alt="icon" />
+					</span>
+					<span>
+						<img src="~/Home/~/Home/assets/img/testimonial/star.png" alt="icon" />
+					</span>
+					<span>
+						<img src="~/Home/~/Home/assets/img/testimonial/star.png" alt="icon" />
+					</span>
+					<span>
+						<img src="~/Home/~/Home/assets/img/testimonial/star.png" alt="icon" />
+					</span>
+					<span>
+						<img src="~/Home/~/Home/assets/img/testimonial/star.png" alt="icon" />
+					</span>
+				</div>
+				<p class="fz-18 fw-600">
+					There are many variations of passages of Lorem Ipsum available,
+					but the majority have suffered alteration in some form...
+				</p>
+				<div class="client">
+					<div class="thumb">
+						<img src="~/Home/~/Home/assets/img/testimonial/jenlia.png" alt="img" />
+					</div>
+					<div class="content">
+						<h6 class="name">Jenelia d'suza</h6>
+						<span class="desination"> Student </span>
+					</div>
+				</div>
+			</div>
+			<div class="testimonial__item">
+				<div class="star__wrap pb__20 d-flex align-items-center gap-2 justify-content-center">
+					<span>
+						<img src="~/Home/~/Home/assets/img/testimonial/star.png" alt="icon" />
+					</span>
+					<span>
+						<img src="~/Home/~/Home/assets/img/testimonial/star.png" alt="icon" />
+					</span>
+					<span>
+						<img src="~/Home/~/Home/assets/img/testimonial/star.png" alt="icon" />
+					</span>
+					<span>
+						<img src="~/Home/~/Home/assets/img/testimonial/star.png" alt="icon" />
+					</span>
+					<span>
+						<img src="~/Home/~/Home/assets/img/testimonial/star.png" alt="icon" />
+					</span>
+				</div>
+				<p class="fz-18 fw-600">
+					There are many variations of passages of Lorem Ipsum available,
+					but the majority have suffered alteration in some form...
+				</p>
+				<div class="client">
+					<div class="thumb">
+						<img src="~/Home/~/Home/assets/img/testimonial/alena.png" alt="img" />
+					</div>
+					<div class="content">
+						<h6 class="name">Alena Hecals</h6>
+						<span class="desination"> Doctor </span>
+					</div>
+				</div>
+			</div>
+			<div class="testimonial__item">
+				<div class="star__wrap pb__20 d-flex align-items-center gap-2 justify-content-center">
+					<span>
+						<img src="~/Home/~/Home/assets/img/testimonial/star.png" alt="icon" />
+					</span>
+					<span>
+						<img src="~/Home/~/Home/assets/img/testimonial/star.png" alt="icon" />
+					</span>
+					<span>
+						<img src="~/Home/~/Home/assets/img/testimonial/star.png" alt="icon" />
+					</span>
+					<span>
+						<img src="~/Home/~/Home/assets/img/testimonial/star.png" alt="icon" />
+					</span>
+					<span>
+						<img src="~/Home/~/Home/assets/img/testimonial/star.png" alt="icon" />
+					</span>
+				</div>
+				<p class="fz-18 fw-600">
+					There are many variations of passages of Lorem Ipsum available,
+					but the majority have suffered alteration in some form...
+				</p>
+				<div class="client">
+					<div class="thumb">
+						<img src="~/Home/~/Home/assets/img/testimonial/brad.png" alt="img" />
+					</div>
+					<div class="content">
+						<h6 class="name">Brad Hogds</h6>
+						<span class="desination"> Enginner </span>
+					</div>
+				</div>
+			</div>
+			<div class="testimonial__item">
+				<div class="star__wrap pb__20 d-flex align-items-center gap-2 justify-content-center">
+					<span>
+						<img src="~/Home/~/Home/assets/img/testimonial/star.png" alt="icon" />
+					</span>
+					<span>
+						<img src="~/Home/assets/img/testimonial/star.png" alt="icon" />
+					</span>
+					<span>
+						<img src="~/Home/assets/img/testimonial/star.png" alt="icon" />
+					</span>
+					<span>
+						<img src="~/Home/assets/img/testimonial/star.png" alt="icon" />
+					</span>
+					<span>
+						<img src="~/Home/assets/img/testimonial/star.png" alt="icon" />
+					</span>
+				</div>
+				<p class="fz-18 fw-600">
+					There are many variations of passages of Lorem Ipsum available,
+					but the majority have suffered alteration in some form...
+				</p>
+				<div class="client">
+					<div class="thumb">
+						<img src="~/Home/assets/img/testimonial/jenlia.png" alt="img" />
+					</div>
+					<div class="content">
+						<h6 class="name">Jenelia d'suza</h6>
+						<span class="desination"> Student </span>
+					</div>
+				</div>
+			</div>
+			<div class="testimonial__item">
+				<div class="star__wrap pb__20 d-flex align-items-center gap-2 justify-content-center">
+					<span>
+						<img src="~/Home/assets/img/testimonial/star.png" alt="icon" />
+					</span>
+					<span>
+						<img src="~/Home/assets/img/testimonial/star.png" alt="icon" />
+					</span>
+					<span>
+						<img src="~/Home/assets/img/testimonial/star.png" alt="icon" />
+					</span>
+					<span>
+						<img src="~/Home/assets/img/testimonial/star.png" alt="icon" />
+					</span>
+					<span>
+						<img src="~/Home/assets/img/testimonial/star.png" alt="icon" />
+					</span>
+				</div>
+				<p class="fz-18 fw-600">
+					There are many variations of passages of Lorem Ipsum available,
+					but the majority have suffered alteration in some form...
+				</p>
+				<div class="client">
+					<div class="thumb">
+						<img src="~/Home/assets/img/testimonial/alena.png" alt="img" />
+					</div>
+					<div class="content">
+						<h6 class="name">Alena Hecals</h6>
+						<span class="desination"> Doctor </span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="test__shape1">
+		<img src="~/Home/assets/img/testimonial/testi-shape1.png" alt="shape" />
+	</div>
+	<div class="test__shape2">
+		<img src="~/Home/assets/img/testimonial/testi-shape2.png" alt="shape" />
+	</div>
+</section>
+<!-- testimonial End -->
