@@ -10,7 +10,7 @@ namespace OnlineMobileRecharge.Models
         public int PackTran_Id { get; set; }
         [Required]
         [ForeignKey("IdentityUser")]
-        public required string Customer_Id { get; set; }
+        public required string User_Id { get; set; }
         public required IdentityUser IdentityUser { get; set; }
         [Required]
         [ForeignKey("Package")]
