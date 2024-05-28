@@ -7,9 +7,9 @@ namespace OnlineMobileRecharge.Models
         [Key]
         public int Package_Id { get; set; }
         [Required]
-        public string Package_Name { get; set; }
+        public required string Package_Name { get; set; }
         [Required]
-        public string Package_Description { get; set; }
+        public required string Package_Description { get; set; }
         [Required]
         public int Package_Off_Net_Mins { get; set; }
         [Required]

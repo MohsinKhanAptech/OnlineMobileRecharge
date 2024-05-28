@@ -6,9 +6,8 @@ namespace OnlineMobileRecharge.Models
     {
         [Key]
         public int Newsletter_Id { get; set; }
-        [Required]
-        [EmailAddress]
-        public string Newsletter_Email { get; set; }
+        [Required, EmailAddress]
+        public required string Newsletter_Email { get; set; }
         [Required]
         public DateTime Date_Added { get; }
 

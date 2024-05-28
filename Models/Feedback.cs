@@ -7,7 +7,7 @@ namespace OnlineMobileRecharge.Models
         [Key]
         public int Feedback_Id { get; set; }
         [Required]
-        public string Feedback_Message { get; set; }
+        public required string Feedback_Message { get; set; }
         [Required]
         public DateTime Date_Added { get; }
 
