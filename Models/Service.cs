@@ -17,6 +17,6 @@ namespace OnlineMobileRecharge.Models
         [Required]
         [ForeignKey("Caller_Tune")]
         public int Caller_Tune_Id { get; set; }
-        public Caller_Tune Caller_Tune { get; set; }
+        public required Caller_Tune Caller_Tune { get; set; }
     }
 }
