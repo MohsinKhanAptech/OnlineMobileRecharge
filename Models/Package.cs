@@ -19,6 +19,8 @@ namespace OnlineMobileRecharge.Models
         [Required]
         public int Package_Sms { get; set; }
         [Required]
+        public double Package_Price { get; set; }
+        [Required]
         public PackageType Package_Type { get; set; }
     }
     public enum PackageType

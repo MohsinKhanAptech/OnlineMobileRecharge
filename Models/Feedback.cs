@@ -7,6 +7,13 @@ namespace OnlineMobileRecharge.Models
         [Key]
         public int Feedback_Id { get; set; }
         [Required]
-        public int MyProperty { get; set; }
+        public string Feedback_Message { get; set; }
+        [Required]
+        public DateTime Date_Added { get; }
+
+        public Feedback()
+        {
+            Date_Added = DateTime.Now;
+        }
     }
 }
