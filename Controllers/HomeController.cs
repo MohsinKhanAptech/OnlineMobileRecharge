@@ -21,6 +21,16 @@ namespace OnlineMobileRecharge.Controllers
             return View();
         }
 
+        public IActionResult Packages()
+        {
+            return View();
+        }
+
+        public IActionResult Feedback()
+        {
+            return View();
+        }
+
         public IActionResult Privacy()
         {
             return View();
