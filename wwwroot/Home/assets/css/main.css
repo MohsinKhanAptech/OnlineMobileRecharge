@@ -1331,9 +1331,9 @@ p {
 }
 
 .banner__section {
-	padding: 130px 0 40px;
+	padding: 80px 0 0 0;
 }
-.banner__section::before {
+/*.banner__section::before {
 	position: absolute;
 	inset: 0;
 	width: 100%;
@@ -1341,7 +1341,7 @@ p {
 	background: var(--bgsection);
 	content: "";
 	z-index: -1;
-}
+}*/
 
 .fasilities__inner {
 	gap: 10px;
