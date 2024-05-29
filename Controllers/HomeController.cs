@@ -26,12 +26,27 @@ namespace OnlineMobileRecharge.Controllers
             return View();
         }
 
+        public IActionResult Contact()
+        {
+            return View();
+        }
+
         public IActionResult Feedback()
         {
             return View();
         }
 
+        public IActionResult FAQ()
+        {
+            return View();
+        }
+
         public IActionResult Privacy()
+        {
+            return View();
+        }
+
+        public IActionResult Error404()
         {
             return View();
         }
