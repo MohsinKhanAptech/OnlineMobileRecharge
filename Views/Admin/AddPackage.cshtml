@@ -1,0 +1,87 @@
+﻿@model OnlineMobileRecharge.Models.Package
+
+@{
+    Layout = "_AdminLayout";
+    ViewData["Title"] = "AddPackage";
+}
+
+<div id="layoutSidenav_content">
+    <main>
+        <div class="container-fluid px-4">
+            <h1 class="mt-4">Add Packages</h1>
+            <ol class="breadcrumb mb-4">
+                <li class="breadcrumb-item"><a asp-action="Index">Dashboard</a></li>
+                <li class="breadcrumb-item active">Add Packages</li>
+            </ol>
+
+            <div class="col-12">
+                <div class="container">
+
+                    <div class="row justify-content-center">
+                        <div class="col-lg-6">
+                            <form asp-action="AddPackage" method="post">
+                                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                <div class="form-floating mb-3">
+                                    <input asp-for="Package_Name" class="form-control" />
+                                    <label asp-for="Package_Name" class="control-label"></label>
+                                    <span asp-validation-for="Package_Name" class="text-danger"></span>
+                                </div>
+                                <div class="form-floating mb-3">
+                                    <input asp-for="Package_Description" class="form-control" />
+                                    <label asp-for="Package_Description" class="control-label"></label>
+                                    <span asp-validation-for="Package_Description" class="text-danger"></span>
+                                </div>
+                                <div class="form-floating mb-3">
+                                    <input asp-for="Package_Off_Net_Mins" class="form-control" />
+                                    <label asp-for="Package_Off_Net_Mins" class="control-label"></label>
+                                    <span asp-validation-for="Package_Off_Net_Mins" class="text-danger"></span>
+                                </div>
+                                <div class="form-floating mb-3">
+                                    <input asp-for="Package_On_Net_Mins" class="form-control" />
+                                    <label asp-for="Package_On_Net_Mins" class="control-label"></label>
+                                    <span asp-validation-for="Package_On_Net_Mins" class="text-danger"></span>
+                                </div>
+                                <div class="form-floating mb-3">
+                                    <input asp-for="Package_Data" class="form-control" />
+                                    <label asp-for="Package_Data" class="control-label"></label>
+                                    <span asp-validation-for="Package_Data" class="text-danger"></span>
+                                </div>
+                                <div class="form-floating mb-3">
+                                    <input asp-for="Package_SMS" class="form-control" />
+                                    <label asp-for="Package_SMS" class="control-label"></label>
+                                    <span asp-validation-for="Package_SMS" class="text-danger"></span>
+                                </div>
+                                <div class="form-floating mb-3">
+                                    <input asp-for="Package_Duration" class="form-control" />
+                                    <label asp-for="Package_Duration" class="control-label"></label>
+                                    <span asp-validation-for="Package_Duration" class="text-danger"></span>
+                                </div>
+                                <div class="form-floating mb-3">
+                                    <input asp-for="Package_Price" class="form-control" />
+                                    <label asp-for="Package_Price" class="control-label"></label>
+                                    <span asp-validation-for="Package_Price" class="text-danger"></span>
+                                </div>
+                                <div class="form-floating mb-3">
+                                    <select asp-for="Package_Type" asp-items="Html.GetEnumSelectList<EnumPackageType>()" class="form-control"></select>
+                                    <label asp-for="Package_Type" class="control-label"></label>
+                                    <span asp-validation-for="Package_Type" class="text-danger"></span>
+                                </div>
+                                <div class="form-floating mb-3">
+                                    <input type="submit" value="Create" class="btn btn-primary" />
+                                    <a asp-action="Packages" class="btn btn-secondary">Back to List</a>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer class="py-4 bg-light mt-auto">
+        <div class="container-fluid px-4">
+            <div class="d-flex align-items-center justify-content-between small">
+                <div class="text-muted">Copyright &copy; Your Dashboard 2023</div>
+            </div>
+        </div>
+    </footer>
+</div>

@@ -1,74 +1,42 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>@ViewData["Title"] - OnlineMobileRecharge Admin Dashboard</title>
-    <!-- plugins:css -->
-    <link rel="stylesheet" href="~/Admin/assets/vendors/feather/feather.css">
-    <link rel="stylesheet" href="~/Admin/assets/vendors/mdi/css/materialdesignicons.min.css">
-    <link rel="stylesheet" href="~/Admin/assets/vendors/ti-icons/css/themify-icons.css">
-    <link rel="stylesheet" href="~/Admin/assets/vendors/font-awesome/css/font-awesome.min.css">
-    <link rel="stylesheet" href="~/Admin/assets/vendors/typicons/typicons.css">
-    <link rel="stylesheet" href="~/Admin/assets/vendors/simple-line-icons/css/simple-line-icons.css">
-    <link rel="stylesheet" href="~/Admin/assets/vendors/css/vendor.bundle.base.css">
-    <link rel="stylesheet" href="~/Admin/assets/vendors/bootstrap-datepicker/bootstrap-datepicker.min.css">
-    <!-- endinject -->
-    <!-- Plugin css for this page -->
-    <!-- End plugin css for this page -->
-    <!-- inject:css -->
-    <link rel="stylesheet" href="~/Admin/assets/css/style.css">
-    <!-- endinject -->
-    <link rel="shortcut icon" href="~/Admin/assets/images/favicon.png" />
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>@ViewData["Title"] - OnlineMobileRecharge</title>
+    <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
+    <link href="~/Admin/css/styles.css" rel="stylesheet" />
+    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
 </head>
-<body>
-    <!-- container-scroller -->
-    <div class="container-scroller">
+<body class="sb-nav-fixed">
 
-        <partial name="_AdminNavbarPartial" />
+    <!-- Navbar Starts Here -->
+    <partial name="_AdminNavbarPartial" />
+    <!-- Navbar Ends Here -->
 
-        <div class="container-fluid page-body-wrapper">
+    <div id="layoutSidenav">
 
-            <partial name="_AdminSidebarPartial" />
+        <!-- Sidebar Starts Here -->
+        <partial name="_AdminSidebarPartial" />
+        <!-- Sidebar Ends Here -->
 
-            <!-- main-panel starts -->
-            <div class="main-panel">
-
-                <!-- content-wrapper starts -->
-                <div class="content-wrapper">
-
-                    @RenderBody()
-
-                </div>
-                <!-- content-wrapper ends -->
-
-                <partial name="_AdminFooterPartial" />
-
-            </div>
-            <!-- main-panel ends -->
-
-        </div>
+        <!-- Main Cotnent Starts Here -->
+        @RenderBody()
+        <!-- Main Cotnent Ends Here -->
 
     </div>
-    <!-- container-scroller -->
 
-    <!-- plugins:js -->
-    <script src="~/Admin/assets/vendors/js/vendor.bundle.base.js"></script>
-    <script src="~/Admin/assets/vendors/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
-    <!-- endinject -->
-    <!-- Plugin js for this page -->
-    <!-- End plugin js for this page -->
-    <!-- inject:js -->
-    <script src="~/Admin/assets/js/off-canvas.js"></script>
-    <script src="~/Admin/assets/js/template.js"></script>
-    <script src="~/Admin/assets/js/settings.js"></script>
-    <script src="~/Admin/assets/js/hoverable-collapse.js"></script>
-    <script src="~/Admin/assets/js/todolist.js"></script>
-    <!-- endinject -->
-    <!-- Custom js for this page-->
-    <!-- End custom js for this page-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    <script src="~/Admin/js/scripts.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
+    <script src="~/Admin/assets/demo/chart-area-demo.js"></script>
+    <script src="~/Admin/assets/demo/chart-bar-demo.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
+    <script src="~/Admin/js/datatables-simple-demo.js"></script>
+
     @await RenderSectionAsync("Scripts", required: false)
 </body>
-<!-- Mirrored from pixner.net/rechargio/rechargio/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 26 May 2024 18:30:38 GMT -->
 </html>
