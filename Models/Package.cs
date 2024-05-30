@@ -36,6 +36,8 @@ namespace OnlineMobileRecharge.Models
         public int Package_Duration { get; set; }
         [Required]
         [DisplayName("Price")]
+        [Range(0,int.MaxValue)]
+        // TODO: use double datatype
         public int Package_Price { get; set; }
         [Required]
         [EnumDataType(typeof(EnumPackageType))]

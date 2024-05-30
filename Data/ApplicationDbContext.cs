@@ -9,10 +9,10 @@ namespace OnlineMobileRecharge.Data
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
 
         public DbSet<Recharge> Recharges { get; set; }
-        public DbSet<Recharge_Transaction> Recharge_Transactions { get; set; }
+        public DbSet<RechargeTransaction> Recharge_Transactions { get; set; }
         public DbSet<Package> Packages { get; set; }
-        public DbSet<Package_Transaction> Package_Transactions { get; set; }
-        public DbSet<Caller_Tune> Caller_Tunes { get; set; }
+        public DbSet<PackageTransaction> Package_Transactions { get; set; }
+        public DbSet<CallerTune> Caller_Tunes { get; set; }
         public DbSet<Service> Services { get; set; }
         public DbSet<Contact> Contacts { get; set; }
         public DbSet<Feedback> Feedbacks { get; set; }
