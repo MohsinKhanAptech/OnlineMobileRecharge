@@ -1,6 +1,9 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using NuGet.Packaging.Core;
 using OnlineMobileRecharge.Data;
+using OnlineMobileRecharge.Models;
 
 namespace OnlineMobileRecharge.Controllers
 {
@@ -19,6 +22,35 @@ namespace OnlineMobileRecharge.Controllers
         public ActionResult Index()
         {
             return View();
+        }
+
+        public IActionResult Packages()
+        {
+            var data = _context.Packages.ToList();
+            return View(data);
+        }
+
+        // GET: AdminController/AddPackage
+        public ActionResult AddPackage()
+        {
+            return View();
+        }
+
+        // POST: AdminController/AddPackage
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AddPackage(Package package)
+        {
+            try
+            {
+                _context.Packages.Add(package);
+                _context.SaveChanges();
+                return RedirectToAction(nameof(Packages));
+            }
+            catch
+            {
+                return View();
+            }
         }
 
         // GET: AdminController/Details/5
