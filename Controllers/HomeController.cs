@@ -17,60 +17,60 @@ namespace OnlineMobileRecharge.Controllers
         }
 
         // index page
-        public IActionResult Index()
-        {
-            return View();
-        }
+        public IActionResult Index() { return View(); }
 
         // Packages list page
-        public IActionResult Packages()
-        {
-            return View();
-        }
+        public IActionResult Packages() { return View(); }
 
         // contact us page
-        public IActionResult Contact()
-        {
-            return View();
-        }
+        public IActionResult Contact() { return View(); }
 
         // POST: contact us page form submit
         [HttpPost]
         public IActionResult Contact(Contact contact)
         {
-            _context.Contacts.Add(contact);
-            _context.SaveChanges();
-            return View(nameof(Index));
+            try
+            {
+                _context.Contacts.Add(contact);
+                _context.SaveChanges();
+                return View(nameof(Index));
+            }
+            catch
+            {
+                return View();
+            }
         }
 
         // Feedback page
-        public IActionResult Feedback()
+        public IActionResult Feedback() { return View(); }
+
+        // POST: Feedback page form submit
+        [HttpPost]
+        public IActionResult Feedback(Feedback feedback)
         {
-            return View();
+            try
+            {
+                _context.Feedbacks.Add(feedback);
+                _context.SaveChanges();
+                return View(nameof(Index));
+            }
+            catch
+            {
+                return View();
+            }
         }
+
 
         // About page
-        public IActionResult About()
-        {
-            return View();
-        }
+        public IActionResult About() { return View(); }
 
         // FAQ page
-        public IActionResult FAQ()
-        {
-            return View();
-        }
+        public IActionResult FAQ() { return View(); }
 
-        public IActionResult Privacy()
-        {
-            return View();
-        }
+        public IActionResult Privacy() { return View(); }
 
         // Error page
-        public IActionResult Error404()
-        {
-            return View();
-        }
+        public IActionResult Error404() { return View(); }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
