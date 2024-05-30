@@ -14,7 +14,8 @@ namespace OnlineMobileRecharge.Data
         public DbSet<Package_Transaction> Package_Transactions { get; set; }
         public DbSet<Caller_Tune> Caller_Tunes { get; set; }
         public DbSet<Service> Services { get; set; }
-        public DbSet<Newsletter> Newsletter { get; set; }
+        public DbSet<Contact> Contacts { get; set; }
         public DbSet<Feedback> Feedbacks { get; set; }
+        public DbSet<Newsletter> Newsletter { get; set; }
     }
 }
