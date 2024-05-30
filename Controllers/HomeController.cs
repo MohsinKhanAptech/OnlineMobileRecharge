@@ -16,26 +16,46 @@ namespace OnlineMobileRecharge.Controllers
             _context = context;
         }
 
+        // index page
         public IActionResult Index()
         {
             return View();
         }
 
+        // Packages list page
         public IActionResult Packages()
         {
             return View();
         }
 
+        // contact us page
         public IActionResult Contact()
         {
             return View();
         }
 
+        // POST: contact us page form submit
+        [HttpPost]
+        public IActionResult Contact(Contact contact)
+        {
+            _context.Contacts.Add(contact);
+            _context.SaveChanges();
+            return View(nameof(Index));
+        }
+
+        // Feedback page
         public IActionResult Feedback()
         {
             return View();
         }
 
+        // About page
+        public IActionResult About()
+        {
+            return View();
+        }
+
+        // FAQ page
         public IActionResult FAQ()
         {
             return View();
@@ -46,12 +66,8 @@ namespace OnlineMobileRecharge.Controllers
             return View();
         }
 
+        // Error page
         public IActionResult Error404()
-        {
-            return View();
-        }
-
-        public IActionResult About()
         {
             return View();
         }

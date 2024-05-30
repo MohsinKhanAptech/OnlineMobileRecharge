@@ -1,4 +1,5 @@
-﻿@{
+﻿@model OnlineMobileRecharge.Models.Contact
+@{
     Layout = "_HomeLayout";
     ViewData["Title"] = "Contact Us Page";
 }
@@ -59,36 +60,36 @@
         <div class="row justify-content-center">
             <div class="col-xl-6 col-lg-6">
                 <div class="signup__boxes">
-                    <form action="#0" class="signup__form pt__40">
+                    <form asp-action="Contact" method="post" class="signup__form pt__40">
                         <div class="row g-4 justify-content-center">
                             <div class="col-lg-6">
                                 <div class="input__grp">
-                                    <label for="fname">Name</label>
-                                    <input type="text" id="fname" placeholder="What's your name?">
+                                    <label asp-for="Contact_Name">Name</label>
+                                    <input asp-for="Contact_Name" id="fname" placeholder="What's your name?">
                                 </div>
                             </div>
                             <div class="col-lg-6">
                                 <div class="input__grp">
-                                    <label for="email">Email</label>
-                                    <input type="email" id="email" placeholder="What's your email?">
+                                    <label asp-for="Contact_Email">Email</label>
+                                    <input asp-for="Contact_Email" id="email" placeholder="What's your email?">
                                 </div>
                             </div>
                             <div class="col-lg-6">
                                 <div class="input__grp">
-                                    <label for="numm">Phone</label>
-                                    <input type="text" id="numm" placeholder="(123) 480 - 3540">
+                                    <label asp-for="Contact_Phone">Phone</label>
+                                    <input asp-for="Contact_Phone" id="numm" placeholder="(123) 480 - 3540">
                                 </div>
                             </div>
                             <div class="col-lg-6">
                                 <div class="input__grp">
-                                    <label for="subtest">Service interested in</label>
-                                    <input type="text" id="subtest" placeholder="Ex. Auto Loan, Home Loan">
+                                    <label asp-for="Contact_Intrest">Service interested in</label>
+                                    <input asp-for="Contact_Intrest" id="subtest" placeholder="Ex. Auto Loan, Home Loan">
                                 </div>
                             </div>
                             <div class="col-lg-12">
                                 <div class="input__grp">
-                                    <label for="comment">Message</label>
-                                    <textarea class="form-control" rows="3" id="comment" name="text" placeholder="Your message..."></textarea>
+                                    <label asp-for="Contact_Message">Message</label>
+                                    <textarea asp-for="Contact_Message" class="form-control" rows="3" id="comment" placeholder="Your message..."></textarea>
                                 </div>
                             </div>
                             <div class="col-lg-12">
