@@ -19,10 +19,7 @@ namespace OnlineMobileRecharge.Controllers
         }
 
         // GET: AdminController
-        public ActionResult Index()
-        {
-            return View();
-        }
+        public ActionResult Index() { return View(); }
 
         public IActionResult Packages()
         {
@@ -30,28 +27,91 @@ namespace OnlineMobileRecharge.Controllers
             return View(data);
         }
 
-        // GET: AdminController/AddPackage
-        public ActionResult AddPackage()
+        // GET: AdminController/Details/5
+        public ActionResult PackageDetails(int id)
         {
-            return View();
+            var package = _context.Packages.Find(id);
+            if (package != null)
+            {
+                return View(package);
+            }
+            return View(nameof(Error404));
         }
 
-        // POST: AdminController/AddPackage
+        // GET: AdminController/PackageAdd
+        public ActionResult PackageAdd() { return View(); }
+
+        // POST: AdminController/PackageAdd
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult AddPackage(Package package)
+        public ActionResult PackageAdd(Package package)
         {
-            try
+            if (ModelState.IsValid)
             {
                 _context.Packages.Add(package);
                 _context.SaveChanges();
                 return RedirectToAction(nameof(Packages));
             }
-            catch
-            {
-                return View();
-            }
+            return View();
         }
+
+        // GET: AdminController/Edit/5
+        public ActionResult PackageEdit(int id)
+        {
+            var package = _context.Packages.Find(id);
+            if (package != null)
+            {
+                return View(package);
+            }
+            return View(nameof(Error404));
+        }
+
+        // POST: AdminController/Edit/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult PackageEdit(int id, Package package)
+        {
+            if (id != package.Package_Id)
+            {
+                return View(nameof(Error404));
+            }
+            if (ModelState.IsValid)
+            {
+                _context.Packages.Update(package);
+                _context.SaveChanges();
+                return RedirectToAction(nameof(Packages));
+            }
+            return View(nameof(Error404));
+        }
+
+        // GET: AdminController/Delete/5
+        public ActionResult PackageDelete(int id)
+        {
+            var package = _context.Packages.Find(id);
+            if (package != null)
+            {
+                return View(package);
+            }
+            return View(nameof(Error404));
+        }
+
+        // POST: AdminController/Delete/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult PackageDelete(int id, string name)
+        {
+            var package = _context.Packages.Find(id);
+            if (package != null)
+            {
+                _context.Packages.Remove(package);
+                _context.SaveChanges();
+                return RedirectToAction(nameof(Packages));
+            }
+            return View(nameof(Error404));
+        }
+
+        // GET: AdminController/Error404
+        public IActionResult Error404() { return View(); }
 
         // GET: AdminController/Details/5
         public ActionResult Details(int id)

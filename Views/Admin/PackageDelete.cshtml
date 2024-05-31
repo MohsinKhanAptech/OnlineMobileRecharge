@@ -1,0 +1,119 @@
+﻿@model OnlineMobileRecharge.Models.Package
+
+@{
+    ViewData["Title"] = "Delete Package";
+    Layout = "_AdminLayout";
+}
+
+<div id="layoutSidenav_content">
+    <main>
+        <div class="container-fluid px-4">
+            <h1 class="mt-4">Delete Package</h1>
+            <ol class="breadcrumb mb-4">
+                <li class="breadcrumb-item"><a asp-action="Index">Dashboard</a></li>
+                <li class="breadcrumb-item active">Delete Package</li>
+            </ol>
+
+            <div class="col-12">
+                <div class="container">
+                    <div class="row justify-content-center my-4 p-4">
+                        <div class="col-xxl-10">
+                            <div class="card mb-4">
+                                <div class="table-responsive">
+                                    <table class="table m-0 p-0">
+                                        <tbody>
+                                            <tr class="d-flex flex-column d-sm-table-row">
+                                                <td class="col-sm-2 fw-bold">
+                                                    @Html.DisplayNameFor(model => model.Package_Name)
+                                                </td>
+                                                <td class="col-sm-10">
+                                                    @Html.DisplayFor(model => model.Package_Name)
+                                                </td>
+                                            </tr>
+                                            <tr class="d-flex flex-column d-sm-table-row">
+                                                <td class="col-sm-2 fw-bold">
+                                                    @Html.DisplayNameFor(model => model.Package_Description)
+                                                </td>
+                                                <td class="col-sm-10">
+                                                    @Html.DisplayFor(model => model.Package_Description)
+                                                </td>
+                                            </tr>
+                                            <tr class="d-flex flex-column d-sm-table-row">
+                                                <td class="col-sm-2 fw-bold">
+                                                    @Html.DisplayNameFor(model => model.Package_Off_Net_Mins)
+                                                </td>
+                                                <td class="col-sm-10">
+                                                    @Html.DisplayFor(model => model.Package_Off_Net_Mins) Minutes
+                                                </td>
+                                            </tr>
+                                            <tr class="d-flex flex-column d-sm-table-row">
+                                                <td class="col-sm-2 fw-bold">
+                                                    @Html.DisplayNameFor(model => model.Package_On_Net_Mins)
+                                                </td>
+                                                <td class="col-sm-10">
+                                                    @Html.DisplayFor(model => model.Package_On_Net_Mins) Minutes
+                                                </td>
+                                            </tr>
+                                            <tr class="d-flex flex-column d-sm-table-row">
+                                                <td class="col-sm-2 fw-bold">
+                                                    @Html.DisplayNameFor(model => model.Package_Data)
+                                                </td>
+                                                <td class="col-sm-10">
+                                                    @Html.DisplayFor(model => model.Package_Data) MB
+                                                </td>
+                                            </tr>
+                                            <tr class="d-flex flex-column d-sm-table-row">
+                                                <td class="col-sm-2 fw-bold">
+                                                    @Html.DisplayNameFor(model => model.Package_SMS)
+                                                </td>
+                                                <td class="col-sm-10">
+                                                    @Html.DisplayFor(model => model.Package_SMS)
+                                                </td>
+                                            </tr>
+                                            <tr class="d-flex flex-column d-sm-table-row">
+                                                <td class="col-sm-2 fw-bold">
+                                                    @Html.DisplayNameFor(model => model.Package_Duration)
+                                                </td>
+                                                <td class="col-sm-10">
+                                                    @Html.DisplayFor(model => model.Package_Duration) days
+                                                </td>
+                                            </tr>
+                                            <tr class="d-flex flex-column d-sm-table-row">
+                                                <td class="col-sm-2 fw-bold">
+                                                    @Html.DisplayNameFor(model => model.Package_Price)
+                                                </td>
+                                                <td class="col-sm-2">
+                                                    Rs. @Html.DisplayFor(model => model.Package_Price)
+                                                </td>
+                                            </tr>
+                                            <tr class="d-flex flex-column d-sm-table-row">
+                                                <td class="col-sm-2 fw-bold">
+                                                    @Html.DisplayNameFor(model => model.Package_Type)
+                                                </td>
+                                                <td class="col-sm-10">
+                                                    @Html.DisplayFor(model => model.Package_Type)
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <div class="w-100 d-flex flex-row-reverse flex-wrap gap-2 p-2">
+                                    <form asp-action="PackageDelete" method="post">
+                                        <input type="hidden" asp-for="Package_Id" />
+                                        <input type="submit" class="btn btn-danger" value="YES!" />
+                                    </form>
+                                    <a asp-action="PackageEdit" asp-route-id="@Model?.Package_Id" class="btn btn-warning">Edit</a>
+                                    <a asp-action="Packages" class="btn btn-primary">NO!</a>
+                                    <div class="btn btn-outline-dark pe-none">Do you really want to delete this entry?</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+    <partial name="_AdminFooterPartial" />
+</div>

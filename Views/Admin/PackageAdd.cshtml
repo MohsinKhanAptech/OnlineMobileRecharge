@@ -2,7 +2,7 @@
 
 @{
     Layout = "_AdminLayout";
-    ViewData["Title"] = "AddPackage";
+    ViewData["Title"] = "Add Package";
 }
 
 <div id="layoutSidenav_content">
@@ -11,15 +11,14 @@
             <h1 class="mt-4">Add Packages</h1>
             <ol class="breadcrumb mb-4">
                 <li class="breadcrumb-item"><a asp-action="Index">Dashboard</a></li>
-                <li class="breadcrumb-item active">Add Packages</li>
+                <li class="breadcrumb-item active">Add Package</li>
             </ol>
 
             <div class="col-12">
                 <div class="container">
-
                     <div class="row justify-content-center">
                         <div class="col-lg-6">
-                            <form asp-action="AddPackage" method="post">
+                            <form asp-action="PackageAdd" method="post">
                                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                                 <div class="form-floating mb-3">
                                     <input asp-for="Package_Name" class="form-control" />
@@ -66,7 +65,7 @@
                                     <label asp-for="Package_Type" class="control-label"></label>
                                     <span asp-validation-for="Package_Type" class="text-danger"></span>
                                 </div>
-                                <div class="form-floating mb-3">
+                                <div class="form-floating mb-3 d-flex flex-row-reverse gap-2">
                                     <input type="submit" value="Create" class="btn btn-primary" />
                                     <a asp-action="Packages" class="btn btn-secondary">Back to List</a>
                                 </div>
@@ -77,11 +76,5 @@
             </div>
         </div>
     </main>
-    <footer class="py-4 bg-light mt-auto">
-        <div class="container-fluid px-4">
-            <div class="d-flex align-items-center justify-content-between small">
-                <div class="text-muted">Copyright &copy; Your Dashboard 2023</div>
-            </div>
-        </div>
-    </footer>
+    <partial name="_AdminFooterPartial" />
 </div>
