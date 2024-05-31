@@ -5,7 +5,7 @@
 namespace OnlineMobileRecharge.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial_Migration : Migration
+    public partial class InitialMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -102,7 +102,8 @@ namespace OnlineMobileRecharge.Data.Migrations
                     Recharge_Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Recharge_Amount = table.Column<double>(type: "float", nullable: false),
                     Recharge_Price = table.Column<double>(type: "float", nullable: false),
-                    Recharge_Discount = table.Column<double>(type: "float", nullable: false),
+                    Recharge_Tax_Rate = table.Column<double>(type: "float", nullable: false),
+                    Recharge_Tax_Amount = table.Column<double>(type: "float", nullable: false),
                     Recharge_Type = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -141,7 +142,7 @@ namespace OnlineMobileRecharge.Data.Migrations
                 name: "Package_Transactions",
                 columns: table => new
                 {
-                    PackTran_Id = table.Column<int>(type: "int", nullable: false)
+                    PackageTransaction_Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     User_Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Package_Id = table.Column<int>(type: "int", nullable: false),
@@ -149,7 +150,7 @@ namespace OnlineMobileRecharge.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Package_Transactions", x => x.PackTran_Id);
+                    table.PrimaryKey("PK_Package_Transactions", x => x.PackageTransaction_Id);
                     table.ForeignKey(
                         name: "FK_Package_Transactions_AspNetUsers_User_Id",
                         column: x => x.User_Id,
@@ -168,14 +169,14 @@ namespace OnlineMobileRecharge.Data.Migrations
                 name: "Recharge_Transactions",
                 columns: table => new
                 {
-                    RechTran_Id = table.Column<int>(type: "int", nullable: false)
+                    RechargeTransaction_Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Recharge_Id = table.Column<int>(type: "int", nullable: false),
                     Mobile_Number = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Recharge_Transactions", x => x.RechTran_Id);
+                    table.PrimaryKey("PK_Recharge_Transactions", x => x.RechargeTransaction_Id);
                     table.ForeignKey(
                         name: "FK_Recharge_Transactions_Recharges_Recharge_Id",
                         column: x => x.Recharge_Id,

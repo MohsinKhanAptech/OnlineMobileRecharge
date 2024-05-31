@@ -224,7 +224,7 @@ namespace OnlineMobileRecharge.Data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("OnlineMobileRecharge.Models.Caller_Tune", b =>
+            modelBuilder.Entity("OnlineMobileRecharge.Models.CallerTune", b =>
                 {
                     b.Property<int>("Tune_Id")
                         .ValueGeneratedOnAdd()
@@ -369,13 +369,13 @@ namespace OnlineMobileRecharge.Data.Migrations
                     b.ToTable("Packages");
                 });
 
-            modelBuilder.Entity("OnlineMobileRecharge.Models.Package_Transaction", b =>
+            modelBuilder.Entity("OnlineMobileRecharge.Models.PackageTransaction", b =>
                 {
-                    b.Property<int>("PackTran_Id")
+                    b.Property<int>("PackageTransaction_Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PackTran_Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PackageTransaction_Id"));
 
                     b.Property<string>("Mobile_Number")
                         .IsRequired()
@@ -388,7 +388,7 @@ namespace OnlineMobileRecharge.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.HasKey("PackTran_Id");
+                    b.HasKey("PackageTransaction_Id");
 
                     b.HasIndex("Package_Id");
 
@@ -412,14 +412,17 @@ namespace OnlineMobileRecharge.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<double>("Recharge_Discount")
-                        .HasColumnType("float");
-
                     b.Property<string>("Recharge_Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<double>("Recharge_Price")
+                        .HasColumnType("float");
+
+                    b.Property<double>("Recharge_Tax_Amount")
+                        .HasColumnType("float");
+
+                    b.Property<double>("Recharge_Tax_Rate")
                         .HasColumnType("float");
 
                     b.Property<int>("Recharge_Type")
@@ -430,13 +433,13 @@ namespace OnlineMobileRecharge.Data.Migrations
                     b.ToTable("Recharges");
                 });
 
-            modelBuilder.Entity("OnlineMobileRecharge.Models.Recharge_Transaction", b =>
+            modelBuilder.Entity("OnlineMobileRecharge.Models.RechargeTransaction", b =>
                 {
-                    b.Property<int>("RechTran_Id")
+                    b.Property<int>("RechargeTransaction_Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RechTran_Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RechargeTransaction_Id"));
 
                     b.Property<string>("Mobile_Number")
                         .IsRequired()
@@ -445,7 +448,7 @@ namespace OnlineMobileRecharge.Data.Migrations
                     b.Property<int>("Recharge_Id")
                         .HasColumnType("int");
 
-                    b.HasKey("RechTran_Id");
+                    b.HasKey("RechargeTransaction_Id");
 
                     b.HasIndex("Recharge_Id");
 
@@ -530,7 +533,7 @@ namespace OnlineMobileRecharge.Data.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("OnlineMobileRecharge.Models.Package_Transaction", b =>
+            modelBuilder.Entity("OnlineMobileRecharge.Models.PackageTransaction", b =>
                 {
                     b.HasOne("OnlineMobileRecharge.Models.Package", "Package")
                         .WithMany()
@@ -549,7 +552,7 @@ namespace OnlineMobileRecharge.Data.Migrations
                     b.Navigation("Package");
                 });
 
-            modelBuilder.Entity("OnlineMobileRecharge.Models.Recharge_Transaction", b =>
+            modelBuilder.Entity("OnlineMobileRecharge.Models.RechargeTransaction", b =>
                 {
                     b.HasOne("OnlineMobileRecharge.Models.Recharge", "Recharge")
                         .WithMany()
@@ -562,7 +565,7 @@ namespace OnlineMobileRecharge.Data.Migrations
 
             modelBuilder.Entity("OnlineMobileRecharge.Models.Service", b =>
                 {
-                    b.HasOne("OnlineMobileRecharge.Models.Caller_Tune", "Caller_Tune")
+                    b.HasOne("OnlineMobileRecharge.Models.CallerTune", "Caller_Tune")
                         .WithMany()
                         .HasForeignKey("Caller_Tune_Id")
                         .OnDelete(DeleteBehavior.Cascade)
