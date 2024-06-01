@@ -16,29 +16,28 @@ namespace OnlineMobileRecharge.Models
         public required string Package_Description { get; set; }
         [Required]
         [DisplayName("Offnet Mins")]
-        [Range(0,int.MaxValue)]
-        public int Package_Off_Net_Mins { get; set; }
+        [RegularExpression("[0-9]+")]
+        public Int64 Package_Off_Net_Mins { get; set; }
         [Required]
         [DisplayName("Onnet Mins")]
-        [Range(0,int.MaxValue)]
-        public int Package_On_Net_Mins { get; set; }
+        [RegularExpression("[0-9]+")]
+        public Int64 Package_On_Net_Mins { get; set; }
         [Required]
         [DisplayName("Data")]
-        [Range(0,int.MaxValue)]
-        public int Package_Data { get; set; }
+        [RegularExpression("[0-9]+")]
+        public Int64 Package_Data { get; set; }
         [Required]
         [DisplayName("SMS")]
-        [Range(0,int.MaxValue)]
-        public int Package_SMS { get; set; }
+        [RegularExpression("[0-9]+")]
+        public Int64 Package_SMS { get; set; }
         [Required]
         [DisplayName("Duration")]
-        [Range(0,int.MaxValue)]
+        [RegularExpression("[0-9]+")]
         public int Package_Duration { get; set; }
         [Required]
         [DisplayName("Price")]
-        [Range(0,int.MaxValue)]
-        // TODO: use double datatype
-        public int Package_Price { get; set; }
+        [DataType(DataType.Currency)]
+        public double Package_Price { get; set; }
         [Required]
         [EnumDataType(typeof(EnumPackageType))]
         [DisplayName("Type")]
