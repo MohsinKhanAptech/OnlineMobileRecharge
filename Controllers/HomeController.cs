@@ -20,7 +20,30 @@ namespace OnlineMobileRecharge.Controllers
         public IActionResult Index() { return View(); }
 
         // Packages list page
-        public IActionResult Packages() { return View(); }
+        public IActionResult Packages(string searchQuery, string packageType)
+        {
+            ViewBag.SearchQuery = searchQuery;
+            ViewBag.PackageType = packageType;
+
+            var packages = _context.Packages.ToList();
+
+            switch (packageType)
+            {
+                case "prepaid":
+                    packages = packages.FindAll(x => x.Package_Type.Equals(EnumPackageType.Prepaid));
+                    break;
+                case "postpaid":
+                    packages = packages.FindAll(x => x.Package_Type.Equals(EnumPackageType.Postpaid));
+                    break;
+            }
+
+            if (searchQuery != null)
+            {
+                packages = packages.FindAll(x => x.Package_Name.Contains(searchQuery)/* || x.Package_Description.Contains(searchQuery)*/);
+            }
+
+            return View(packages);
+        }
 
         // contact us page
         public IActionResult Contact() { return View(); }
