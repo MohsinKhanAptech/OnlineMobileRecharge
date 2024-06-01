@@ -17,12 +17,12 @@
                         <div class="section__header pb__40">
                             <form asp-action="Packages" method="get" id="searchPackagesForm" class="d-flex flex-column gap-2">
                                 <div class="w-100 d-flex flex-nowrap gap-0 border rounded">
-                                    <input name="searchQuery" class="form-control border-0" type="text" placeholder="Search..." />
+                                    <input id="searchQuery" name="searchQuery" class="form-control border-0" type="text" placeholder="Search..." />
                                     <button class="btn btn-primary" type="submit">
                                         <i class="fa-solid fa-magnifying-glass"></i>
                                     </button>
                                 </div>
-                                <select name="packageType" class="form-control" onchange="document.getElementById('searchPackagesForm').submit()">
+                                <select id="packageType" name="packageType" class="form-control" onchange="document.getElementById('searchPackagesForm').submit()">
                                     <option value="">All</option>
                                     <option value="prepaid">Prepaid</option>
                                     <option value="postpaid">Postpaid</option>
@@ -86,3 +86,17 @@
     </div>
 </section>
 <!-- Packages Section Here -->
+<script>
+    let params = new URLSearchParams(location.search);
+    document.getElementById("searchQuery").value = params.get("searchQuery");
+    let packageType = params.get("packageType");
+    let selectPackageType = document.getElementById("packageType");
+    switch (packageType) {
+        case "prepaid": 
+            document.querySelector("option[value='prepaid']").setAttribute("selected", "selected");
+            break;
+        case "postpaid":
+            document.querySelector("option[value='postpaid']").setAttribute("selected", "selected");
+            break;
+    }
+</script>
