@@ -27,9 +27,9 @@ namespace OnlineMobileRecharge.Models
         [DisplayName("Tax Amount")]
         public double Recharge_Tax_Amount { get; set; }
         [Required]
-        [EnumDataType(typeof(EmunRechargeType))]
+        [EnumDataType(typeof(EnumRechargeType))]
         [DisplayName("Type")]
-        public EmunRechargeType Recharge_Type { get; set; }
+        public EnumRechargeType Recharge_Type { get; set; }
 
         public Recharge()
         {
@@ -37,7 +37,7 @@ namespace OnlineMobileRecharge.Models
         }
     }
 
-    public enum EmunRechargeType
+    public enum EnumRechargeType
     {
         Top_up,
         Special
