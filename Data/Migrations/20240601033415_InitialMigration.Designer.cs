@@ -12,7 +12,7 @@ using OnlineMobileRecharge.Data;
 namespace OnlineMobileRecharge.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240531133816_InitialMigration")]
+    [Migration("20240601033415_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />
@@ -338,8 +338,8 @@ namespace OnlineMobileRecharge.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Package_Id"));
 
-                    b.Property<int>("Package_Data")
-                        .HasColumnType("int");
+                    b.Property<long>("Package_Data")
+                        .HasColumnType("bigint");
 
                     b.Property<string>("Package_Description")
                         .IsRequired()
@@ -352,17 +352,17 @@ namespace OnlineMobileRecharge.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Package_Off_Net_Mins")
-                        .HasColumnType("int");
+                    b.Property<long>("Package_Off_Net_Mins")
+                        .HasColumnType("bigint");
 
-                    b.Property<int>("Package_On_Net_Mins")
-                        .HasColumnType("int");
+                    b.Property<long>("Package_On_Net_Mins")
+                        .HasColumnType("bigint");
 
-                    b.Property<int>("Package_Price")
-                        .HasColumnType("int");
+                    b.Property<double>("Package_Price")
+                        .HasColumnType("float");
 
-                    b.Property<int>("Package_SMS")
-                        .HasColumnType("int");
+                    b.Property<long>("Package_SMS")
+                        .HasColumnType("bigint");
 
                     b.Property<int>("Package_Type")
                         .HasColumnType("int");

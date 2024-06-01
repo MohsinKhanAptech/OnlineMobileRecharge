@@ -79,12 +79,12 @@ namespace OnlineMobileRecharge.Data.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Package_Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Package_Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Package_Off_Net_Mins = table.Column<int>(type: "int", nullable: false),
-                    Package_On_Net_Mins = table.Column<int>(type: "int", nullable: false),
-                    Package_Data = table.Column<int>(type: "int", nullable: false),
-                    Package_SMS = table.Column<int>(type: "int", nullable: false),
+                    Package_Off_Net_Mins = table.Column<long>(type: "bigint", nullable: false),
+                    Package_On_Net_Mins = table.Column<long>(type: "bigint", nullable: false),
+                    Package_Data = table.Column<long>(type: "bigint", nullable: false),
+                    Package_SMS = table.Column<long>(type: "bigint", nullable: false),
                     Package_Duration = table.Column<int>(type: "int", nullable: false),
-                    Package_Price = table.Column<int>(type: "int", nullable: false),
+                    Package_Price = table.Column<double>(type: "float", nullable: false),
                     Package_Type = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
