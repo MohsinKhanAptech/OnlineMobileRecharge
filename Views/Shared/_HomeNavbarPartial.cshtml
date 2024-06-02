@@ -32,7 +32,7 @@
                     </a>
                 </li> *@
                 <li class="grid__style">
-                    <a href="javascript:void(0)" class="d-flex">
+                    <a asp-action="Recharges" class="d-flex">
                         <span> Recharge </span>
                         <span class="icons">
                             <i class="material-symbols-outlined"> expand_more </i>
@@ -40,17 +40,18 @@
                     </a>
                     <ul class="sub-menu">
                         <li class="subtwohober">
-                            <!-- TODO: fix href -->
                             <a asp-action="Recharges" asp-route-packageType="prepaid">Prepaid Recharge</a>
                         </li>
                         <li>
-                            <!-- TODO: fix href -->
                             <a asp-action="Recharges" asp-route-packageType="postpaid">Postpaid Recharge</a>
+                        </li>
+                        <li>
+                            <a asp-action="Recharges" asp-route-packageType="special">Special Recharge</a>
                         </li>
                     </ul>
                 </li>
                 <li class="grid__style">
-                    <a href="javascript:void(0)" class="d-flex">
+                    <a asp-action="Packages" class="d-flex">
                         <span> Packages </span>
                         <span class="icons">
                             <i class="material-symbols-outlined"> expand_more </i>
