@@ -103,7 +103,7 @@ namespace OnlineMobileRecharge.Data.Migrations
                     Recharge_Amount = table.Column<double>(type: "float", nullable: false),
                     Recharge_Price = table.Column<double>(type: "float", nullable: false),
                     Recharge_Tax_Rate = table.Column<double>(type: "float", nullable: false),
-                    Recharge_Tax_Amount = table.Column<double>(type: "float", nullable: false),
+                    Recharge_Taxed_Amount = table.Column<double>(type: "float", nullable: false),
                     Recharge_Type = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>

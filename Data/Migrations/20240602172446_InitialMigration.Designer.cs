@@ -12,7 +12,7 @@ using OnlineMobileRecharge.Data;
 namespace OnlineMobileRecharge.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240601033415_InitialMigration")]
+    [Migration("20240602172446_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />
@@ -422,10 +422,10 @@ namespace OnlineMobileRecharge.Data.Migrations
                     b.Property<double>("Recharge_Price")
                         .HasColumnType("float");
 
-                    b.Property<double>("Recharge_Tax_Amount")
+                    b.Property<double>("Recharge_Tax_Rate")
                         .HasColumnType("float");
 
-                    b.Property<double>("Recharge_Tax_Rate")
+                    b.Property<double>("Recharge_Taxed_Amount")
                         .HasColumnType("float");
 
                     b.Property<int>("Recharge_Type")
