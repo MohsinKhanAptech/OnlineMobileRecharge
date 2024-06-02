@@ -41,11 +41,11 @@
                     <ul class="sub-menu">
                         <li class="subtwohober">
                             <!-- TODO: fix href -->
-                            <a href="">Recharge</a>
+                            <a asp-action="Recharges" asp-route-packageType="prepaid">Prepaid Recharge</a>
                         </li>
                         <li>
                             <!-- TODO: fix href -->
-                            <a href="">Postpaid Recharge</a>
+                            <a asp-action="Recharges" asp-route-packageType="postpaid">Postpaid Recharge</a>
                         </li>
                     </ul>
                 </li>
@@ -58,12 +58,10 @@
                     </a>
                     <ul class="sub-menu">
                         <li class="subtwohober">
-                            <!-- TODO: fix href -->
-                            <a href="">Prepaid Packages</a>
+                            <a asp-action="Packages" asp-route-packageType="prepaid">Prepaid Packages</a>
                         </li>
                         <li>
-                            <!-- TODO: fix href -->
-                            <a href="">Postpaid Packages</a>
+                            <a asp-action="Packages" asp-route-packageType="postpaid">Postpaid Packages</a>
                         </li>
                     </ul>
                 </li>
@@ -100,6 +98,7 @@
                         </li>-->
                         
                         <li><a asp-action="Contact">Contact</a></li>
+                        <li><a asp-action="About">About</a></li>
                         <li><a asp-action="Feedback">Feedback</a></li>
                         <li><a asp-action="FAQ">FAQ Page</a></li>
                     </ul>
