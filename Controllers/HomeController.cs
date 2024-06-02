@@ -74,6 +74,13 @@ namespace OnlineMobileRecharge.Controllers
             }
             return View(package);
         }
+
+        // Recharges
+        public IActionResult Recharges()
+        {
+            var packages = _context.Recharges.ToList();
+            return View(packages);
+        }
         // contact us page
         public IActionResult Contact() { return View(); }
 
