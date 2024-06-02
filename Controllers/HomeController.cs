@@ -22,9 +22,6 @@ namespace OnlineMobileRecharge.Controllers
         // Packages list page
         public IActionResult Packages(string searchQuery, string packageType)
         {
-            ViewBag.SearchQuery = searchQuery;
-            ViewBag.PackageType = packageType;
-
             var packages = _context.Packages.ToList();
 
             switch (packageType)
@@ -45,6 +42,14 @@ namespace OnlineMobileRecharge.Controllers
             return View(packages);
         }
 
+        // Order summary
+        public IActionResult OrderSummary() { return View(); }
+
+        // Order payment
+        public IActionResult OrderPayment() { return View(); }
+
+        // Order complete
+        public IActionResult OrderComplete() { return View(); }
         // contact us page
         public IActionResult Contact() { return View(); }
 

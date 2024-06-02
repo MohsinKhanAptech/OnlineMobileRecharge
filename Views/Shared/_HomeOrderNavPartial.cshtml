@@ -1,0 +1,66 @@
+﻿@{
+    string page = ViewData["Title"].ToString();
+}
+
+<ul class="order__button mb__40 justify-content-center">
+    @if (page == "Order Summary")
+    {
+        <li>
+            <a asp-action="OrderSummary" class="cmn__order active">
+                <span>
+                    Summary
+                </span>
+            </a>
+        </li>
+    }
+    else
+    {
+        <li>
+            <a asp-action="OrderSummary" class="cmn__order">
+                <span>
+                    Summary
+                </span>
+            </a>
+        </li>
+    }
+    @if (page == "Order Payment")
+    {
+        <li>
+            <a asp-action="OrderPayment" class="cmn__order active">
+                <span>
+                    Payment
+                </span>
+            </a>
+        </li>
+    }
+    else
+    {
+        <li>
+            <a asp-action="OrderPayment" class="cmn__order">
+                <span>
+                    Payment
+                </span>
+            </a>
+        </li>
+    }
+    @if (page == "Order Complete")
+    {
+        <li>
+            <a asp-action="OrderComplete" class="cmn__order active">
+                <span>
+                    Done
+                </span>
+            </a>
+        </li>
+    }
+    else
+    {
+        <li>
+            <a asp-action="OrderComplete" class="cmn__order">
+                <span>
+                    Done
+                </span>
+            </a>
+        </li>
+    }
+</ul>

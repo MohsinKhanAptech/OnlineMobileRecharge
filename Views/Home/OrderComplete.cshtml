@@ -1,0 +1,140 @@
+﻿@{
+    Layout = "_HomeLayout";
+    ViewData["Title"] = "Order Complete";
+}
+
+
+<!-- breadcumnd banner Here -->
+<section class="breadcumnd__banner">
+    <!--Container-->
+    <div class="container">
+        <div class="breadcumnd__wrapper">
+            <h2 class="bread__title">
+                Receipt
+            </h2>
+            <ul class="breadcumnd__link">
+                <li>
+                    <a asp-action="Index">
+                        Home
+                    </a>
+                </li>
+                <li>
+                    <i class="material-symbols-outlined">
+                        chevron_right
+                    </i>
+                </li>
+                <li>
+                    Complete
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!--Container-->
+</section>
+<!-- breadcumnd banner End -->
+<!-- order here -->
+<section class="order__section successful__section pb__60">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-xxl-8 col-xl-10 col-lg-12">
+                <div class="payment__success__inner">
+                    <div class="available__balance pb__40">
+                        <div class="balance">
+                            <img src="assets/img/payment/balance.png" alt="img">
+                            <span class="title fz-24 fw-700">
+                                Your Order
+                            </span>
+                        </div>
+                        <span class="fz-24 fw-700">
+                            $4531.00
+                        </span>
+                    </div>
+                    <partial name="_HomeOrderNavPartial" />
+                    <div class="payment__success__header">
+                        <div class="icon">
+                            <i class="material-symbols-outlined">
+                                done
+                            </i>
+                        </div>
+                        <h3>Payment Successful</h3>
+                        <p class="primary-text">We are processing the same and you will be notified via email.</p>
+                    </div>
+                    <div class="payment__success__body">
+                        <ul>
+                            <li>
+                                <span>Transactions ID</span>
+                                <span class="textbo">CDFF123476359</span>
+                            </li>
+                            <li>
+                                <span>Date</span>
+                                <span class="textbo">22-12-2022</span>
+                            </li>
+                            <li>
+                                <span>Mode of Payment</span>
+                                <span class="textbo">Credit Card</span>
+                            </li>
+                            <li>
+                                <span>Transaction Status</span>
+                                <span class="textbo">Success</span>
+                            </li>
+                            <li>
+                                <span>Customer Name</span>
+                                <span class="textbo">Wade Warren</span>
+                            </li>
+                            <li>
+                                <span>Mobile No</span>
+                                <span class="textbo">(406) 555-0120</span>
+                            </li>
+                            <li>
+                                <span>Subject</span>
+                                <span class="textbo">White Gloves</span>
+                            </li>
+                            <li>
+                                <span>Payment Amount</span>
+                                <span class="textbo">$235.00</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="payment__success__footer">
+                        <div class="payment-success__footer-inner">
+                            <a href="javascript:void(0)">
+                                <span class="icon">
+                                    <i class="material-symbols-outlined">
+                                        download
+                                    </i>
+                                </span>
+                                <span>
+                                    Download
+                                </span>
+                            </a>
+                            <a href="javascript:void(0)">
+                                <span class="icon">
+                                    <i class="material-symbols-outlined">
+                                        print
+                                    </i>
+                                </span>
+                                <span>
+                                    Print Receipt
+                                </span>
+                            </a>
+                            <a href="hotel-email.html">
+                                <span class="icon">
+                                    <i class="material-symbols-outlined">
+                                        drafts
+                                    </i>
+                                </span>
+                                <span>
+                                    Email Receipt
+                                </span>
+                            </a>
+                        </div>
+                        <div class="dbutton">
+                            <a href="index.html" class="cmn__btn"><span> Make another Booking</span></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- order End -->
