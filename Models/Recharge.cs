@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace OnlineMobileRecharge.Models
 {
@@ -16,16 +17,19 @@ namespace OnlineMobileRecharge.Models
         public required string Recharge_Description { get; set; }
         [Required]
         [DisplayName("Amount")]
+        [DataType(DataType.Currency)]
         public double Recharge_Amount { get; set; }
         [Required]
         [DisplayName("Price")]
+        [DataType(DataType.Currency)]
         public double Recharge_Price { get; set; }
         [Required]
         [DisplayName("Tax Rate")]
         public double Recharge_Tax_Rate { get; set; }
         [Required]
-        [DisplayName("Tax Amount")]
-        public double Recharge_Tax_Amount { get; set; }
+        [DisplayName("Taxed Amount")]
+        [DataType(DataType.Currency)]
+        public double Recharge_Taxed_Amount { get; set; }
         [Required]
         [EnumDataType(typeof(EnumRechargeType))]
         [DisplayName("Type")]
@@ -33,7 +37,8 @@ namespace OnlineMobileRecharge.Models
 
         public Recharge()
         {
-            Recharge_Tax_Amount = Recharge_Price / Recharge_Tax_Rate * 100;
+            Recharge_Taxed_Amount = Recharge_Price / Recharge_Tax_Rate * 100;
+            Recharge_Amount = Recharge_Price - Recharge_Taxed_Amount;
         }
     }
 
