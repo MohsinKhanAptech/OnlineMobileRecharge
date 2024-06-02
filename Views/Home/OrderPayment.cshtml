@@ -1,4 +1,5 @@
-﻿@{
+﻿@model OnlineMobileRecharge.Models.Package
+@{
     Layout = "_HomeLayout";
     ViewData["Title"] = "Order Payment";
 }
@@ -73,23 +74,23 @@
                         <div class="checkout__single">
                             <div class="available__balance pb__40">
                                 <div class="balance">
-                                    <img src="assets/img/payment/balance.png" alt="img">
+                                    <img src="~/Home/assets/img/payment/balance.png" alt="img">
                                     <span class="title fz-24 fw-700">
                                         Your Order
                                     </span>
                                 </div>
                                 <span class="fz-24 fw-700">
-                                    $4531.00
+                                    @Html.DisplayFor(Model => Model.Package_Price)
                                 </span>
                             </div>
-                            <partial name="_HomeOrderNavPartial" />
+                            <partial name="_HomeOrderNavPartial" model="@Model.Package_Id" />
                             <h4 class="billing fw-400">Billing address</h4>
                             <div class="transactionid d-flex align-items-center">
                                 <span class="tran fz-18 fw-500">
                                     Transaction ID: 25246584
                                 </span>
                                 <span class="tran fz-18 fw-500">
-                                    Total Payable Amount: $457
+                                    Total Payable Amount: @Html.DisplayFor(Model => Model.Package_Price)
                                 </span>
                             </div>
                             <div class="checkout__single-form">
@@ -168,7 +169,7 @@
                                 <label for="saveForNextcard">Save for my next payment</label>
                             </div>
                             <div class="text-center mt-4">
-                                <a asp-action="OrderComplete" class="cmn__btn">
+                                <a asp-action="OrderComplete" asp-route-id="@Model.Package_Id" class="cmn__btn">
                                     <span>
                                         Payment Now
                                     </span>

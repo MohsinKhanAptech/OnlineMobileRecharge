@@ -1,4 +1,5 @@
-﻿@{
+﻿@model OnlineMobileRecharge.Models.Package
+@{
     Layout = "_HomeLayout";
     ViewData["Title"] = "Order Summary";
 }
@@ -40,16 +41,16 @@
                     <div class="order__boxes order__boxestwo">
                         <div class="available__balance pb__40">
                             <div class="balance">
-                                <img src="assets/img/payment/balance.png" alt="img">
+                                <img src="~/Home/assets/img/payment/balance.png" alt="img">
                                 <span class="title fz-24 fw-700">
                                     Your Order
                                 </span>
                             </div>
                             <span class="fz-24 fw-700">
-                                $4531.00
+                                @Html.DisplayFor(model => model.Package_Price)
                             </span>
                         </div>
-                        <partial name="_HomeOrderNavPartial" />
+                        <partial name="_HomeOrderNavPartial" model="@Model.Package_Id" />
                         <div class="order__summary__wrapper mb__30">
                             <div class="over__responsive">
                                 <h5 class="summary__title">Order Summary</h5>
@@ -76,27 +77,24 @@
                                             AT & T
                                         </span>
                                         <span>
-                                            $4531.00
+                                            @Html.DisplayFor(model => model.Package_Price)
+
                                         </span>
                                         <span>
-                                            $4531.00
+                                            @Html.DisplayFor(model => model.Package_Price)
                                         </span>
                                     </div>
                                 </div>
-                                <div class="order__table__box">
+                                <div class="order__table__box m-0 mw-100">
                                     <div class="order__graph">
                                         <ul>
                                             <li>
                                                 <span>Sub Total:</span>
-                                                <span class="bg">$4531.00</span>
-                                            </li>
-                                            <li>
-                                                <span>Promotional Code:</span>
-                                                <span class="bg">0</span>
+                                                <span class="bg">@Html.DisplayFor(model => model.Package_Price)</span>
                                             </li>
                                             <li>
                                                 <span>Total:</span>
-                                                <span class="bg">$4531.00</span>
+                                                <span class="bg">@Html.DisplayFor(model => model.Package_Price)</span>
                                             </li>
                                         </ul>
                                     </div>
@@ -104,7 +102,7 @@
                             </div>
                         </div>
                         <div class="probtn text-center pt__10">
-                            <a asp-action="OrderPayment" class="cmn__btn">
+                            <a asp-action="OrderPayment" asp-route-id="@Model.Package_Id" class="cmn__btn">
                                 <span>
                                     Make Payment
                                 </span>

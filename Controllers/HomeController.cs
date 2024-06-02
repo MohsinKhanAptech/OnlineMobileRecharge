@@ -43,13 +43,37 @@ namespace OnlineMobileRecharge.Controllers
         }
 
         // Order summary
-        public IActionResult OrderSummary() { return View(); }
+        public IActionResult OrderSummary(int id)
+        {
+            var package = _context.Packages.Find(id);
+            if (package == null)
+            {
+                return View(nameof(Packages));
+            }
+            return View(package);
+        }
 
         // Order payment
-        public IActionResult OrderPayment() { return View(); }
+        public IActionResult OrderPayment(int id)
+        {
+            var package = _context.Packages.Find(id);
+            if (package == null)
+            {
+                return View(nameof(Packages));
+            }
+            return View(package);
+        }
 
         // Order complete
-        public IActionResult OrderComplete() { return View(); }
+        public IActionResult OrderComplete(int id)
+        {
+            var package = _context.Packages.Find(id);
+            if (package == null)
+            {
+                return View(nameof(Packages));
+            }
+            return View(package);
+        }
         // contact us page
         public IActionResult Contact() { return View(); }
 

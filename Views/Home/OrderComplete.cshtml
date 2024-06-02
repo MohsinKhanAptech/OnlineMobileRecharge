@@ -1,4 +1,5 @@
-﻿@{
+﻿@model OnlineMobileRecharge.Models.Package
+@{
     Layout = "_HomeLayout";
     ViewData["Title"] = "Order Complete";
 }
@@ -40,7 +41,7 @@
                 <div class="payment__success__inner">
                     <div class="available__balance pb__40">
                         <div class="balance">
-                            <img src="assets/img/payment/balance.png" alt="img">
+                            <img src="~/Home/assets/img/payment/balance.png" alt="img">
                             <span class="title fz-24 fw-700">
                                 Your Order
                             </span>
@@ -49,7 +50,7 @@
                             $4531.00
                         </span>
                     </div>
-                    <partial name="_HomeOrderNavPartial" />
+                    <partial name="_HomeOrderNavPartial" model="@Model.Package_Id" />
                     <div class="payment__success__header">
                         <div class="icon">
                             <i class="material-symbols-outlined">
@@ -129,7 +130,7 @@
                             </a>
                         </div>
                         <div class="dbutton">
-                            <a href="index.html" class="cmn__btn"><span> Make another Booking</span></a>
+                            <a asp-action="Index" class="cmn__btn"><span> Home </span></a>
                         </div>
                     </div>
                 </div>
