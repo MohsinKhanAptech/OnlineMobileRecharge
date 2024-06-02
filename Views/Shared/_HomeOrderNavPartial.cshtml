@@ -1,4 +1,5 @@
-﻿@{
+﻿@model int
+@{
     string page = ViewData["Title"].ToString();
 }
 
@@ -6,7 +7,7 @@
     @if (page == "Order Summary")
     {
         <li>
-            <a asp-action="OrderSummary" class="cmn__order active">
+            <a asp-action="OrderSummary" asp-route-id="@Model" class="cmn__order active">
                 <span>
                     Summary
                 </span>
@@ -16,7 +17,7 @@
     else
     {
         <li>
-            <a asp-action="OrderSummary" class="cmn__order">
+            <a asp-action="OrderSummary" asp-route-id="@Model" class="cmn__order">
                 <span>
                     Summary
                 </span>
@@ -26,7 +27,7 @@
     @if (page == "Order Payment")
     {
         <li>
-            <a asp-action="OrderPayment" class="cmn__order active">
+            <a asp-action="OrderPayment" asp-route-id="@Model" class="cmn__order active">
                 <span>
                     Payment
                 </span>
@@ -36,7 +37,7 @@
     else
     {
         <li>
-            <a asp-action="OrderPayment" class="cmn__order">
+            <a asp-action="OrderPayment" asp-route-id="@Model" class="cmn__order">
                 <span>
                     Payment
                 </span>
@@ -46,7 +47,7 @@
     @if (page == "Order Complete")
     {
         <li>
-            <a asp-action="OrderComplete" class="cmn__order active">
+            <a asp-action="OrderComplete" asp-route-id="@Model" class="cmn__order active">
                 <span>
                     Done
                 </span>
@@ -56,7 +57,7 @@
     else
     {
         <li>
-            <a asp-action="OrderComplete" class="cmn__order">
+            <a asp-action="OrderComplete" asp-route-id="@Model" class="cmn__order">
                 <span>
                     Done
                 </span>
