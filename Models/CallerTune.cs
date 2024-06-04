@@ -18,8 +18,10 @@ namespace OnlineMobileRecharge.Models
         [Required]
         [NotMapped]
         [DisplayName("File")]
-        public required IFormFile Tume_File { get; set; }
         [FileExtensions(Extensions = ".mp3,.flac")]
+        public IFormFile Tune_File { get; set; }
+        [Required]
+        [DisplayName("Path")]
         public required string Tune_Path { get; set; }
         [Required]
         [DisplayName("Price")]
