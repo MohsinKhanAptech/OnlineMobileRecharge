@@ -1,0 +1,139 @@
+﻿@model OnlineMobileRecharge.Models.Recharge
+@{
+    Layout = "_HomeLayout";
+    ViewData["Title"] = "Order Summary";
+}
+
+<!-- breadcumnd banner Here -->
+<section class="breadcumnd__banner">
+    <!--Container-->
+    <div class="container">
+        <div class="breadcumnd__wrapper">
+            <h2 class="bread__title">
+                Order Summary
+            </h2>
+            <ul class="breadcumnd__link">
+                <li>
+                    <a asp-action="Index">
+                        Home
+                    </a>
+                </li>
+                <li>
+                    <i class="material-symbols-outlined">
+                        chevron_right
+                    </i>
+                </li>
+                <li>
+                    Order Summary
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!--Container-->
+</section>
+<!-- breadcumnd banner End -->
+<!-- order here -->
+<section class="order__section pt__60 pb__60">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-xxl-8 col-xl-10 col-lg-12">
+                <div class="order__wrappers">
+                    <div class="order__boxes order__boxestwo">
+                        <div class="available__balance pb__40">
+                            <div class="balance">
+                                <img src="~/Home/assets/img/payment/balance.png" alt="img">
+                                <span class="title fz-24 fw-700">
+                                    Your Order
+                                </span>
+                            </div>
+                            <span class="fz-24 fw-700">
+                                @Html.DisplayFor(model => model.Recharge_Price)
+                            </span>
+                        </div>
+                        <ul class="order__button mb__40 justify-content-center">
+                            <li>
+                                <a asp-action="OrderSummary" asp-route-id="@Model.Recharge_Id" class="cmn__order active">
+                                    <span>
+                                        Summary
+                                    </span>
+                                </a>
+                            </li>
+                            <li>
+                                <a asp-action="OrderPayment" asp-route-id="@Model.Recharge_Id" class="cmn__order">
+                                    <span>
+                                        Payment
+                                    </span>
+                                </a>
+                            </li>
+                            <li>
+                                <a asp-action="OrderComplete" asp-route-id="@Model.Recharge_Id" class="cmn__order">
+                                    <span>
+                                        Done
+                                    </span>
+                                </a>
+                            </li>
+                        </ul>
+                        <div class="order__summary__wrapper mb__30">
+                            <div class="over__responsive">
+                                <h5 class="summary__title">Order Summary</h5>
+                                <div class="order__table__fluid">
+                                    <div class="order__table__items bg__add">
+                                        <span>
+                                            Recipient No
+                                        </span>
+                                        <span>
+                                            Operrator
+                                        </span>
+                                        <span>
+                                            Receive amount
+                                        </span>
+                                        <span>
+                                            Amount
+                                        </span>
+                                    </div>
+                                    <div class="order__table__items">
+                                        <span>
+                                            (406) 555-0120
+                                        </span>
+                                        <span>
+                                            AT & T
+                                        </span>
+                                        <span>
+                                            @Html.DisplayFor(model => model.Recharge_Price)
+
+                                        </span>
+                                        <span>
+                                            @Html.DisplayFor(model => model.Recharge_Price)
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="order__table__box m-0 mw-100">
+                                    <div class="order__graph">
+                                        <ul>
+                                            <li>
+                                                <span>Sub Total:</span>
+                                                <span class="bg">@Html.DisplayFor(model => model.Recharge_Price)</span>
+                                            </li>
+                                            <li>
+                                                <span>Total:</span>
+                                                <span class="bg">@Html.DisplayFor(model => model.Recharge_Price)</span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="probtn text-center pt__10">
+                            <a asp-action="OrderPayment" asp-route-id="@Model.Recharge_Id" class="cmn__btn">
+                                <span>
+                                    Make Payment
+                                </span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- order End -->

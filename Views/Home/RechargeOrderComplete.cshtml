@@ -1,9 +1,8 @@
-﻿@model OnlineMobileRecharge.Models.Package
+﻿@model OnlineMobileRecharge.Models.Recharge
 @{
     Layout = "_HomeLayout";
     ViewData["Title"] = "Order Complete";
 }
-
 
 <!-- breadcumnd banner Here -->
 <section class="breadcumnd__banner">
@@ -50,7 +49,29 @@
                             $4531.00
                         </span>
                     </div>
-                    <partial name="_HomeOrderNavPartial" model="@Model.Package_Id" />
+                    <ul class="order__button mb__40 justify-content-center">
+                        <li>
+                            <a asp-action="OrderSummary" asp-route-id="@Model.Recharge_Id" class="cmn__order">
+                                <span>
+                                    Summary
+                                </span>
+                            </a>
+                        </li>
+                        <li>
+                            <a asp-action="OrderPayment" asp-route-id="@Model.Recharge_Id" class="cmn__order">
+                                <span>
+                                    Payment
+                                </span>
+                            </a>
+                        </li>
+                        <li>
+                            <a asp-action="OrderComplete" asp-route-id="@Model.Recharge_Id" class="cmn__order active">
+                                <span>
+                                    Done
+                                </span>
+                            </a>
+                        </li>
+                    </ul>
                     <div class="payment__success__header">
                         <div class="icon">
                             <i class="material-symbols-outlined">

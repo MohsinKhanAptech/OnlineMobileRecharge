@@ -50,7 +50,29 @@
                                 @Html.DisplayFor(model => model.Package_Price)
                             </span>
                         </div>
-                        <partial name="_HomeOrderNavPartial" model="@Model.Package_Id" />
+                        <ul class="order__button mb__40 justify-content-center">
+                            <li>
+                                <a asp-action="OrderSummary" asp-route-id="@Model.Package_Id" class="cmn__order active">
+                                    <span>
+                                        Summary
+                                    </span>
+                                </a>
+                            </li>
+                            <li>
+                                <a asp-action="OrderPayment" asp-route-id="@Model.Package_Id" class="cmn__order">
+                                    <span>
+                                        Payment
+                                    </span>
+                                </a>
+                            </li>
+                            <li>
+                                <a asp-action="OrderComplete" asp-route-id="@Model.Package_Id" class="cmn__order">
+                                    <span>
+                                        Done
+                                    </span>
+                                </a>
+                            </li>
+                        </ul>
                         <div class="order__summary__wrapper mb__30">
                             <div class="over__responsive">
                                 <h5 class="summary__title">Order Summary</h5>
