@@ -118,7 +118,7 @@ namespace OnlineMobileRecharge.Controllers
         // Services
         public IActionResult Services() { 
             //var services = _context.Services.ToList();
-            var services = _context.Services.Where(x => x.IdentityUser.UserName == Environment.UserName);
+            var services = _context.Services.Where(x => x.IdentityUser.UserName == Environment.UserName).FirstOrDefault();
             return View(services);
         }
 
