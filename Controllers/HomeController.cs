@@ -42,8 +42,8 @@ namespace OnlineMobileRecharge.Controllers
             return View(packages);
         }
 
-        // Order summary
-        public IActionResult OrderSummary(int id)
+        // Package Order summary
+        public IActionResult PackageOrderSummary(int id)
         {
             var package = _context.Packages.Find(id);
             if (package == null)
@@ -53,8 +53,8 @@ namespace OnlineMobileRecharge.Controllers
             return View(package);
         }
 
-        // Order payment
-        public IActionResult OrderPayment(int id)
+        // Package Order payment
+        public IActionResult PackageOrderPayment(int id)
         {
             var package = _context.Packages.Find(id);
             if (package == null)
@@ -64,8 +64,8 @@ namespace OnlineMobileRecharge.Controllers
             return View(package);
         }
 
-        // Order complete
-        public IActionResult OrderComplete(int id)
+        // Package Order complete
+        public IActionResult PackageOrderComplete(int id)
         {
             var package = _context.Packages.Find(id);
             if (package == null)
@@ -78,9 +78,56 @@ namespace OnlineMobileRecharge.Controllers
         // Recharges
         public IActionResult Recharges()
         {
-            var packages = _context.Recharges.ToList();
-            return View(packages);
+            var recharges = _context.Recharges.ToList();
+            return View(recharges);
         }
+
+        // Recharge Order summary
+        public IActionResult RechargeOrderSummary(int id)
+        {
+            var recharge = _context.Recharges.Find(id);
+            if (recharge == null)
+            {
+                return View(nameof(Recharges));
+            }
+            return View(recharge);
+        }
+
+        // Recharge Order payment
+        public IActionResult RechargeOrderPayment(int id)
+        {
+            var recharge = _context.Recharges.Find(id);
+            if (recharge == null)
+            {
+                return View(nameof(Recharges));
+            }
+            return View(recharge);
+        }
+
+        // Recharge Order complete
+        public IActionResult RechargeOrderComplete(int id)
+        {
+            var recharge = _context.Recharges.Find(id);
+            if (recharge == null)
+            {
+                return View(nameof(Recharges));
+            }
+            return View(recharge);
+        }
+
+        // Services
+        public IActionResult Services() { 
+            //var services = _context.Services.ToList();
+            var services = _context.Services.Where(x => x.IdentityUser.UserName == Environment.UserName);
+            return View(services);
+        }
+
+        // Caller Tune
+        public IActionResult CallerTunes() { 
+            var callerTunes = _context.CallerTunes.ToList();
+            return View(callerTunes);
+        }
+
         // contact us page
         public IActionResult Contact() { return View(); }
 
