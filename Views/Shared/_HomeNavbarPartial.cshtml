@@ -26,11 +26,6 @@
                 </div>
             </div>
             <ul class="main-menu">
-                @* <li class="grid__style">
-                    <a href="javascript:void(0)" class="d-flex">
-                        <span> Home </span>
-                    </a>
-                </li> *@
                 <li class="grid__style">
                     <a asp-action="Recharges" class="d-flex">
                         <span> Recharge </span>
@@ -63,6 +58,22 @@
                         </li>
                         <li>
                             <a asp-action="Packages" asp-route-packageType="postpaid">Postpaid Packages</a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="grid__style">
+                    <a asp-action="Services" class="d-flex">
+                        <span> Services </span>
+                        <span class="icons">
+                            <i class="material-symbols-outlined"> expand_more </i>
+                        </span>
+                    </a>
+                    <ul class="sub-menu">
+                        <li class="subtwohober">
+                            <a asp-action="CallerTunes">Caller Tune</a>
+                        </li>
+                        <li>
+                            <a asp-action="Services">Do Not Disturb</a>
                         </li>
                     </ul>
                 </li>
