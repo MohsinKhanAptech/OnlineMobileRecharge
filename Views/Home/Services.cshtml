@@ -1,8 +1,111 @@
-﻿
+﻿@model OnlineMobileRecharge.Models.Service
 @{
-    ViewData["Title"] = "Services";
     Layout = "_HomeLayout";
+    ViewData["Title"] = "Services";
 }
 
-<h1>Services</h1>
-
+<!-- breadcumnd banner Here -->
+<section class="breadcumnd__banner p-5 mt-2">
+    <!--Container-->
+    <div class="container">
+        <div class="breadcumnd__wrapper">
+            <h2 class="bread__title">
+                Recharges
+            </h2>
+            <ul class="breadcumnd__link">
+                <li>
+                    <a asp-action="Index">
+                        Home
+                    </a>
+                </li>
+                <li>
+                    <i class="material-symbols-outlined">
+                        chevron_right
+                    </i>
+                </li>
+                <li>
+                    Services
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!--Container-->
+</section>
+<!-- breadcumnd banner End -->
+<!-- Services Section Here -->
+<section class="flight__onewaysection pb__60 pt-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-xxl-8 col-xl-10 col-lg-12">
+                <div class="order__wrappers">
+                    <div class="choose__valu">
+                        <div class="oparator__texts">
+                            <h5>Recharges</h5>
+                        </div>
+                        <div class="card border-secondary-subtle">
+                            <div class="table-responsive rounded">
+                                <table class="table text-center">
+                                    <thead>
+                                        <tr class="bg-secondary-subtle">
+                                            <th scope="col">@Html.DisplayNameFor(model => model.Do_Not_Disturb)</th>
+                                            <th scope="col">@Html.DisplayNameFor(model => model.Caller_Tune.Tune_Name)</th>
+                                            <th scope="col">@Html.DisplayNameFor(model => model.Caller_Tune.Tune_Price)</th>
+                                            <th scope="col">Audio</th>
+                                            <th scope="col">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><span class="d-block pt-3 mt-1">@Html.DisplayFor(model => model.Do_Not_Disturb)</span></td>
+                                            <td><span class="d-block pt-3 mt-1">@Html.DisplayFor(model => model.Caller_Tune.Tune_Name)</span></td>
+                                            <td><span class="d-block pt-3 mt-1">@Html.DisplayFor(model => model.Caller_Tune.Tune_Price)</span></td>
+                                            <td>
+                                                <span class="d-block pt-3 mt-1">
+                                                    <audio controls src="@Model.Caller_Tune.Tune_Path"></audio>
+                                                    @Html.DisplayFor(model => model.Caller_Tune.Tune_Path)
+                                                </span>
+                                            </td>
+                                            <td><a asp-action="ServiceEdit" asp-route-id="@Model.Caller_Tune.Tune_Id" class="cmn__btn mt-1"><span>Edit</span></a></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="pagination justify-content-center pt__10 pb__30">
+                                <a href="javascript:void(0)">
+                                    <span>
+                                        <i class="material-symbols-outlined">
+                                            navigate_before
+                                        </i>
+                                    </span>
+                                </a>
+                                <a href="javascript:void(0)">
+                                    1
+                                </a>
+                                <a href="javascript:void(0)">
+                                    2
+                                </a>
+                                <a href="javascript:void(0)">
+                                    3
+                                </a>
+                                <a href="javascript:void(0)">
+                                    ....
+                                </a>
+                                <a href="javascript:void(0)">
+                                    30
+                                </a>
+                                <a href="javascript:void(0)">
+                                    <span>
+                                        <i class="material-symbols-outlined">
+                                            chevron_right
+                                        </i>
+                                    </span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Services Section Here -->
