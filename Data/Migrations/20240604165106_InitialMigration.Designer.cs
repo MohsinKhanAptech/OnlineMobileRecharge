@@ -12,7 +12,7 @@ using OnlineMobileRecharge.Data;
 namespace OnlineMobileRecharge.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240602172446_InitialMigration")]
+    [Migration("20240604165106_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />
@@ -252,7 +252,7 @@ namespace OnlineMobileRecharge.Data.Migrations
 
                     b.HasKey("Tune_Id");
 
-                    b.ToTable("Caller_Tunes");
+                    b.ToTable("CallerTunes");
                 });
 
             modelBuilder.Entity("OnlineMobileRecharge.Models.Contact", b =>
@@ -286,6 +286,37 @@ namespace OnlineMobileRecharge.Data.Migrations
                     b.HasKey("Contact_Id");
 
                     b.ToTable("Contacts");
+                });
+
+            modelBuilder.Entity("OnlineMobileRecharge.Models.CustomRechargeTransaction", b =>
+                {
+                    b.Property<int>("CRecharge_Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CRecharge_Id"));
+
+                    b.Property<double>("CRecharge_Price")
+                        .HasColumnType("float");
+
+                    b.Property<string>("Mobile_Number")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Recharge_Type")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TaxRateTax_Id")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Tax_Id")
+                        .HasColumnType("int");
+
+                    b.HasKey("CRecharge_Id");
+
+                    b.HasIndex("TaxRateTax_Id");
+
+                    b.ToTable("CustomRechargeTransactions");
                 });
 
             modelBuilder.Entity("OnlineMobileRecharge.Models.Feedback", b =>
@@ -380,10 +411,6 @@ namespace OnlineMobileRecharge.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PackageTransaction_Id"));
 
-                    b.Property<string>("Mobile_Number")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("Package_Id")
                         .HasColumnType("int");
 
@@ -397,7 +424,7 @@ namespace OnlineMobileRecharge.Data.Migrations
 
                     b.HasIndex("User_Id");
 
-                    b.ToTable("Package_Transactions");
+                    b.ToTable("PackageTransactions");
                 });
 
             modelBuilder.Entity("OnlineMobileRecharge.Models.Recharge", b =>
@@ -455,7 +482,7 @@ namespace OnlineMobileRecharge.Data.Migrations
 
                     b.HasIndex("Recharge_Id");
 
-                    b.ToTable("Recharge_Transactions");
+                    b.ToTable("RechargeTransactions");
                 });
 
             modelBuilder.Entity("OnlineMobileRecharge.Models.Service", b =>
@@ -483,6 +510,54 @@ namespace OnlineMobileRecharge.Data.Migrations
                     b.HasIndex("User_Id");
 
                     b.ToTable("Services");
+                });
+
+            modelBuilder.Entity("OnlineMobileRecharge.Models.ServiceTransaction", b =>
+                {
+                    b.Property<int>("ServiceTransaction_Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ServiceTransaction_Id"));
+
+                    b.Property<int>("Tune_Id")
+                        .HasColumnType("int");
+
+                    b.Property<string>("User_Id")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("ServiceTransaction_Id");
+
+                    b.HasIndex("Tune_Id");
+
+                    b.HasIndex("User_Id");
+
+                    b.ToTable("ServiceTransactions");
+                });
+
+            modelBuilder.Entity("OnlineMobileRecharge.Models.TaxRate", b =>
+                {
+                    b.Property<int>("Tax_Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Tax_Id"));
+
+                    b.Property<string>("Tax_Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Tax_Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("Tax_Rate")
+                        .HasColumnType("float");
+
+                    b.HasKey("Tax_Id");
+
+                    b.ToTable("TaxRates");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -536,6 +611,17 @@ namespace OnlineMobileRecharge.Data.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("OnlineMobileRecharge.Models.CustomRechargeTransaction", b =>
+                {
+                    b.HasOne("OnlineMobileRecharge.Models.TaxRate", "TaxRate")
+                        .WithMany()
+                        .HasForeignKey("TaxRateTax_Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("TaxRate");
+                });
+
             modelBuilder.Entity("OnlineMobileRecharge.Models.PackageTransaction", b =>
                 {
                     b.HasOne("OnlineMobileRecharge.Models.Package", "Package")
@@ -581,6 +667,25 @@ namespace OnlineMobileRecharge.Data.Migrations
                         .IsRequired();
 
                     b.Navigation("Caller_Tune");
+
+                    b.Navigation("IdentityUser");
+                });
+
+            modelBuilder.Entity("OnlineMobileRecharge.Models.ServiceTransaction", b =>
+                {
+                    b.HasOne("OnlineMobileRecharge.Models.CallerTune", "CallerTune")
+                        .WithMany()
+                        .HasForeignKey("Tune_Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "IdentityUser")
+                        .WithMany()
+                        .HasForeignKey("User_Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("CallerTune");
 
                     b.Navigation("IdentityUser");
                 });

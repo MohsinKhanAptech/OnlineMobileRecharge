@@ -11,7 +11,7 @@ namespace OnlineMobileRecharge.Data.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Caller_Tunes",
+                name: "CallerTunes",
                 columns: table => new
                 {
                     Tune_Id = table.Column<int>(type: "int", nullable: false)
@@ -23,7 +23,7 @@ namespace OnlineMobileRecharge.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Caller_Tunes", x => x.Tune_Id);
+                    table.PrimaryKey("PK_CallerTunes", x => x.Tune_Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -112,6 +112,21 @@ namespace OnlineMobileRecharge.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "TaxRates",
+                columns: table => new
+                {
+                    Tax_Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Tax_Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Tax_Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Tax_Rate = table.Column<double>(type: "float", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TaxRates", x => x.Tax_Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Services",
                 columns: table => new
                 {
@@ -131,34 +146,59 @@ namespace OnlineMobileRecharge.Data.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Services_Caller_Tunes_Caller_Tune_Id",
+                        name: "FK_Services_CallerTunes_Caller_Tune_Id",
                         column: x => x.Caller_Tune_Id,
-                        principalTable: "Caller_Tunes",
+                        principalTable: "CallerTunes",
                         principalColumn: "Tune_Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Package_Transactions",
+                name: "ServiceTransactions",
                 columns: table => new
                 {
-                    PackageTransaction_Id = table.Column<int>(type: "int", nullable: false)
+                    ServiceTransaction_Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    User_Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Package_Id = table.Column<int>(type: "int", nullable: false),
-                    Mobile_Number = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Tune_Id = table.Column<int>(type: "int", nullable: false),
+                    User_Id = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Package_Transactions", x => x.PackageTransaction_Id);
+                    table.PrimaryKey("PK_ServiceTransactions", x => x.ServiceTransaction_Id);
                     table.ForeignKey(
-                        name: "FK_Package_Transactions_AspNetUsers_User_Id",
+                        name: "FK_ServiceTransactions_AspNetUsers_User_Id",
                         column: x => x.User_Id,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Package_Transactions_Packages_Package_Id",
+                        name: "FK_ServiceTransactions_CallerTunes_Tune_Id",
+                        column: x => x.Tune_Id,
+                        principalTable: "CallerTunes",
+                        principalColumn: "Tune_Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "PackageTransactions",
+                columns: table => new
+                {
+                    PackageTransaction_Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    User_Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Package_Id = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PackageTransactions", x => x.PackageTransaction_Id);
+                    table.ForeignKey(
+                        name: "FK_PackageTransactions_AspNetUsers_User_Id",
+                        column: x => x.User_Id,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_PackageTransactions_Packages_Package_Id",
                         column: x => x.Package_Id,
                         principalTable: "Packages",
                         principalColumn: "Package_Id",
@@ -166,7 +206,7 @@ namespace OnlineMobileRecharge.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Recharge_Transactions",
+                name: "RechargeTransactions",
                 columns: table => new
                 {
                     RechargeTransaction_Id = table.Column<int>(type: "int", nullable: false)
@@ -176,28 +216,56 @@ namespace OnlineMobileRecharge.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Recharge_Transactions", x => x.RechargeTransaction_Id);
+                    table.PrimaryKey("PK_RechargeTransactions", x => x.RechargeTransaction_Id);
                     table.ForeignKey(
-                        name: "FK_Recharge_Transactions_Recharges_Recharge_Id",
+                        name: "FK_RechargeTransactions_Recharges_Recharge_Id",
                         column: x => x.Recharge_Id,
                         principalTable: "Recharges",
                         principalColumn: "Recharge_Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "CustomRechargeTransactions",
+                columns: table => new
+                {
+                    CRecharge_Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CRecharge_Price = table.Column<double>(type: "float", nullable: false),
+                    Tax_Id = table.Column<int>(type: "int", nullable: false),
+                    TaxRateTax_Id = table.Column<int>(type: "int", nullable: false),
+                    Mobile_Number = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Recharge_Type = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CustomRechargeTransactions", x => x.CRecharge_Id);
+                    table.ForeignKey(
+                        name: "FK_CustomRechargeTransactions_TaxRates_TaxRateTax_Id",
+                        column: x => x.TaxRateTax_Id,
+                        principalTable: "TaxRates",
+                        principalColumn: "Tax_Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
-                name: "IX_Package_Transactions_Package_Id",
-                table: "Package_Transactions",
+                name: "IX_CustomRechargeTransactions_TaxRateTax_Id",
+                table: "CustomRechargeTransactions",
+                column: "TaxRateTax_Id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PackageTransactions_Package_Id",
+                table: "PackageTransactions",
                 column: "Package_Id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Package_Transactions_User_Id",
-                table: "Package_Transactions",
+                name: "IX_PackageTransactions_User_Id",
+                table: "PackageTransactions",
                 column: "User_Id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Recharge_Transactions_Recharge_Id",
-                table: "Recharge_Transactions",
+                name: "IX_RechargeTransactions_Recharge_Id",
+                table: "RechargeTransactions",
                 column: "Recharge_Id");
 
             migrationBuilder.CreateIndex(
@@ -209,6 +277,16 @@ namespace OnlineMobileRecharge.Data.Migrations
                 name: "IX_Services_User_Id",
                 table: "Services",
                 column: "User_Id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ServiceTransactions_Tune_Id",
+                table: "ServiceTransactions",
+                column: "Tune_Id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ServiceTransactions_User_Id",
+                table: "ServiceTransactions",
+                column: "User_Id");
         }
 
         /// <inheritdoc />
@@ -218,19 +296,28 @@ namespace OnlineMobileRecharge.Data.Migrations
                 name: "Contacts");
 
             migrationBuilder.DropTable(
+                name: "CustomRechargeTransactions");
+
+            migrationBuilder.DropTable(
                 name: "Feedbacks");
 
             migrationBuilder.DropTable(
                 name: "Newsletter");
 
             migrationBuilder.DropTable(
-                name: "Package_Transactions");
+                name: "PackageTransactions");
 
             migrationBuilder.DropTable(
-                name: "Recharge_Transactions");
+                name: "RechargeTransactions");
 
             migrationBuilder.DropTable(
                 name: "Services");
+
+            migrationBuilder.DropTable(
+                name: "ServiceTransactions");
+
+            migrationBuilder.DropTable(
+                name: "TaxRates");
 
             migrationBuilder.DropTable(
                 name: "Packages");
@@ -239,7 +326,7 @@ namespace OnlineMobileRecharge.Data.Migrations
                 name: "Recharges");
 
             migrationBuilder.DropTable(
-                name: "Caller_Tunes");
+                name: "CallerTunes");
         }
     }
 }
