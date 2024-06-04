@@ -12,8 +12,8 @@ namespace OnlineMobileRecharge.Models
         public int RechargeTransaction_Id { get; set; }
         [Required]
         [DisplayName("Recharge Id")]
-        [ForeignKey("Recharge")]
         public int Recharge_Id { get; set; }
+        [ForeignKey("Recharge_Id")]
         public required Recharge Recharge { get; set; }
         [Required, Phone]
         [DisplayName("Mobile Number")]

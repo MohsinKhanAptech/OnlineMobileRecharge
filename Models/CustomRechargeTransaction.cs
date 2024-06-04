@@ -19,6 +19,10 @@ namespace OnlineMobileRecharge.Models
         [DisplayName("Mobile Number")]
         public required string Mobile_Number { get; set; }
         [Required]
+        [EnumDataType(typeof(EnumRechargeType))]
+        [DisplayName("Type")]
+        public EnumRechargeType Recharge_Type { get; set; }
+        [Required]
         [DisplayName("Transaction Date")]
         public DateTime Transaction_Date { get; }
 
