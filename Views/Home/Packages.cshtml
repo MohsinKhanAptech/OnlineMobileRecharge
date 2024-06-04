@@ -77,7 +77,7 @@
                                         <p>@Html.DisplayFor(modelItem => item.Package_Description)</p>
                                         <span class="usd fz-16"> @Html.DisplayFor(modelItem => item.Package_Price) </span>
                                         <div class="valu__btn">
-                                            <a asp-action="OrderSummary" asp-route-id="@item.Package_Id" class="cmn__btn">
+                                            <a asp-action="PackageOrderSummary" asp-route-id="@item.Package_Id" class="cmn__btn">
                                                 <span> Choose </span>
                                             </a>
                                         </div>
