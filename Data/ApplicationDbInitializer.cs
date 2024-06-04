@@ -138,6 +138,20 @@ namespace OnlineMobileRecharge.Data
                     });
                     context.SaveChanges();
                 }
+
+                if (!context.CallerTunes.Any())
+                {
+                    context.CallerTunes.AddRange(new List<CallerTune>()
+                    {
+                        new CallerTune
+                        {
+                            Tune_Name = "Default",
+                            Tune_Description = "Default Caller Tune",
+                            Tune_Path = "~/CallerTune/Default.mp4",
+                            Tune_Price = 0,
+                        }
+                    });
+                }
             }
         }
     }
