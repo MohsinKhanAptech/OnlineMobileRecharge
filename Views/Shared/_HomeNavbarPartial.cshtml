@@ -1,4 +1,8 @@
-﻿<!--Header Section Here -->
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+
+<!--Header Section Here -->
 <header class="header-section">
     <div class="container">
         <div class="header-wrapper">
@@ -12,10 +16,10 @@
             </div>
             <div class="menu__right__components d-flex align-items-center">
                 <div class="sigup__grp d-lg-none">
-                    <a href="signin.html" class="cmn__btn outline__btn">
+                    <a asp-area="Identity" asp-page="/Account/Login" class="cmn__btn outline__btn">
                         <span> Signin </span>
                     </a>
-                    <a href="signup.html" class="cmn__btn">
+                    <a asp-area="Identity" asp-page="/Account/Register" class="cmn__btn">
                         <span> Signup </span>
                     </a>
                 </div>
@@ -85,30 +89,6 @@
                         </span>
                     </a>
                     <ul class="sub-menu">
-                        <!--<li class="subtwohober">
-                            <a href="javascript:void(0)"
-                               class="d-flex align-items-center justify-content-between">
-                                <span class="text"> About </span>
-                                <span class="icon">
-                                    <i class="material-symbols-outlined"> add </i>
-                                </span>
-                            </a>
-                            <ul class="sub-two">
-                                <li>
-                                    <a href="about.html"> About us </a>
-                                </li>
-                                <li>
-                                    <a href="chat-us.html"> Chat us </a>
-                                </li>
-                                <li>
-                                    <a href="favourites.html"> Favorites </a>
-                                </li>
-                                <li>
-                                    <a href="help.html"> Help page </a>
-                                </li>
-                            </ul>
-                        </li>-->
-                        
                         <li><a asp-action="Contact">Contact</a></li>
                         <li><a asp-action="About">About</a></li>
                         <li><a asp-action="Feedback">Feedback</a></li>
@@ -117,10 +97,10 @@
                 </li>
             </ul>
             <div class="sigin__grp d-flex align-items-center">
-                <a href="signin.html" class="cmn__btn outline__btn">
+                <a asp-area="Identity" asp-page="/Account/Login" class="cmn__btn outline__btn">
                     <span> Signin </span>
                 </a>
-                <a href="signup.html" class="cmn__btn">
+                <a asp-area="Identity" asp-page="/Account/Register" class="cmn__btn">
                     <span> Signup </span>
                 </a>
                 <partial name="_HomeLoginPartial" />
