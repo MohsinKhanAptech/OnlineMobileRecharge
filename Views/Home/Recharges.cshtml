@@ -58,8 +58,9 @@
                                 </div>
                                 <select id="rechargeType" name="rechargeType" class="form-control" onchange="document.getElementById('searchRechargesForm').submit()">
                                     <option value="">All</option>
-                                    <option value="prepaid">Prepaid</option>
-                                    <option value="postpaid">Postpaid</option>
+                                    <option value="Top_up">Top_up</option>
+                                    <option value="Special">Special</option>
+                                    <option value="postpaid">postpaid</option>
                                 </select>
                             </form>
                         </div>
@@ -130,3 +131,17 @@
     </div>
 </section>
 <!-- Recharges Section Here -->
+<script>
+    let params = new URLSearchParams(location.search);
+    document.getElementById("searchQuery").value = params.get("searchQuery");
+    let rechargeType = params.get("rechargeType");
+    let selectRechargeType = document.getElementById("rechargeType");
+    switch (rechargeType) {
+        case "prepaid":
+            document.querySelector("option[value='prepaid']").setAttribute("selected", "selected");
+            break;
+        case "postpaid":
+            document.querySelector("option[value='postpaid']").setAttribute("selected", "selected");
+            break;
+    }
+</script>
