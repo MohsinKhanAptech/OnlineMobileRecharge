@@ -36,7 +36,7 @@
 <section class="flight__onewaysection pb__60 pt-5">
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-xxl-8 col-xl-10 col-lg-12">
+            <div class="col-xxl-10 col-xl-12">
                 <div class="order__wrappers">
                     <div class="choose__valu">
                         <div class="oparator__texts">
@@ -62,9 +62,8 @@
                                                 <td><span class="d-block pt-3 mt-1">@Html.DisplayFor(modelItem => item.Tune_Description)</span></td>
                                                 <td><span class="d-block pt-3 mt-1">@Html.DisplayFor(modelItem => item.Tune_Price)</span></td>
                                                 <td>
-                                                    <span class="d-block pt-3 mt-1">
+                                                    <span class="d-block mt-1">
                                                         <audio controls src="@item.Tune_Path"></audio>
-                                                        @Html.DisplayFor(model => item.Tune_Path)
                                                     </span>
                                                 </td>
                                                 <td><a asp-action="ServiceEdit" asp-route-id="@item.Tune_Id" class="cmn__btn mt-1"><span>Edit</span></a></td>

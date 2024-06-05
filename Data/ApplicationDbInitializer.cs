@@ -147,10 +147,11 @@ namespace OnlineMobileRecharge.Data
                         {
                             Tune_Name = "Default",
                             Tune_Description = "Default Caller Tune",
-                            Tune_Path = "~/CallerTune/Default.mp4",
+                            Tune_Path = "~/CallerTunes/Default.mp4",
                             Tune_Price = 0,
                         }
                     });
+                    context.SaveChanges();
                 }
             }
         }
