@@ -76,9 +76,25 @@ namespace OnlineMobileRecharge.Controllers
         }
 
         // Recharges
-        public IActionResult Recharges()
+        public IActionResult Recharges(string searchQuery, string packageType)
         {
             var recharges = _context.Recharges.ToList();
+
+            switch (packageType)
+            {
+                case "prepaid":
+                    recharges = recharges.FindAll(x => x.Recharge_Type.Equals(EnumPackageType.Prepaid));
+                    break;
+                case "postpaid":
+                    recharges = recharges.FindAll(x => x.Recharge_Type.Equals(EnumPackageType.Postpaid));
+                    break;
+            }
+
+            if (searchQuery != null)
+            {
+                recharges = recharges.FindAll(x => x.Recharge_Name.Contains(searchQuery)/* || x.Package_Description.Contains(searchQuery)*/);
+            }
+
             return View(recharges);
         }
 
