@@ -1,20 +1,24 @@
-﻿using OnlineMobileRecharge.Models;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using OnlineMobileRecharge.Models;
 
 namespace OnlineMobileRecharge.Data
 {
     public class ApplicationDbInitializer
     {
-        public static void Seed(IApplicationBuilder applicationBuilder)
+        public static async void Seed(IApplicationBuilder applicationBuilder)
         {
             using (var serviceScope = applicationBuilder.ApplicationServices.CreateScope())
             {
                 var context = serviceScope.ServiceProvider.GetService<ApplicationDbContext>();
+                var roleManager = serviceScope.ServiceProvider.GetService<RoleManager<IdentityRole>>();
+                var userManager = serviceScope.ServiceProvider.GetService<UserManager<IdentityUser>>();
 
                 context.Database.EnsureCreated();
 
-                if (!context.Packages.Any())
+                if (!await context.Packages.AnyAsync())
                 {
-                    context.Packages.AddRange(new List<Package>()
+                    await context.Packages.AddRangeAsync(new List<Package>()
                     {
                         new Package {
                             Package_Name = "Monthly Max",
@@ -83,12 +87,12 @@ namespace OnlineMobileRecharge.Data
                             Package_Type = EnumPackageType.Prepaid,
                         },
                     });
-                    context.SaveChanges();
+                    await context.SaveChangesAsync();
                 }
 
-                if (!context.Recharges.Any())
+                if (!await context.Recharges.AnyAsync())
                 {
-                    context.Recharges.AddRange(new List<Recharge>()
+                    await context.Recharges.AddRangeAsync(new List<Recharge>()
                     {
                         new Recharge {
                             Recharge_Name = "Rs.2500",
@@ -136,12 +140,12 @@ namespace OnlineMobileRecharge.Data
                             Recharge_Amount = 500 - (500 / 100 * 15),
                         },
                     });
-                    context.SaveChanges();
+                    await context.SaveChangesAsync();
                 }
 
-                if (!context.CallerTunes.Any())
+                if (!await context.CallerTunes.AnyAsync())
                 {
-                    context.CallerTunes.AddRange(new List<CallerTune>()
+                    await context.CallerTunes.AddRangeAsync(new List<CallerTune>()
                     {
                         new CallerTune
                         {
@@ -151,7 +155,46 @@ namespace OnlineMobileRecharge.Data
                             Tune_Price = 0,
                         }
                     });
-                    context.SaveChanges();
+                    await context.SaveChangesAsync();
+                }
+
+                // Users & Roles
+                if (!await roleManager.Roles.AnyAsync())
+                {
+                    await roleManager.CreateAsync(new IdentityRole("Admin"));
+                    await roleManager.CreateAsync(new IdentityRole("User"));
+                }
+
+                string name = "admin";
+                string email = "admin@admin.com";
+                string password = "Admin!123";
+
+                if (await userManager.FindByEmailAsync(email) == null)
+                {
+                    var admin = new IdentityUser();
+                    admin.UserName = name;
+                    admin.Email = email;
+                    admin.EmailConfirmed = true;
+
+                    await userManager.CreateAsync(admin, password);
+
+                    await userManager.AddToRoleAsync(admin, "Admin");
+                }
+
+                 name = "user";
+                 email = "user@user.com";
+                 password = "User!123";
+
+                if (await userManager.FindByEmailAsync(email) == null)
+                {
+                    var user = new IdentityUser();
+                    user.UserName = name;
+                    user.Email = email;
+                    user.EmailConfirmed = true;
+
+                    await userManager.CreateAsync(user, password);
+
+                    await userManager.AddToRoleAsync(user, "User");
                 }
             }
         }
