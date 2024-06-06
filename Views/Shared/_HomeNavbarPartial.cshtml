@@ -16,12 +16,32 @@
             </div>
             <div class="menu__right__components d-flex align-items-center">
                 <div class="sigup__grp d-lg-none">
-                    <a asp-area="Identity" asp-page="/Account/Login" class="cmn__btn outline__btn">
-                        <span> Signin </span>
-                    </a>
-                    <a asp-area="Identity" asp-page="/Account/Register" class="cmn__btn">
-                        <span> Signup </span>
-                    </a>
+                    <ul class="main-menu">
+                        @if (SignInManager.IsSignedIn(User))
+                        {
+                            <li class="grid__style">
+                                <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity?.Name!</a>
+                            </li>
+                            <li class="grid__style">
+                                <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                                    <button type="submit" class="nav-link btn btn-link text-dark">Logout</button>
+                                </form>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="grid__style">
+                                <a asp-area="Identity" asp-page="/Account/Login" class="cmn__btn outline__btn">
+                                    <span> Signin </span>
+                                </a>
+                            </li>
+                            <li class="grid__style">
+                                <a asp-area="Identity" asp-page="/Account/Register" class="cmn__btn">
+                                    <span> Signup </span>
+                                </a>
+                            </li>
+                        }
+                    </ul>
                 </div>
                 <div class="header-bar d-lg-none">
                     <span></span>
@@ -97,13 +117,22 @@
                 </li>
             </ul>
             <div class="sigin__grp d-flex align-items-center">
-                <a asp-area="Identity" asp-page="/Account/Login" class="cmn__btn outline__btn">
-                    <span> Signin </span>
-                </a>
-                <a asp-area="Identity" asp-page="/Account/Register" class="cmn__btn">
-                    <span> Signup </span>
-                </a>
-                <partial name="_HomeLoginPartial" />
+                @if (SignInManager.IsSignedIn(User))
+                {
+                    <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity?.Name!</a>
+                    <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                        <button type="submit" class="btn btn-outline-primary" style="transition: 250ms;">Logout</button>
+                    </form>
+                }
+                else
+                {
+                    <a asp-area="Identity" asp-page="/Account/Login" class="cmn__btn outline__btn">
+                        <span> Signin </span>
+                    </a>
+                    <a asp-area="Identity" asp-page="/Account/Register" class="cmn__btn">
+                        <span> Signup </span>
+                    </a>
+                }
             </div>
         </div>
     </div>
