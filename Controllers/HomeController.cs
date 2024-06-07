@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using OnlineMobileRecharge.Data;
 using OnlineMobileRecharge.Models;
 using System.Diagnostics;
+using System.Security.Claims;
 
 namespace OnlineMobileRecharge.Controllers
 {
@@ -10,6 +11,9 @@ namespace OnlineMobileRecharge.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly ApplicationDbContext _context;
+
+        [BindProperty]
+        public RechargeTransaction rechargeTransaction { get; set; }
 
         public HomeController(ILogger<HomeController> logger, ApplicationDbContext context)
         {
@@ -48,12 +52,16 @@ namespace OnlineMobileRecharge.Controllers
         [Authorize]
         public IActionResult PackageOrderSummary(int id)
         {
-            var package = _context.Packages.Find(id);
-            if (package == null)
+            var claimsIdentity = (ClaimsIdentity)User.Identity;
+            var claims = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
+
+            rechargeTransaction = new RechargeTransaction()
             {
-                return View(nameof(Packages));
-            }
-            return View(package);
+                Recharge_Id = id,
+                Mobile_Number = "",
+                Recharge = _context.Recharges.Find(id)
+            };
+            return View(rechargeTransaction);
         }
 
         // Package Order payment

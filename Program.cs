@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using OnlineMobileRecharge.Data;
 using OnlineMobileRecharge.Models;
 using OnlineMobileRecharge.Services;
+using Stripe;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +13,9 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+
+// Stripe service
+builder.Services.Configure<StripeSetting>(builder.Configuration.GetSection("Stripe"));
 
 builder.Services.AddIdentity<IdentityUser, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<ApplicationDbContext>()
@@ -41,6 +45,10 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+// Stripe Middleware
+StripeConfiguration.ApiKey = builder.Configuration.GetSection("Stripe:SecretKey").Get<string>();
+
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(

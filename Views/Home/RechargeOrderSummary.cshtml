@@ -1,4 +1,4 @@
-﻿@model OnlineMobileRecharge.Models.Recharge
+﻿@model OnlineMobileRecharge.Models.RechargeTransaction
 @{
     Layout = "_HomeLayout";
     ViewData["Title"] = "Order Summary";
@@ -47,7 +47,7 @@
                                 </span>
                             </div>
                             <span class="fz-24 fw-700">
-                                @Html.DisplayFor(model => model.Recharge_Price)
+                                @Html.DisplayFor(model => model.Recharge.Recharge_Price)
                             </span>
                         </div>
                         <ul class="order__button mb__40 justify-content-center">
@@ -82,28 +82,22 @@
                                             Recipient No
                                         </span>
                                         <span>
-                                            Operrator
-                                        </span>
-                                        <span>
                                             Receive amount
                                         </span>
                                         <span>
-                                            Amount
+                                            Price
                                         </span>
                                     </div>
                                     <div class="order__table__items">
                                         <span>
-                                            (406) 555-0120
+                                            @Html.DisplayFor(Model => Model.Mobile_Number)
                                         </span>
                                         <span>
-                                            AT & T
-                                        </span>
-                                        <span>
-                                            @Html.DisplayFor(model => model.Recharge_Price)
+                                            @Html.DisplayFor(model => model.Recharge.Recharge_Amount)
 
                                         </span>
                                         <span>
-                                            @Html.DisplayFor(model => model.Recharge_Price)
+                                            @Html.DisplayFor(model => model.Recharge.Recharge_Price)
                                         </span>
                                     </div>
                                 </div>
@@ -112,11 +106,11 @@
                                         <ul>
                                             <li>
                                                 <span>Sub Total:</span>
-                                                <span class="bg">@Html.DisplayFor(model => model.Recharge_Price)</span>
+                                                <span class="bg">@Html.DisplayFor(model => model.Recharge.Recharge_Price)</span>
                                             </li>
                                             <li>
                                                 <span>Total:</span>
-                                                <span class="bg">@Html.DisplayFor(model => model.Recharge_Price)</span>
+                                                <span class="bg">@Html.DisplayFor(model => model.Recharge.Recharge_Price)</span>
                                             </li>
                                         </ul>
                                     </div>
