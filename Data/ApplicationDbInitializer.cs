@@ -14,8 +14,8 @@ namespace OnlineMobileRecharge.Data
                 var roleManager = serviceScope.ServiceProvider.GetService<RoleManager<IdentityRole>>();
                 var userManager = serviceScope.ServiceProvider.GetService<UserManager<IdentityUser>>();
 
-                context.Database.EnsureDeleted();
-                context.Database.EnsureCreated();
+                await context.Database.EnsureDeletedAsync();
+                await context.Database.EnsureCreatedAsync();
 
                 if (!await context.Packages.AnyAsync())
                 {
@@ -166,34 +166,34 @@ namespace OnlineMobileRecharge.Data
                     await roleManager.CreateAsync(new IdentityRole("User"));
                 }
 
-                string name = "admin";
-                string email = "admin@admin.com";
-                string password = "Admin!123";
+                string adminName = "admin";
+                string adminEmail = "admin@admin.com";
+                string adminPassword = "Admin!123";
 
-                if (await userManager.FindByEmailAsync(email) == null)
+                if (await userManager.FindByEmailAsync(adminEmail) == null)
                 {
                     var admin = new IdentityUser();
-                    admin.UserName = name;
-                    admin.Email = email;
+                    admin.UserName = adminEmail;
+                    admin.Email = adminEmail;
                     admin.EmailConfirmed = true;
 
-                    await userManager.CreateAsync(admin, password);
+                    await userManager.CreateAsync(admin, adminPassword);
 
                     await userManager.AddToRoleAsync(admin, "Admin");
                 }
 
-                 name = "user";
-                 email = "user@user.com";
-                 password = "User!123";
+                 string userName = "user";
+                 string userEmail = "user@user.com";
+                 string userPassword = "User!123";
 
-                if (await userManager.FindByEmailAsync(email) == null)
+                if (await userManager.FindByEmailAsync(userEmail) == null)
                 {
                     var user = new IdentityUser();
-                    user.UserName = name;
-                    user.Email = email;
+                    user.UserName = userEmail;
+                    user.Email = userEmail;
                     user.EmailConfirmed = true;
 
-                    await userManager.CreateAsync(user, password);
+                    await userManager.CreateAsync(user, userPassword);
 
                     await userManager.AddToRoleAsync(user, "User");
                 }
