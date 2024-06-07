@@ -63,7 +63,7 @@ namespace OnlineMobileRecharge.Data
                             Package_Data = 50000,
                             Package_Duration = 30,
                             Package_Price = 800,
-                            Package_Type = EnumPackageType.Prepaid,
+                            Package_Type = EnumPackageType.Postpaid,
                         },
                         new Package {
                             Package_Name = "10 GB Data",
@@ -74,7 +74,7 @@ namespace OnlineMobileRecharge.Data
                             Package_Data = 10000,
                             Package_Duration = 30,
                             Package_Price = 200,
-                            Package_Type = EnumPackageType.Prepaid,
+                            Package_Type = EnumPackageType.Postpaid,
                         },
                         new Package {
                             Package_Name = "25 GB Data",
@@ -85,7 +85,7 @@ namespace OnlineMobileRecharge.Data
                             Package_Data = 25000,
                             Package_Duration = 30,
                             Package_Price = 400,
-                            Package_Type = EnumPackageType.Prepaid,
+                            Package_Type = EnumPackageType.Postpaid,
                         },
                     });
                     await context.SaveChangesAsync();
@@ -118,7 +118,7 @@ namespace OnlineMobileRecharge.Data
                             Recharge_Description = "Monthly Max package for maximum fun",
                             Recharge_Price = 1500,
                             Recharge_Tax_Rate = 15,
-                            Recharge_Type = EnumRechargeType.Special,
+                            Recharge_Type = EnumRechargeType.Top_up,
                             Recharge_Taxed_Amount = 1500 / 100 * 15,
                             Recharge_Amount = 1500 - (1500 / 100 * 15),
                         },
@@ -127,7 +127,7 @@ namespace OnlineMobileRecharge.Data
                             Recharge_Description = "Monthly Max package for maximum fun",
                             Recharge_Price = 1000,
                             Recharge_Tax_Rate = 15,
-                            Recharge_Type = EnumRechargeType.Special,
+                            Recharge_Type = EnumRechargeType.Top_up,
                             Recharge_Taxed_Amount = 1000 / 100 * 15,
                             Recharge_Amount = 1000 - (1000 / 100 * 15),
                         },
@@ -136,7 +136,7 @@ namespace OnlineMobileRecharge.Data
                             Recharge_Description = "Monthly Max package for maximum fun",
                             Recharge_Price = 500,
                             Recharge_Tax_Rate = 15,
-                            Recharge_Type = EnumRechargeType.Special,
+                            Recharge_Type = EnumRechargeType.Top_up,
                             Recharge_Taxed_Amount = 500 / 100 * 15,
                             Recharge_Amount = 500 - (500 / 100 * 15),
                         },
@@ -166,7 +166,6 @@ namespace OnlineMobileRecharge.Data
                     await roleManager.CreateAsync(new IdentityRole("User"));
                 }
 
-                string adminName = "admin";
                 string adminEmail = "admin@admin.com";
                 string adminPassword = "Admin!123";
 
@@ -182,7 +181,6 @@ namespace OnlineMobileRecharge.Data
                     await userManager.AddToRoleAsync(admin, "Admin");
                 }
 
-                 string userName = "user";
                  string userEmail = "user@user.com";
                  string userPassword = "User!123";
 
