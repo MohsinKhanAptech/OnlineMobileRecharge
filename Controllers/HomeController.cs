@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OnlineMobileRecharge.Data;
 using OnlineMobileRecharge.Models;
@@ -20,6 +21,7 @@ namespace OnlineMobileRecharge.Controllers
         public IActionResult Index() { return View(); }
 
         // Packages list page
+        [Authorize]
         public IActionResult Packages(string searchQuery, string packageType)
         {
             var packages = _context.Packages.ToList();
@@ -43,6 +45,7 @@ namespace OnlineMobileRecharge.Controllers
         }
 
         // Package Order summary
+        [Authorize]
         public IActionResult PackageOrderSummary(int id)
         {
             var package = _context.Packages.Find(id);
@@ -54,6 +57,7 @@ namespace OnlineMobileRecharge.Controllers
         }
 
         // Package Order payment
+        [Authorize]
         public IActionResult PackageOrderPayment(int id)
         {
             var package = _context.Packages.Find(id);
@@ -65,6 +69,7 @@ namespace OnlineMobileRecharge.Controllers
         }
 
         // Package Order complete
+        [Authorize]
         public IActionResult PackageOrderComplete(int id)
         {
             var package = _context.Packages.Find(id);
@@ -132,6 +137,7 @@ namespace OnlineMobileRecharge.Controllers
         }
 
         // Services
+        [Authorize]
         public IActionResult Services() { 
             //var services = _context.Services.ToList();
             var services = _context.Services.Where(x => x.IdentityUser.UserName == Environment.UserName).FirstOrDefault();
@@ -139,6 +145,7 @@ namespace OnlineMobileRecharge.Controllers
         }
 
         // Caller Tune
+        [Authorize]
         public IActionResult CallerTunes() { 
             var callerTunes = _context.CallerTunes.ToList();
             return View(callerTunes);
