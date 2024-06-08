@@ -10,10 +10,10 @@ namespace OnlineMobileRecharge.Models
         public int Package_Id { get; set; }
         [Required]
         [DisplayName("Name")]
-        public required string Package_Name { get; set; }
+        public string Package_Name { get; set; }
         [Required]
         [DisplayName("Description")]
-        public required string Package_Description { get; set; }
+        public string Package_Description { get; set; }
         [Required]
         [DisplayName("Offnet Mins")]
         [RegularExpression("[0-9]+")]

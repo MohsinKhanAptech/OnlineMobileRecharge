@@ -11,10 +11,10 @@ namespace OnlineMobileRecharge.Models
         public int Tune_Id { get; set; }
         [Required]
         [DisplayName("Name")]
-        public required string Tune_Name { get; set; }
+        public string Tune_Name { get; set; }
         [Required]
         [DisplayName("Description")]
-        public required string Tune_Description { get; set; }
+        public string Tune_Description { get; set; }
         [Required]
         [NotMapped]
         [DisplayName("File")]
@@ -22,7 +22,7 @@ namespace OnlineMobileRecharge.Models
         public IFormFile Tune_File { get; set; }
         [Required]
         [DisplayName("Path")]
-        public required string Tune_Path { get; set; }
+        public string Tune_Path { get; set; }
         [Required]
         [DisplayName("Price")]
         public double Tune_Price { get; set; }

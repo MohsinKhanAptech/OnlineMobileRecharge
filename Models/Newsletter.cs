@@ -10,14 +10,9 @@ namespace OnlineMobileRecharge.Models
         public int Newsletter_Id { get; set; }
         [Required, EmailAddress]
         [DisplayName("Email")]
-        public required string Newsletter_Email { get; set; }
+        public string Newsletter_Email { get; set; }
         [Required]
         [DisplayName("Date Added")]
-        public DateTime Date_Added { get; }
-
-        public Newsletter()
-        {
-            Date_Added = DateTime.Now;
-        }
+        public DateTime Date_Added { get; set; }
     }
 }

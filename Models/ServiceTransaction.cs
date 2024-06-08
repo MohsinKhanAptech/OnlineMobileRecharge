@@ -15,19 +15,14 @@ namespace OnlineMobileRecharge.Models
         [DisplayName("Recharge Id")]
         public int Tune_Id { get; set; }
         [ForeignKey("Tune_Id")]
-        public required CallerTune CallerTune { get; set; }
+        public CallerTune CallerTune { get; set; }
         [Required]
         [DisplayName("User Id")]
-        public required string User_Id { get; set; }
+        public string User_Id { get; set; }
         [ForeignKey("User_Id")]
-        public required IdentityUser IdentityUser { get; set; }
+        public IdentityUser IdentityUser { get; set; }
         [Required]
         [DisplayName("Transaction Date")]
-        public DateTime Transaction_Date { get; }
-
-        public ServiceTransaction()
-        {
-            Transaction_Date = DateTime.Now;
-        }
+        public DateTime Transaction_Date { get; set; }
     }
 }

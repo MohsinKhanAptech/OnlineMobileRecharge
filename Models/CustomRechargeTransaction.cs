@@ -14,21 +14,16 @@ namespace OnlineMobileRecharge.Models
         [Required]
         [DisplayName("Tax Rate")]
         public int Tax_Id { get; set; }
-        public required TaxRate TaxRate { get; set; }
+        public TaxRate TaxRate { get; set; }
         [Required, Phone]
         [DisplayName("Mobile Number")]
-        public required string Mobile_Number { get; set; }
+        public string Mobile_Number { get; set; }
         [Required]
         [EnumDataType(typeof(EnumRechargeType))]
         [DisplayName("Type")]
         public EnumRechargeType Recharge_Type { get; set; }
         [Required]
         [DisplayName("Transaction Date")]
-        public DateTime Transaction_Date { get; }
-
-        public CustomRechargeTransaction()
-        {
-            Transaction_Date = DateTime.Now;
-        }
+        public DateTime Transaction_Date { get; set; }
     }
 }

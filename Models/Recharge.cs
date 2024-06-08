@@ -11,10 +11,10 @@ namespace OnlineMobileRecharge.Models
         public int Recharge_Id { get; set; }
         [Required]
         [DisplayName("Name")]
-        public required string Recharge_Name { get; set; }
+        public string Recharge_Name { get; set; }
         [Required]
         [DisplayName("Description")]
-        public required string Recharge_Description { get; set; }
+        public string Recharge_Description { get; set; }
         [Required]
         [DisplayName("Amount")]
         [DataType(DataType.Currency)]

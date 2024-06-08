@@ -17,10 +17,10 @@ namespace OnlineMobileRecharge.Models
         [DisplayName("Recharge Id")]
         public int Recharge_Id { get; set; }
         [ForeignKey("Recharge_Id")]
-        public required Recharge Recharge { get; set; }
+        public Recharge Recharge { get; set; }
         [Required, Phone]
         [DisplayName("Mobile Number")]
-        public required string Mobile_Number { get; set; }
+        public string Mobile_Number { get; set; }
         [Required]
         [DisplayName("Transaction Date")]
         public DateTime Transaction_Date { get; set; }
