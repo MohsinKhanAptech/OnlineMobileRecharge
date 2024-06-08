@@ -5,7 +5,7 @@
 }
 
 <!-- breadcumnd banner Here -->
-<section class="breadcumnd__banner">
+<section class="breadcumnd__banner p-5 mt-2">
     <!--Container-->
     <div class="container">
         <div class="breadcumnd__wrapper">
@@ -52,21 +52,14 @@
                         </div>
                         <ul class="order__button mb__40 justify-content-center">
                             <li>
-                                <a asp-action="OrderSummary" asp-route-id="@Model.Recharge_Id" class="cmn__order active">
+                                <a href="javascript:void(0)" class="cmn__order active">
                                     <span>
                                         Summary
                                     </span>
                                 </a>
                             </li>
                             <li>
-                                <a asp-action="OrderPayment" asp-route-id="@Model.Recharge_Id" class="cmn__order">
-                                    <span>
-                                        Payment
-                                    </span>
-                                </a>
-                            </li>
-                            <li>
-                                <a asp-action="OrderComplete" asp-route-id="@Model.Recharge_Id" class="cmn__order">
+                                <a href="javascript:void(0)" class="cmn__order">
                                     <span>
                                         Done
                                     </span>

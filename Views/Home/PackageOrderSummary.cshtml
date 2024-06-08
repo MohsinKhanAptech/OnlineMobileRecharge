@@ -1,11 +1,11 @@
-﻿@model OnlineMobileRecharge.Models.Package
+﻿@model OnlineMobileRecharge.Models.PackageTransaction
 @{
     Layout = "_HomeLayout";
     ViewData["Title"] = "Order Summary";
 }
 
 <!-- breadcumnd banner Here -->
-<section class="breadcumnd__banner">
+<section class="breadcumnd__banner p-5 mt-2">
     <!--Container-->
     <div class="container">
         <div class="breadcumnd__wrapper">
@@ -47,26 +47,19 @@
                                 </span>
                             </div>
                             <span class="fz-24 fw-700">
-                                @Html.DisplayFor(model => model.Package_Price)
+                                @Html.DisplayFor(model => model.Package.Package_Price)
                             </span>
                         </div>
                         <ul class="order__button mb__40 justify-content-center">
                             <li>
-                                <a asp-action="OrderSummary" asp-route-id="@Model.Package_Id" class="cmn__order active">
+                                <a href="javascript:void(0)" class="cmn__order active">
                                     <span>
                                         Summary
                                     </span>
                                 </a>
                             </li>
                             <li>
-                                <a asp-action="OrderPayment" asp-route-id="@Model.Package_Id" class="cmn__order">
-                                    <span>
-                                        Payment
-                                    </span>
-                                </a>
-                            </li>
-                            <li>
-                                <a asp-action="OrderComplete" asp-route-id="@Model.Package_Id" class="cmn__order">
+                                <a href="javascript:void(0)" class="cmn__order">
                                     <span>
                                         Done
                                     </span>
@@ -79,31 +72,48 @@
                                 <div class="order__table__fluid">
                                     <div class="order__table__items bg__add">
                                         <span>
-                                            Recipient No
+                                            Package Name
                                         </span>
                                         <span>
-                                            Operrator
+                                            Internet Data
                                         </span>
                                         <span>
-                                            Receive amount
+                                            Offnet Mins
                                         </span>
                                         <span>
-                                            Amount
+                                            Onnet Mins
+                                        </span>
+                                        <span>
+                                            SMS
+                                        </span>
+                                        <span>
+                                            Duration
+                                        </span>
+                                        <span>
+                                            Price
                                         </span>
                                     </div>
                                     <div class="order__table__items">
                                         <span>
-                                            (406) 555-0120
+                                            @Html.DisplayFor(model => model.Package.Package_Name)
                                         </span>
                                         <span>
-                                            AT & T
+                                            @Html.DisplayFor(model => model.Package.Package_Data)
                                         </span>
                                         <span>
-                                            @Html.DisplayFor(model => model.Package_Price)
-
+                                            @Html.DisplayFor(model => model.Package.Package_Off_Net_Mins)
                                         </span>
                                         <span>
-                                            @Html.DisplayFor(model => model.Package_Price)
+                                            @Html.DisplayFor(model => model.Package.Package_On_Net_Mins)
+                                        </span>
+                                        <span>
+                                            @Html.DisplayFor(model => model.Package.Package_SMS)
+                                        </span>
+                                        <span>
+                                            @Html.DisplayFor(model => model.Package.Package_Duration) days
+                                        </span>
+                                        <span>
+                                            @Html.DisplayFor(model => model.Package.Package_Price)
                                         </span>
                                     </div>
                                 </div>
@@ -111,12 +121,8 @@
                                     <div class="order__graph">
                                         <ul>
                                             <li>
-                                                <span>Sub Total:</span>
-                                                <span class="bg">@Html.DisplayFor(model => model.Package_Price)</span>
-                                            </li>
-                                            <li>
                                                 <span>Total:</span>
-                                                <span class="bg">@Html.DisplayFor(model => model.Package_Price)</span>
+                                                <span class="bg">@Html.DisplayFor(model => model.Package.Package_Price)</span>
                                             </li>
                                         </ul>
                                     </div>
@@ -124,11 +130,11 @@
                             </div>
                         </div>
                         <div class="probtn text-center pt__10">
-                            <a asp-action="OrderPayment" asp-route-id="@Model.Package_Id" class="cmn__btn">
-                                <span>
-                                    Make Payment
-                                </span>
-                            </a>
+                            <form class="row gap-2" asp-action="PackageOrderSummary" method="post">
+                                <input hidden asp-for="@Model.Package_Id" />
+                                <input asp-for="@Model.Mobile_Number" class="form-control" required placeholder="Phone Number" />
+                                <input type="submit" class="btn btn-primary text-white" value="Make Payment" />
+                            </form>
                         </div>
                     </div>
                 </div>

@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using OnlineMobileRecharge.Data;
 using OnlineMobileRecharge.Models;
@@ -15,6 +16,8 @@ namespace OnlineMobileRecharge.Controllers
 
         [BindProperty]
         public RechargeTransaction rechargeTransaction { get; set; }
+        public CustomRechargeTransaction customRechargeTransaction { get; set; }
+        public PackageTransaction packageTransaction { get; set; }
 
         public HomeController(ILogger<HomeController> logger, ApplicationDbContext context)
         {
@@ -53,40 +56,83 @@ namespace OnlineMobileRecharge.Controllers
         [Authorize]
         public IActionResult PackageOrderSummary(int id)
         {
-            var claimsIdentity = (ClaimsIdentity)User.Identity;
-            var claims = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
+            var user = User;
+            var claims = user.FindFirst(ClaimTypes.NameIdentifier);
 
-            rechargeTransaction = new RechargeTransaction()
+            packageTransaction = new PackageTransaction()
             {
-                Recharge_Id = id,
-                Mobile_Number = "",
-                Recharge = _context.Recharges.Find(id)
+                IdentityUser = _context.Users.Find(claims.Value),
+                User_Id = claims.Value,
+                Package_Id = id,
+                Package = _context.Packages.Find(id)
             };
-            return View(rechargeTransaction);
+            return View(packageTransaction);
         }
 
-        // Package Order payment
+        // POST Package Order summary
+        [HttpPost]
         [Authorize]
-        public IActionResult PackageOrderPayment(int id)
+        [ValidateAntiForgeryToken]
+        public IActionResult PackageOrderSummary()
         {
-            var package = _context.Packages.Find(id);
-            if (package == null)
+            var user = User;
+            var claims = user.FindFirst(ClaimTypes.NameIdentifier);
+
+            packageTransaction.IdentityUser = _context.Users.Find(claims.Value);
+            packageTransaction.Package = _context.Packages.Find(packageTransaction.Package_Id);
+            packageTransaction.Transaction_Date = DateTime.Now;
+            packageTransaction.Session_Id = "0";
+            _context.PackageTransactions.Add(packageTransaction);
+            _context.SaveChanges();
+
+            var domain = "https://localhost:7147/";
+            var options = new SessionCreateOptions
             {
-                return View(nameof(Packages));
-            }
-            return View(package);
+                PaymentMethodTypes = new List<string> {
+                    "card",
+                },
+                LineItems = new List<SessionLineItemOptions>(),
+                Mode = "payment",
+                SuccessUrl = domain + $"Home/PackageOrderComplete/" + packageTransaction.PackageTransaction_Id,
+                CancelUrl = domain + $"Home/Index"
+            };
+
+            var sessionLineItem = new SessionLineItemOptions
+            {
+                PriceData = new SessionLineItemPriceDataOptions
+                {
+                    UnitAmount = (long)(packageTransaction.Package.Package_Price * 100),
+                    Currency = "PKR",
+                    ProductData = new SessionLineItemPriceDataProductDataOptions
+                    {
+                        Name = packageTransaction.Package.Package_Name
+                    },
+                },
+                Quantity = 1
+
+            };
+            options.LineItems.Add(sessionLineItem);
+
+            var service = new SessionService();
+            Session session = service.Create(options);
+            packageTransaction.Session_Id = session.Id;
+            _context.SaveChanges();
+            Response.Headers.Add("Location", session.Url);
+            _context.SaveChanges();
+            return new StatusCodeResult(303);
         }
 
         // Package Order complete
         [Authorize]
         public IActionResult PackageOrderComplete(int id)
         {
-            var package = _context.Packages.Find(id);
-            if (package == null)
+            var packageTransaction = _context.PackageTransactions.Find(id);
+            packageTransaction.Package = _context.Packages.Find(packageTransaction.Package_Id);
+            if (packageTransaction == null)
             {
                 return View(nameof(Packages));
             }
-            return View(package);
+            return View(packageTransaction);
         }
 
         // Recharges
@@ -143,7 +189,7 @@ namespace OnlineMobileRecharge.Controllers
                 },
                 LineItems = new List<SessionLineItemOptions>(),
                 Mode = "payment",
-                SuccessUrl = domain + $"Home/RechargeOrderComplete/" + rechargeTransaction.RechargeTransaction_Id,
+                SuccessUrl = domain + $"Home/RechargeOrderComplete/{rechargeTransaction.RechargeTransaction_Id}",
                 CancelUrl = domain + $"Home/Index"
             };
 
@@ -186,14 +232,16 @@ namespace OnlineMobileRecharge.Controllers
 
         // Services
         [Authorize]
-        public IActionResult Services() { 
+        public IActionResult Services()
+        {
             var services = _context.Services.Where(x => x.IdentityUser.UserName == Environment.UserName).FirstOrDefault();
             return View(services);
         }
 
         // Caller Tune
         [Authorize]
-        public IActionResult CallerTunes() { 
+        public IActionResult CallerTunes()
+        {
             var callerTunes = _context.CallerTunes.ToList();
             return View(callerTunes);
         }
