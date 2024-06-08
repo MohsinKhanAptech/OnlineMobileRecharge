@@ -14,8 +14,8 @@ namespace OnlineMobileRecharge.Data
                 var roleManager = serviceScope.ServiceProvider.GetService<RoleManager<IdentityRole>>();
                 var userManager = serviceScope.ServiceProvider.GetService<UserManager<IdentityUser>>();
 
-                await context.Database.EnsureDeletedAsync();
-                await context.Database.EnsureCreatedAsync();
+                context.Database.EnsureDeleted();
+                context.Database.EnsureCreated();
 
                 if (!await context.Packages.AnyAsync())
                 {

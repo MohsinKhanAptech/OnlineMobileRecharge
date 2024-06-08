@@ -11,6 +11,9 @@ namespace OnlineMobileRecharge.Models
         [DisplayName("Id")]
         public int RechargeTransaction_Id { get; set; }
         [Required]
+        [DisplayName("Session Id")]
+        public string Session_Id { get; set; }
+        [Required]
         [DisplayName("Recharge Id")]
         public int Recharge_Id { get; set; }
         [ForeignKey("Recharge_Id")]
@@ -20,11 +23,6 @@ namespace OnlineMobileRecharge.Models
         public required string Mobile_Number { get; set; }
         [Required]
         [DisplayName("Transaction Date")]
-        public DateTime Transaction_Date { get; }
-
-        public RechargeTransaction()
-        {
-            Transaction_Date = DateTime.Now;
-        }
+        public DateTime Transaction_Date { get; set; }
     }
 }

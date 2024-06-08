@@ -12,8 +12,8 @@ using OnlineMobileRecharge.Data;
 namespace OnlineMobileRecharge.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240605142639_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20240608061013_test1")]
+    partial class test1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -473,6 +473,13 @@ namespace OnlineMobileRecharge.Data.Migrations
 
                     b.Property<int>("Recharge_Id")
                         .HasColumnType("int");
+
+                    b.Property<string>("Session_Id")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("Transaction_Date")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("RechargeTransaction_Id");
 

@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OnlineMobileRecharge.Data;
 using OnlineMobileRecharge.Models;
+using Stripe.Checkout;
 using System.Diagnostics;
 using System.Security.Claims;
 
@@ -114,35 +115,122 @@ namespace OnlineMobileRecharge.Controllers
         // Recharge Order summary
         public IActionResult RechargeOrderSummary(int id)
         {
-            var recharge = _context.Recharges.Find(id);
-            if (recharge == null)
+            rechargeTransaction = new RechargeTransaction()
             {
-                return View(nameof(Recharges));
-            }
-            return View(recharge);
+                Recharge_Id = id,
+                Mobile_Number = "",
+                Recharge = _context.Recharges.Find(id)
+            };
+            return View(rechargeTransaction);
+        }
+
+        // POST Recharge Order summary
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult RechargeOrderSummary()
+        {
+            rechargeTransaction.Recharge = _context.Recharges.Find(rechargeTransaction.Recharge_Id);
+            rechargeTransaction.Transaction_Date = DateTime.Now;
+            //rechargeTransaction.Mobile_Number = ;
+            rechargeTransaction.Session_Id = "0";
+            _context.RechargeTransactions.Add(rechargeTransaction);
+            _context.SaveChanges();
+
+            //var domain = "https://localhost:7147";
+            //var options = new SessionCreateOptions { 
+            //    PaymentMethodTypes = new List<string>
+            //    {
+            //        "card",
+            //    },
+            //    LineItems = new List<SessionLineItemOptions>(),
+            //    Mode = "payment",
+            //    SuccessUrl = domain + $"Home/Index",
+            //    CancelUrl =  domain + $"Home/Index"
+            //};
+
+            //var sessionLineItem = new SessionLineItemOptions
+            //{
+            //    PriceData = new SessionLineItemPriceDataOptions
+            //    {
+            //        UnitAmount = (long)(rechargeTransaction.Recharge.Recharge_Price),
+            //        Currency = "PKR",
+            //        ProductData = new SessionLineItemPriceDataProductDataOptions
+            //        {
+            //            Name = rechargeTransaction.Recharge.Recharge_Name
+            //        },
+            //    },
+            //    Quantity = 1
+            //};
+            //options.LineItems.Add(sessionLineItem);
+
+            //var service = new SessionService();
+            //Session session = service.Create(options);
+            //rechargeTransaction.Session_Id = session.Id;
+            //_context.SaveChanges();
+            //Response.Headers.Add("Location", session.Url);
+            //_context.SaveChanges();
+            //return new StatusCodeResult(303);
+
+            var domain = "https://localhost:7147/";
+            var options = new SessionCreateOptions
+            {
+                PaymentMethodTypes = new List<string> {
+                    "card",
+                },
+                LineItems = new List<SessionLineItemOptions>(),
+                Mode = "payment",
+                SuccessUrl = domain + $"Web/Index",
+                CancelUrl = domain + $"Web/Index"
+            };
+
+            var sessionLineItem = new SessionLineItemOptions
+            {
+                PriceData = new SessionLineItemPriceDataOptions
+                {
+                    UnitAmount = (long)(rechargeTransaction.Recharge.Recharge_Price * 100),
+                    Currency = "PKR",
+                    ProductData = new SessionLineItemPriceDataProductDataOptions
+                    {
+                        Name = rechargeTransaction.Recharge.Recharge_Name
+                    },
+                },
+                Quantity = 1
+
+            };
+            options.LineItems.Add(sessionLineItem);
+
+            var service = new SessionService();
+            Session session = service.Create(options);
+            rechargeTransaction.Session_Id = session.Id;
+            _context.SaveChanges();
+            Response.Headers.Add("Location", session.Url);
+            _context.SaveChanges();
+            return new StatusCodeResult(303);
+
+            return View();
         }
 
         // Recharge Order payment
-        public IActionResult RechargeOrderPayment(int id)
-        {
-            var recharge = _context.Recharges.Find(id);
-            if (recharge == null)
-            {
-                return View(nameof(Recharges));
-            }
-            return View(recharge);
-        }
+        //public IActionResult RechargeOrderPayment(int id)
+        //{
+        //    var recharge = _context.Recharges.Find(id);
+        //    if (recharge == null)
+        //    {
+        //        return View(nameof(Recharges));
+        //    }
+        //    return View(recharge);
+        //}
 
         // Recharge Order complete
-        public IActionResult RechargeOrderComplete(int id)
-        {
-            var recharge = _context.Recharges.Find(id);
-            if (recharge == null)
-            {
-                return View(nameof(Recharges));
-            }
-            return View(recharge);
-        }
+        //public IActionResult RechargeOrderComplete(int id)
+        //{
+        //    var recharge = _context.Recharges.Find(id);
+        //    if (recharge == null)
+        //    {
+        //        return View(nameof(Recharges));
+        //    }
+        //    return View(recharge);
+        //}
 
         // Services
         [Authorize]

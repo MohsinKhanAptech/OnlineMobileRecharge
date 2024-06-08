@@ -79,10 +79,10 @@
                                 <div class="order__table__fluid">
                                     <div class="order__table__items bg__add">
                                         <span>
-                                            Recipient No
+                                            Receive amount
                                         </span>
                                         <span>
-                                            Receive amount
+                                            Taxed amount
                                         </span>
                                         <span>
                                             Price
@@ -90,11 +90,10 @@
                                     </div>
                                     <div class="order__table__items">
                                         <span>
-                                            @Html.DisplayFor(Model => Model.Mobile_Number)
+                                            @Html.DisplayFor(model => model.Recharge.Recharge_Amount)
                                         </span>
                                         <span>
-                                            @Html.DisplayFor(model => model.Recharge.Recharge_Amount)
-
+                                            @Html.DisplayFor(model => model.Recharge.Recharge_Taxed_Amount)
                                         </span>
                                         <span>
                                             @Html.DisplayFor(model => model.Recharge.Recharge_Price)
@@ -105,10 +104,6 @@
                                     <div class="order__graph">
                                         <ul>
                                             <li>
-                                                <span>Sub Total:</span>
-                                                <span class="bg">@Html.DisplayFor(model => model.Recharge.Recharge_Price)</span>
-                                            </li>
-                                            <li>
                                                 <span>Total:</span>
                                                 <span class="bg">@Html.DisplayFor(model => model.Recharge.Recharge_Price)</span>
                                             </li>
@@ -118,11 +113,11 @@
                             </div>
                         </div>
                         <div class="probtn text-center pt__10">
-                            <a asp-action="OrderPayment" asp-route-id="@Model.Recharge_Id" class="cmn__btn">
-                                <span>
-                                    Make Payment
-                                </span>
-                            </a>
+                            <form class="row gap-2" asp-action="RechargeOrderSummary" method="post">
+                                <input hidden asp-for="@Model.Recharge_Id" />
+                                <input asp-for="@Model.Mobile_Number" class="form-control" placeholder="Phone Number" />
+                                <input type="submit" class="btn btn-primary text-white" value="Make Payment" />
+                            </form>
                         </div>
                     </div>
                 </div>
