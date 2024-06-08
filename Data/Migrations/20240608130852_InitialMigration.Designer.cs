@@ -12,8 +12,8 @@ using OnlineMobileRecharge.Data;
 namespace OnlineMobileRecharge.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240608061013_test1")]
-    partial class test1
+    [Migration("20240608130852_InitialMigration")]
+    partial class InitialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

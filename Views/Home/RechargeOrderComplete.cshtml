@@ -1,4 +1,4 @@
-﻿@model OnlineMobileRecharge.Models.Recharge
+﻿@model OnlineMobileRecharge.Models.RechargeTransaction
 @{
     Layout = "_HomeLayout";
     ViewData["Title"] = "Order Complete";
@@ -46,7 +46,7 @@
                             </span>
                         </div>
                         <span class="fz-24 fw-700">
-                            $4531.00
+                            @Html.DisplayFor(model => model.Recharge.Recharge_Price)
                         </span>
                     </div>
                     <ul class="order__button mb__40 justify-content-center">
@@ -85,11 +85,11 @@
                         <ul>
                             <li>
                                 <span>Transactions ID</span>
-                                <span class="textbo">CDFF123476359</span>
+                                <span class="textbo">@Html.DisplayFor(model => model.RechargeTransaction_Id)</span>
                             </li>
                             <li>
                                 <span>Date</span>
-                                <span class="textbo">22-12-2022</span>
+                                <span class="textbo">@Html.DisplayFor(model => model.Transaction_Date)</span>
                             </li>
                             <li>
                                 <span>Mode of Payment</span>
@@ -100,20 +100,16 @@
                                 <span class="textbo">Success</span>
                             </li>
                             <li>
-                                <span>Customer Name</span>
-                                <span class="textbo">Wade Warren</span>
-                            </li>
-                            <li>
                                 <span>Mobile No</span>
-                                <span class="textbo">(406) 555-0120</span>
+                                <span class="textbo">@Html.DisplayFor(model => model.Mobile_Number)</span>
                             </li>
                             <li>
                                 <span>Subject</span>
-                                <span class="textbo">White Gloves</span>
+                                <span class="textbo">@Html.DisplayFor(model => model.Recharge.Recharge_Name)</span>
                             </li>
                             <li>
                                 <span>Payment Amount</span>
-                                <span class="textbo">$235.00</span>
+                                <span class="textbo">@Html.DisplayFor(model => model.Recharge.Recharge_Price)</span>
                             </li>
                         </ul>
                     </div>

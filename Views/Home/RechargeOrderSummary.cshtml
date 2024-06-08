@@ -115,7 +115,7 @@
                         <div class="probtn text-center pt__10">
                             <form class="row gap-2" asp-action="RechargeOrderSummary" method="post">
                                 <input hidden asp-for="@Model.Recharge_Id" />
-                                <input asp-for="@Model.Mobile_Number" class="form-control" placeholder="Phone Number" />
+                                <input asp-for="@Model.Mobile_Number" class="form-control" required placeholder="Phone Number" />
                                 <input type="submit" class="btn btn-primary text-white" value="Make Payment" />
                             </form>
                         </div>
