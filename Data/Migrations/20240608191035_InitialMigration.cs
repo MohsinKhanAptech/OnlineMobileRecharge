@@ -73,7 +73,8 @@ namespace OnlineMobileRecharge.Data.Migrations
                     Contact_Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Contact_Phone = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Contact_Intrest = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Contact_Message = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Contact_Message = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Date_Added = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -88,7 +89,8 @@ namespace OnlineMobileRecharge.Data.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Feedback_Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Feedback_Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Feedback_Message = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Feedback_Message = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Date_Added = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -101,7 +103,8 @@ namespace OnlineMobileRecharge.Data.Migrations
                 {
                     Newsletter_Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Newsletter_Email = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Newsletter_Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Date_Added = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -197,7 +200,8 @@ namespace OnlineMobileRecharge.Data.Migrations
                     ServiceTransaction_Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Tune_Id = table.Column<int>(type: "int", nullable: false),
-                    User_Id = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                    User_Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Transaction_Date = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -222,8 +226,11 @@ namespace OnlineMobileRecharge.Data.Migrations
                 {
                     PackageTransaction_Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    Session_Id = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     User_Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Package_Id = table.Column<int>(type: "int", nullable: false)
+                    Package_Id = table.Column<int>(type: "int", nullable: false),
+                    Mobile_Number = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Transaction_Date = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -274,7 +281,8 @@ namespace OnlineMobileRecharge.Data.Migrations
                     Tax_Id = table.Column<int>(type: "int", nullable: false),
                     TaxRateTax_Id = table.Column<int>(type: "int", nullable: false),
                     Mobile_Number = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Recharge_Type = table.Column<int>(type: "int", nullable: false)
+                    Recharge_Type = table.Column<int>(type: "int", nullable: false),
+                    Transaction_Date = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {

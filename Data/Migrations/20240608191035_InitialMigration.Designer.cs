@@ -12,7 +12,7 @@ using OnlineMobileRecharge.Data;
 namespace OnlineMobileRecharge.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240608130852_InitialMigration")]
+    [Migration("20240608191035_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />
@@ -279,6 +279,9 @@ namespace OnlineMobileRecharge.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<DateTime>("Date_Added")
+                        .HasColumnType("datetime2");
+
                     b.HasKey("Contact_Id");
 
                     b.ToTable("Contacts");
@@ -308,6 +311,9 @@ namespace OnlineMobileRecharge.Data.Migrations
                     b.Property<int>("Tax_Id")
                         .HasColumnType("int");
 
+                    b.Property<DateTime>("Transaction_Date")
+                        .HasColumnType("datetime2");
+
                     b.HasKey("CRecharge_Id");
 
                     b.HasIndex("TaxRateTax_Id");
@@ -322,6 +328,9 @@ namespace OnlineMobileRecharge.Data.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Feedback_Id"));
+
+                    b.Property<DateTime>("Date_Added")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Feedback_Email")
                         .IsRequired()
@@ -347,6 +356,9 @@ namespace OnlineMobileRecharge.Data.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Newsletter_Id"));
+
+                    b.Property<DateTime>("Date_Added")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Newsletter_Email")
                         .IsRequired()
@@ -407,8 +419,19 @@ namespace OnlineMobileRecharge.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PackageTransaction_Id"));
 
+                    b.Property<string>("Mobile_Number")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("Package_Id")
                         .HasColumnType("int");
+
+                    b.Property<string>("Session_Id")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("Transaction_Date")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("User_Id")
                         .IsRequired()
@@ -522,6 +545,9 @@ namespace OnlineMobileRecharge.Data.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ServiceTransaction_Id"));
+
+                    b.Property<DateTime>("Transaction_Date")
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("Tune_Id")
                         .HasColumnType("int");
