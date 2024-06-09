@@ -5,6 +5,7 @@ using OnlineMobileRecharge.Data;
 using OnlineMobileRecharge.Models;
 using Stripe.Checkout;
 using System.Diagnostics;
+using System.Drawing.Printing;
 using System.Security.Claims;
 
 namespace OnlineMobileRecharge.Controllers
@@ -32,26 +33,52 @@ namespace OnlineMobileRecharge.Controllers
 
         // Packages list page
         [Authorize]
-        public IActionResult Packages(string searchQuery, string packageType)
+        public IActionResult Packages(string searchQuery, int minPrice, int maxPrice, string packageType, string sortOrder, int page = 1, int pageSize = 8)
         {
             var packages = _context.Packages.ToList();
 
             switch (packageType)
             {
                 case "prepaid":
-                    packages = packages.FindAll(x => x.Package_Type.Equals(EnumPackageType.Prepaid));
+                    packages = packages.FindAll(p => p.Package_Type.Equals(EnumPackageType.Prepaid));
                     break;
                 case "postpaid":
-                    packages = packages.FindAll(x => x.Package_Type.Equals(EnumPackageType.Postpaid));
+                    packages = packages.FindAll(p => p.Package_Type.Equals(EnumPackageType.Postpaid));
+                    break;
+            }
+            if (searchQuery != null)
+            {
+                packages = packages.FindAll(x => x.Package_Name.ToLower().Contains(searchQuery.ToLower()));
+                page = 1;
+            }
+            if (minPrice >= 0 && maxPrice > 0 && minPrice <= maxPrice)
+            {
+                packages = packages.Where(p => p.Package_Price >= minPrice && p.Package_Price <= maxPrice).ToList();
+            }
+            switch (sortOrder)
+            {
+                case "name":
+                    packages = packages.OrderBy(p => p.Package_Name).ToList();
+                    break;
+                case "name_desc":
+                    packages = packages.OrderByDescending(p => p.Package_Name).ToList();
+                    break;
+                case "price":
+                    packages = packages.OrderBy(p => p.Package_Price).ToList();
+                    break;
+                case "price_desc":
+                    packages = packages.OrderByDescending(p => p.Package_Price).ToList();
                     break;
             }
 
-            if (searchQuery != null)
-            {
-                packages = packages.FindAll(x => x.Package_Name.Contains(searchQuery)/* || x.Package_Description.Contains(searchQuery)*/);
-            }
+            var totalCount = packages.Count;
+            var totalPages = (int)Math.Ceiling((decimal)totalCount / pageSize);
+            var itemsPerPage = packages.Skip((page-1) * pageSize).Take(pageSize).ToList();
 
-            return View(packages);
+            ViewData["totalPages"] = totalPages;
+            ViewData["currentPage"] = page;
+
+            return View(itemsPerPage);
         }
 
         // Package Order summary
@@ -137,26 +164,51 @@ namespace OnlineMobileRecharge.Controllers
         }
 
         // Recharges
-        public IActionResult Recharges(string searchQuery, string packageType)
+        public IActionResult Recharges(string searchQuery, int minPrice, int maxPrice, string packageType, string sortOrder, int page = 1, int pageSize = 8)
         {
             var recharges = _context.Recharges.ToList();
 
             switch (packageType)
             {
                 case "prepaid":
-                    recharges = recharges.FindAll(x => x.Recharge_Type.Equals(EnumPackageType.Prepaid));
+                    recharges = recharges.FindAll(r => r.Recharge_Type.Equals(EnumPackageType.Prepaid));
                     break;
                 case "postpaid":
-                    recharges = recharges.FindAll(x => x.Recharge_Type.Equals(EnumPackageType.Postpaid));
+                    recharges = recharges.FindAll(r => r.Recharge_Type.Equals(EnumPackageType.Postpaid));
+                    break;
+            }
+            if (searchQuery != null)
+            {
+                recharges = recharges.FindAll(x => x.Recharge_Name.ToLower().Contains(searchQuery.ToLower()));
+            }
+            if(minPrice >= 0 && maxPrice > 0 && minPrice <= maxPrice)
+            {
+                recharges = recharges.Where(r => r.Recharge_Price >= minPrice && r.Recharge_Price <= maxPrice).ToList();
+            }
+            switch (sortOrder)
+            {
+                case "name":
+                    recharges = recharges.OrderBy(r => r.Recharge_Name).ToList();
+                    break;
+                case "name_desc":
+                    recharges = recharges.OrderByDescending(r => r.Recharge_Name).ToList();
+                    break;
+                case "price":
+                    recharges = recharges.OrderBy(r => r.Recharge_Price).ToList();
+                    break;
+                case "price_desc":
+                    recharges = recharges.OrderByDescending(r => r.Recharge_Price).ToList();
                     break;
             }
 
-            if (searchQuery != null)
-            {
-                recharges = recharges.FindAll(x => x.Recharge_Name.Contains(searchQuery)/* || x.Package_Description.Contains(searchQuery)*/);
-            }
+            var totalCount = recharges.Count;
+            var totalPages = (int)Math.Ceiling((decimal)totalCount / pageSize);
+            var itemsPerPage = recharges.Skip((page - 1) * pageSize).Take(pageSize).ToList();
 
-            return View(recharges);
+            ViewData["totalPages"] = totalPages;
+            ViewData["currentPage"] = page;
+
+            return View(itemsPerPage);
         }
 
         // Recharge Order summary
