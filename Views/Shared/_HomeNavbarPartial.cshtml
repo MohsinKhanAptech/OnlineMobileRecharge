@@ -14,35 +14,27 @@
                     <img src="~/Home/assets/img/logo/favicon.png" alt="logo" />
                 </a>
             </div>
+            <div class="sigup__grp d-lg-none">
+                <ul class="main-menu d-flex align-items-center gap-2 p-0">
+                    @if (SignInManager.IsSignedIn(User))
+                    {
+                        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity?.Name!</a>
+                        <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                            <button type="submit" class="btn btn-outline-primary py-2" style="transition: 250ms;">Logout</button>
+                        </form>
+                    }
+                    else
+                    {
+                        <a asp-area="Identity" asp-page="/Account/Login" class="cmn__btn outline__btn">
+                            <span> Signin </span>
+                        </a>
+                        <a asp-area="Identity" asp-page="/Account/Register" class="cmn__btn">
+                            <span> Signup </span>
+                        </a>
+                    }
+                </ul>
+            </div>
             <div class="menu__right__components d-flex align-items-center">
-                <div class="sigup__grp d-lg-none">
-                    <ul class="main-menu">
-                        @if (SignInManager.IsSignedIn(User))
-                        {
-                            <li class="grid__style">
-                                <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity?.Name!</a>
-                            </li>
-                            <li class="grid__style">
-                                <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-                                    <button type="submit" class="nav-link btn btn-link text-dark">Logout</button>
-                                </form>
-                            </li>
-                        }
-                        else
-                        {
-                            <li class="grid__style">
-                                <a asp-area="Identity" asp-page="/Account/Login" class="cmn__btn outline__btn">
-                                    <span> Signin </span>
-                                </a>
-                            </li>
-                            <li class="grid__style">
-                                <a asp-area="Identity" asp-page="/Account/Register" class="cmn__btn">
-                                    <span> Signup </span>
-                                </a>
-                            </li>
-                        }
-                    </ul>
-                </div>
                 <div class="header-bar d-lg-none">
                     <span></span>
                     <span></span>
@@ -121,7 +113,7 @@
                 {
                     <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity?.Name!</a>
                     <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-                        <button type="submit" class="btn btn-outline-primary" style="transition: 250ms;">Logout</button>
+                        <button type="submit" class="btn btn-outline-primary py-2" style="transition: 250ms;">Logout</button>
                     </form>
                 }
                 else
