@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using OnlineMobileRecharge.Models;
+using SQLitePCL;
 
 namespace OnlineMobileRecharge.Data
 {
@@ -150,7 +151,7 @@ namespace OnlineMobileRecharge.Data
                     {
                         new CallerTune
                         {
-                            Tune_Name = "Default",
+                            Tune_Name = "Default Tune",
                             Tune_Description = "Default Caller Tune",
                             Tune_Path = "~/CallerTunes/Default.mp4",
                             Tune_Price = 0,
@@ -183,12 +184,23 @@ namespace OnlineMobileRecharge.Data
                     await userManager.CreateAsync(admin, adminPassword);
 
                     await userManager.AddToRoleAsync(admin, "Admin");
+
+                    // add service for user
+                    await context.Services.AddAsync(new Service()
+                    {
+                        User_Id = admin.Id,
+                        IdentityUser = admin,
+                        Caller_Tune_Id = 1,
+                        Caller_Tune = context.CallerTunes.Find(1),
+                        Do_Not_Disturb = false,
+                    });
+                    await context.SaveChangesAsync();
                 }
 
-                 string userName = "user";
-                 string userPhone = "03123456789";
-                 string userEmail = "user@user.com";
-                 string userPassword = "User!123";
+                string userName = "user";
+                string userPhone = "03123456789";
+                string userEmail = "user@user.com";
+                string userPassword = "User!123";
 
                 if (await userManager.FindByEmailAsync(userEmail) == null)
                 {
@@ -202,6 +214,17 @@ namespace OnlineMobileRecharge.Data
                     await userManager.CreateAsync(user, userPassword);
 
                     await userManager.AddToRoleAsync(user, "User");
+
+                    // add service for user
+                    await context.Services.AddAsync(new Service()
+                    {
+                        User_Id = user.Id,
+                        IdentityUser = user,
+                        Caller_Tune_Id = 1,
+                        Caller_Tune = context.CallerTunes.Find(1),
+                        Do_Not_Disturb = false,
+                    });
+                    await context.SaveChangesAsync();
                 }
             }
         }

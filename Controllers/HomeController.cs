@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using NuGet.Protocol;
 using OnlineMobileRecharge.Data;
 using OnlineMobileRecharge.Models;
 using Stripe.Checkout;
@@ -21,6 +22,8 @@ namespace OnlineMobileRecharge.Controllers
         public CustomRechargeTransaction customRechargeTransaction { get; set; }
         [BindProperty]
         public PackageTransaction packageTransaction { get; set; }
+        [BindProperty]
+        public ServiceTransaction tuneTransaction { get; set; }
 
         public HomeController(ILogger<HomeController> logger, ApplicationDbContext context)
         {
@@ -48,7 +51,7 @@ namespace OnlineMobileRecharge.Controllers
             }
             if (searchQuery != null)
             {
-                packages = packages.FindAll(x => x.Package_Name.ToLower().Contains(searchQuery.ToLower()));
+                packages = packages.FindAll(p => p.Package_Name.ToLower().Contains(searchQuery.ToLower()));
                 page = 1;
             }
             if (minPrice >= 0 && maxPrice > 0 && minPrice <= maxPrice)
@@ -73,7 +76,7 @@ namespace OnlineMobileRecharge.Controllers
 
             var totalCount = packages.Count;
             var totalPages = (int)Math.Ceiling((decimal)totalCount / pageSize);
-            var itemsPerPage = packages.Skip((page-1) * pageSize).Take(pageSize).ToList();
+            var itemsPerPage = packages.Skip((page - 1) * pageSize).Take(pageSize).ToList();
 
             ViewData["totalPages"] = totalPages;
             ViewData["currentPage"] = page;
@@ -121,7 +124,7 @@ namespace OnlineMobileRecharge.Controllers
                 },
                 LineItems = new List<SessionLineItemOptions>(),
                 Mode = "payment",
-                SuccessUrl = domain + $"Home/PackageOrderComplete/" + packageTransaction.PackageTransaction_Id,
+                SuccessUrl = domain + $"Home/PackageOrderComplete/{packageTransaction.PackageTransaction_Id}",
                 CancelUrl = domain + $"Home/Index"
             };
 
@@ -164,11 +167,11 @@ namespace OnlineMobileRecharge.Controllers
         }
 
         // Recharges
-        public IActionResult Recharges(string searchQuery, int minPrice, int maxPrice, string packageType, string sortOrder, int page = 1, int pageSize = 8)
+        public IActionResult Recharges(string searchQuery, int minPrice, int maxPrice, string rechargeType, string sortOrder, int page = 1, int pageSize = 8)
         {
             var recharges = _context.Recharges.ToList();
 
-            switch (packageType)
+            switch (rechargeType)
             {
                 case "prepaid":
                     recharges = recharges.FindAll(r => r.Recharge_Type.Equals(EnumPackageType.Prepaid));
@@ -179,9 +182,9 @@ namespace OnlineMobileRecharge.Controllers
             }
             if (searchQuery != null)
             {
-                recharges = recharges.FindAll(x => x.Recharge_Name.ToLower().Contains(searchQuery.ToLower()));
+                recharges = recharges.FindAll(r => r.Recharge_Name.ToLower().Contains(searchQuery.ToLower()));
             }
-            if(minPrice >= 0 && maxPrice > 0 && minPrice <= maxPrice)
+            if (minPrice >= 0 && maxPrice > 0 && minPrice <= maxPrice)
             {
                 recharges = recharges.Where(r => r.Recharge_Price >= minPrice && r.Recharge_Price <= maxPrice).ToList();
             }
@@ -287,18 +290,148 @@ namespace OnlineMobileRecharge.Controllers
         [Authorize]
         public IActionResult Services()
         {
-            var services = _context.Services.Where(x => x.IdentityUser.UserName == Environment.UserName).FirstOrDefault();
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var services = _context.Services.First(x => x.User_Id == userId);
+            services.Caller_Tune = _context.CallerTunes.Find(services.Caller_Tune_Id);
+            services.IdentityUser = _context.Users.Find(services.User_Id);
             return View(services);
         }
 
         // Caller Tune
         [Authorize]
-        public IActionResult CallerTunes()
+        public IActionResult CallerTunes(string searchQuery, int minPrice, int maxPrice, string sortOrder, int page = 1, int pageSize = 8)
         {
             var callerTunes = _context.CallerTunes.ToList();
-            return View(callerTunes);
+
+            if (searchQuery != null)
+            {
+                callerTunes = callerTunes.FindAll(x => x.Tune_Name.ToLower().Contains(searchQuery.ToLower()));
+            }
+            if (minPrice >= 0 && maxPrice > 0 && minPrice <= maxPrice)
+            {
+                callerTunes = callerTunes.Where(r => r.Tune_Price >= minPrice && r.Tune_Price <= maxPrice).ToList();
+            }
+            switch (sortOrder)
+            {
+                case "name":
+                    callerTunes = callerTunes.OrderBy(r => r.Tune_Name).ToList();
+                    break;
+                case "name_desc":
+                    callerTunes = callerTunes.OrderByDescending(r => r.Tune_Name).ToList();
+                    break;
+                case "price":
+                    callerTunes = callerTunes.OrderBy(r => r.Tune_Price).ToList();
+                    break;
+                case "price_desc":
+                    callerTunes = callerTunes.OrderByDescending(r => r.Tune_Price).ToList();
+                    break;
+            }
+
+            var totalCount = callerTunes.Count;
+            var totalPages = (int)Math.Ceiling((decimal)totalCount / pageSize);
+            var itemsPerPage = callerTunes.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+
+            ViewData["totalPages"] = totalPages;
+            ViewData["currentPage"] = page;
+
+            return View(itemsPerPage);
         }
 
+        // CallerTunes Order summary
+        [Authorize]
+        public IActionResult CallerTuneOrderSummary(int id)
+        {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var user = _context.Users.Find(userId);
+            tuneTransaction = new ServiceTransaction()
+            {
+                Tune_Id = id,
+                CallerTune = _context.CallerTunes.Find(id),
+                User_Id = userId,
+                IdentityUser = user,
+                Mobile_Number = user.PhoneNumber,
+                Transaction_Date = DateTime.Now,
+            };
+            return View(tuneTransaction);
+        }
+
+        // POST CallerTunes Order summary
+        [Authorize]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult CallerTuneOrderSummary()
+        {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var user = _context.Users.Find(userId);
+
+            tuneTransaction.User_Id = userId;
+            tuneTransaction.IdentityUser = user;
+            tuneTransaction.Mobile_Number = user.PhoneNumber;
+            tuneTransaction.CallerTune = _context.CallerTunes.Find(tuneTransaction.Tune_Id);
+            tuneTransaction.Transaction_Date = DateTime.Now;
+            tuneTransaction.Session_Id = "0";
+            _context.ServiceTransactions.Add(tuneTransaction);
+            _context.SaveChanges();
+
+            var domain = "https://localhost:7147/";
+            var options = new SessionCreateOptions
+            {
+                PaymentMethodTypes = new List<string> {
+                    "card",
+                },
+                LineItems = new List<SessionLineItemOptions>(),
+                Mode = "payment",
+                SuccessUrl = domain + $"Home/CallerTuneOrderComplete/{tuneTransaction.ServiceTransaction_Id}",
+                CancelUrl = domain + $"Home/Index"
+            };
+
+            var sessionLineItem = new SessionLineItemOptions
+            {
+                PriceData = new SessionLineItemPriceDataOptions
+                {
+                    UnitAmount = (long)(tuneTransaction.CallerTune.Tune_Price * 100),
+                    Currency = "PKR",
+                    ProductData = new SessionLineItemPriceDataProductDataOptions
+                    {
+                        Name = tuneTransaction.CallerTune.Tune_Name
+                    },
+                },
+                Quantity = 1
+
+            };
+            options.LineItems.Add(sessionLineItem);
+
+            var service = new SessionService();
+            Session session = service.Create(options);
+            rechargeTransaction.Session_Id = session.Id;
+            _context.SaveChanges();
+            Response.Headers.Append("Location", session.Url);
+            _context.SaveChanges();
+            return new StatusCodeResult(303);
+        }
+
+        // CallerTunes Order complete
+        [Authorize]
+        public IActionResult CallerTuneOrderComplete(int id)
+        {
+            var tuneTransaction = _context.ServiceTransactions.Find(id);
+            tuneTransaction.CallerTune = _context.CallerTunes.Find(tuneTransaction.Tune_Id);
+            if (tuneTransaction == null)
+            {
+                return View(nameof(CallerTunes));
+            }
+            return View(tuneTransaction);
+        }
+
+        // Do Not Disturb
+        public IActionResult DoNotDisturb(int serviceId, bool doNotDisturb)
+        {
+            var service = _context.Services.Find(serviceId);
+            service.Do_Not_Disturb = doNotDisturb;
+            _context.Services.Update(service);
+            _context.SaveChanges();
+            return RedirectToAction(nameof(Services));
+        }
         // contact us page
         public IActionResult Contact() { return View(); }
 

@@ -1,4 +1,4 @@
-﻿@model OnlineMobileRecharge.Models.PackageTransaction
+﻿@model OnlineMobileRecharge.Models.ServiceTransaction
 @{
     Layout = "_HomeLayout";
     ViewData["Title"] = "Order Complete";
@@ -46,7 +46,7 @@
                             </span>
                         </div>
                         <span class="fz-24 fw-700">
-                            @Html.DisplayFor(model => model.Package.Package_Price)
+                            @Html.DisplayFor(model => model.CallerTune.Tune_Price)
                         </span>
                     </div>
                     <ul class="order__button mb__40 justify-content-center">
@@ -72,13 +72,13 @@
                             </i>
                         </div>
                         <h3>Payment Successful</h3>
-                        <p class="primary-text">Thank you for your purchase.</p>
+                        <p class="primary-text">Recharge Confirmed.</p>
                     </div>
                     <div class="payment__success__body">
                         <ul>
                             <li>
                                 <span>Transactions ID</span>
-                                <span class="textbo">@Html.DisplayFor(model => model.PackageTransaction_Id)</span>
+                                <span class="textbo">@Html.DisplayFor(model => model.ServiceTransaction_Id)</span>
                             </li>
                             <li>
                                 <span>Date</span>
@@ -93,20 +93,16 @@
                                 <span class="textbo">Success</span>
                             </li>
                             <li>
-                                <span>Customer Name</span>
-                                <span class="textbo">@Html.DisplayFor(model => model.IdentityUser.UserName)</span>
-                            </li>
-                            <li>
                                 <span>Mobile No</span>
                                 <span class="textbo">@Html.DisplayFor(model => model.Mobile_Number)</span>
                             </li>
                             <li>
                                 <span>Subject</span>
-                                <span class="textbo">@Html.DisplayFor(model => model.Package.Package_Name)</span>
+                                <span class="textbo">@Html.DisplayFor(model => model.CallerTune.Tune_Name)</span>
                             </li>
                             <li>
-                                <span>Price</span>
-                                <span class="textbo">@Html.DisplayFor(model => model.Package.Package_Price)</span>
+                                <span>Payment Amount</span>
+                                <span class="textbo">@Html.DisplayFor(model => model.CallerTune.Tune_Price)</span>
                             </li>
                         </ul>
                     </div>
@@ -144,7 +140,7 @@
                             </a>
                         </div>
                         <div class="dbutton">
-                            <a asp-action="Packages" class="cmn__btn"><span> Go Back </span></a>
+                            <a asp-action="CallerTunes" class="cmn__btn"><span> Go Back </span></a>
                         </div>
                     </div>
                 </div>

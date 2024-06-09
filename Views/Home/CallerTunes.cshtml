@@ -10,7 +10,7 @@
     <div class="container">
         <div class="breadcumnd__wrapper">
             <h2 class="bread__title">
-                Recharges
+                Caller Tunes
             </h2>
             <ul class="breadcumnd__link">
                 <li>
@@ -40,70 +40,101 @@
                 <div class="order__wrappers">
                     <div class="choose__valu">
                         <div class="oparator__texts">
-                            <h5>Recharges</h5>
+                            <h5>Caller Tunes</h5>
                         </div>
-                        <div class="card border-secondary-subtle">
-                            <div class="table-responsive rounded">
-                                <table class="table text-center">
-                                    <thead>
-                                        <tr class="bg-secondary-subtle">
-                                            <th scope="col">@Html.DisplayNameFor(model => model.Tune_Name)</th>
-                                            <th scope="col">@Html.DisplayNameFor(model => model.Tune_Description)</th>
-                                            <th scope="col">@Html.DisplayNameFor(model => model.Tune_Price)</th>
-                                            <th scope="col">Audio</th>
-                                            <th scope="col">Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach (var item in Model)
-                                        {
-                                            <tr>
-                                                <td><span class="d-block pt-3 mt-1">@Html.DisplayFor(modelItem => item.Tune_Name)</span></td>
-                                                <td><span class="d-block pt-3 mt-1">@Html.DisplayFor(modelItem => item.Tune_Description)</span></td>
-                                                <td><span class="d-block pt-3 mt-1">@Html.DisplayFor(modelItem => item.Tune_Price)</span></td>
-                                                <td>
-                                                    <span class="d-block mt-1">
-                                                        <audio controls src="@item.Tune_Path"></audio>
-                                                    </span>
-                                                </td>
-                                                <td><a asp-action="ServiceEdit" asp-route-id="@item.Tune_Id" class="cmn__btn mt-1"><span>Edit</span></a></td>
-                                            </tr>
-                                        }
-                                    </tbody>
-                                </table>
+                        <form asp-action="CallerTunes" method="get" id="tunePackagesForm" class="d-grid">
+                            <div class="section__header pb__40">
+                                <div class="d-flex flex-column gap-2">
+                                    <div class="w-100 d-flex flex-nowrap gap-0 border rounded">
+                                        <input id="searchQuery" name="searchQuery" class="form-control border-0" type="text" placeholder="Search..." />
+                                        <button class="btn btn-primary" type="submit">
+                                            <i class="fa-solid fa-magnifying-glass"></i>
+                                        </button>
+                                    </div>
+                                    <div>
+                                        <select id="sortOrder" name="sortOrder" class="form-control" onchange="formSubmit()">
+                                            <option value="name">Name Ascending</option>
+                                            <option value="name_desc">Name Descending</option>
+                                            <option value="price">Price Ascending</option>
+                                            <option value="price_desc">Price Descending</option>
+                                        </select>
+                                    </div>
+                                    <div class="w-100 d-flex flex-column flex-lg-row gap-2">
+                                        <input type="number" id="minPrice" name="minPrice" class="form-control" placeholder="Minimum Price" />
+                                        <input type="number" id="maxPrice" name="maxPrice" class="form-control" placeholder="Maximum Price" />
+                                    </div>
+                                    <input class="btn btn-primary" type="submit" value="Filter" />
+                                </div>
                             </div>
-                            <div class="pagination justify-content-center pt__10 pb__30">
-                                <a href="javascript:void(0)">
+                            <div class="card border-secondary-subtle">
+                                <div class="table-responsive rounded">
+                                    <table class="table text-center">
+                                        <thead>
+                                            @if (Model.Any() == true)
+                                            {
+                                                <tr class="bg-secondary-subtle">
+                                                    <th scope="col">@Html.DisplayNameFor(model => model.Tune_Name)</th>
+                                                    <th scope="col d-none d-md-table-cell">@Html.DisplayNameFor(model => model.Tune_Description)</th>
+                                                    <th scope="col">@Html.DisplayNameFor(model => model.Tune_Price)</th>
+                                                    <th scope="col">Audio</th>
+                                                    <th scope="col">Action</th>
+                                                </tr>
+                                            }
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var item in Model)
+                                            {
+                                                <tr>
+                                                    <td>
+                                                        <span class="d-block pt-3 mt-1">@Html.DisplayFor(modelItem => item.Tune_Name)</span>
+                                                    </td>
+                                                    <td class="d-none d-md-table-cell">
+                                                        <span class="d-block pt-3 mt-1">@Html.DisplayFor(modelItem => item.Tune_Description)</span>
+                                                    </td>
+                                                    <td>
+                                                        <span class="d-block pt-3 mt-1">@Html.DisplayFor(modelItem => item.Tune_Price)</span>
+                                                    </td>
+                                                    <td>
+                                                        <span class="d-block mt-1">
+                                                            <audio controls src="@item.Tune_Path"></audio>
+                                                        </span>
+                                                    </td>
+                                                    <td>
+                                                        <a asp-action="CallerTuneOrderSummary" asp-route-id="@item.Tune_Id" class="cmn__btn mt-2 py-2 rounded">
+                                                            <span>Activate</span>
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            }
+                                            @if (Model.Any() == false)
+                                            {
+                                                <div class="d3 text-center p-2 my-4">No Results Found</div>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="pagination justify-content-center pt__40">
+                                <a href="javascript:void(0)" onclick="formSubmit(1)">
                                     <span>
-                                        <i class="material-symbols-outlined">
-                                            navigate_before
-                                        </i>
+                                        <i class="material-symbols-outlined"> keyboard_double_arrow_left </i>
                                     </span>
                                 </a>
-                                <a href="javascript:void(0)">
-                                    1
-                                </a>
-                                <a href="javascript:void(0)">
-                                    2
-                                </a>
-                                <a href="javascript:void(0)">
-                                    3
-                                </a>
-                                <a href="javascript:void(0)">
-                                    ....
-                                </a>
-                                <a href="javascript:void(0)">
-                                    30
-                                </a>
-                                <a href="javascript:void(0)">
+                                <a href="javascript:void(0)" onclick="formSubmit(@ViewData["currentPage"]-1)">
                                     <span>
-                                        <i class="material-symbols-outlined">
-                                            chevron_right
-                                        </i>
+                                        <i class="material-symbols-outlined"> navigate_before </i>
                                     </span>
                                 </a>
+                                <a href="javascript:void(0)"> @ViewData["currentPage"] </a>
+                                <a href="javascript:void(0)" onclick="formSubmit(@ViewData["currentPage"]+1)">
+                                    <span>
+                                        <i class="material-symbols-outlined"> chevron_right </i>
+                                    </span>
+                                </a>
+                                <span class="text-secondary ms-auto"> Page @ViewData["currentPage"]  /  @ViewData["totalPages"] </span>
+                                <input type="hidden" id="page" name="page" value="" />
                             </div>
-                        </div>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -111,3 +142,33 @@
     </div>
 </section>
 <!-- CallerTune Section Here -->
+<script>
+    function formSubmit(page) {
+        document.getElementById("page").value = page;
+        document.getElementById('tunePackagesForm').submit()
+    };
+
+    let params = new URLSearchParams(location.search);
+    document.getElementById("searchQuery").value = params.get("searchQuery");
+    let sortOrder = params.get("sortOrder");
+    let minPrice = params.get("minPrice");
+    let maxPrice = params.get("maxPrice");
+
+    document.getElementById("minPrice").value = minPrice;
+    document.getElementById("maxPrice").value = maxPrice;
+
+    switch (sortOrder) {
+        case "name":
+            document.querySelector("option[value='name']").setAttribute("selected", "selected");
+            break;
+        case "name_desc":
+            document.querySelector("option[value='name_desc']").setAttribute("selected", "selected");
+            break;
+        case "price":
+            document.querySelector("option[value='price']").setAttribute("selected", "selected");
+            break;
+        case "price_desc":
+            document.querySelector("option[value='price_desc']").setAttribute("selected", "selected");
+            break;
+    }
+</script>

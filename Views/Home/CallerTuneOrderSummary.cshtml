@@ -1,0 +1,120 @@
+﻿@model OnlineMobileRecharge.Models.ServiceTransaction
+@{
+    Layout = "_HomeLayout";
+    ViewData["Title"] = "Order Summary";
+}
+
+<!-- breadcumnd banner Here -->
+<section class="breadcumnd__banner p-5 mt-2">
+    <!--Container-->
+    <div class="container">
+        <div class="breadcumnd__wrapper">
+            <h2 class="bread__title">
+                Order Summary
+            </h2>
+            <ul class="breadcumnd__link">
+                <li>
+                    <a asp-action="Index">
+                        Home
+                    </a>
+                </li>
+                <li>
+                    <i class="material-symbols-outlined">
+                        chevron_right
+                    </i>
+                </li>
+                <li>
+                    Order Summary
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!--Container-->
+</section>
+<!-- breadcumnd banner End -->
+<!-- order here -->
+<section class="order__section pt__60 pb__60">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-xxl-8 col-xl-10 col-lg-12">
+                <div class="order__wrappers">
+                    <div class="order__boxes order__boxestwo">
+                        <div class="available__balance pb__40">
+                            <div class="balance">
+                                <img src="~/Home/assets/img/payment/balance.png" alt="img">
+                                <span class="title fz-24 fw-700">
+                                    Your Order
+                                </span>
+                            </div>
+                            <span class="fz-24 fw-700">
+                                @Html.DisplayFor(model => model.CallerTune.Tune_Price)
+                            </span>
+                        </div>
+                        <ul class="order__button mb__40 justify-content-center">
+                            <li>
+                                <a href="javascript:void(0)" class="cmn__order active">
+                                    <span>
+                                        Summary
+                                    </span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="javascript:void(0)" class="cmn__order">
+                                    <span>
+                                        Done
+                                    </span>
+                                </a>
+                            </li>
+                        </ul>
+                        <div class="order__summary__wrapper mb__30">
+                            <div class="over__responsive">
+                                <h5 class="summary__title">Order Summary</h5>
+                                <div class="order__table__fluid">
+                                    <div class="order__table__items bg__add">
+                                        <span>
+                                            Mobile No.
+                                        </span>
+                                        <span>
+                                            Tune Name
+                                        </span>
+                                        <span>
+                                            Price
+                                        </span>
+                                    </div>
+                                    <div class="order__table__items">
+                                        <span>
+                                            @Html.DisplayFor(model => model.Mobile_Number)
+                                        </span>
+                                        <span>
+                                            @Html.DisplayFor(model => model.CallerTune.Tune_Name)
+                                        </span>
+                                        <span>
+                                            @Html.DisplayFor(model => model.CallerTune.Tune_Price)
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="order__table__box m-0 mw-100">
+                                    <div class="order__graph">
+                                        <ul>
+                                            <li>
+                                                <span>Total:</span>
+                                                <span class="bg">@Html.DisplayFor(model => model.CallerTune.Tune_Price)</span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="probtn text-center pt__10">
+                            <form class="row gap-2" asp-action="CallerTuneOrderSummary" method="post">
+                                <input hidden asp-for="@Model.Tune_Id" />
+                                <input type="submit" class="btn btn-primary text-white" value="Make Payment" />
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- order End -->
