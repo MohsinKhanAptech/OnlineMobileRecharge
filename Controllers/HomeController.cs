@@ -16,7 +16,9 @@ namespace OnlineMobileRecharge.Controllers
 
         [BindProperty]
         public RechargeTransaction rechargeTransaction { get; set; }
+        [BindProperty]
         public CustomRechargeTransaction customRechargeTransaction { get; set; }
+        [BindProperty]
         public PackageTransaction packageTransaction { get; set; }
 
         public HomeController(ILogger<HomeController> logger, ApplicationDbContext context)
@@ -56,13 +58,12 @@ namespace OnlineMobileRecharge.Controllers
         [Authorize]
         public IActionResult PackageOrderSummary(int id)
         {
-            var user = User;
-            var claims = user.FindFirst(ClaimTypes.NameIdentifier);
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
 
             packageTransaction = new PackageTransaction()
             {
-                IdentityUser = _context.Users.Find(claims.Value),
-                User_Id = claims.Value,
+                User_Id = userId,
+                IdentityUser = _context.Users.Find(userId),
                 Package_Id = id,
                 Package = _context.Packages.Find(id)
             };
@@ -75,10 +76,10 @@ namespace OnlineMobileRecharge.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult PackageOrderSummary()
         {
-            var user = User;
-            var claims = user.FindFirst(ClaimTypes.NameIdentifier);
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
 
-            packageTransaction.IdentityUser = _context.Users.Find(claims.Value);
+            packageTransaction.User_Id = userId;
+            packageTransaction.IdentityUser = _context.Users.Find(userId);
             packageTransaction.Package = _context.Packages.Find(packageTransaction.Package_Id);
             packageTransaction.Transaction_Date = DateTime.Now;
             packageTransaction.Session_Id = "0";
@@ -117,7 +118,7 @@ namespace OnlineMobileRecharge.Controllers
             Session session = service.Create(options);
             packageTransaction.Session_Id = session.Id;
             _context.SaveChanges();
-            Response.Headers.Add("Location", session.Url);
+            Response.Headers.Append("Location", session.Url);
             _context.SaveChanges();
             return new StatusCodeResult(303);
         }
@@ -213,7 +214,7 @@ namespace OnlineMobileRecharge.Controllers
             Session session = service.Create(options);
             rechargeTransaction.Session_Id = session.Id;
             _context.SaveChanges();
-            Response.Headers.Add("Location", session.Url);
+            Response.Headers.Append("Location", session.Url);
             _context.SaveChanges();
             return new StatusCodeResult(303);
         }

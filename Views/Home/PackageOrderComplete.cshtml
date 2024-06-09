@@ -1,4 +1,4 @@
-﻿@model OnlineMobileRecharge.Models.Package
+﻿@model OnlineMobileRecharge.Models.PackageTransaction
 @{
     Layout = "_HomeLayout";
     ViewData["Title"] = "Order Complete";
@@ -46,7 +46,7 @@
                             </span>
                         </div>
                         <span class="fz-24 fw-700">
-                            $4531.00
+                            @Html.DisplayFor(model => model.Package.Package_Price)
                         </span>
                     </div>
                     <ul class="order__button mb__40 justify-content-center">
@@ -72,17 +72,17 @@
                             </i>
                         </div>
                         <h3>Payment Successful</h3>
-                        <p class="primary-text">We are processing the same and you will be notified via email.</p>
+                        <p class="primary-text">Thank you for your purchase.</p>
                     </div>
                     <div class="payment__success__body">
                         <ul>
                             <li>
                                 <span>Transactions ID</span>
-                                <span class="textbo">CDFF123476359</span>
+                                <span class="textbo">@Html.DisplayFor(model => model.PackageTransaction_Id)</span>
                             </li>
                             <li>
                                 <span>Date</span>
-                                <span class="textbo">22-12-2022</span>
+                                <span class="textbo">@Html.DisplayFor(model => model.Transaction_Date)</span>
                             </li>
                             <li>
                                 <span>Mode of Payment</span>
@@ -94,19 +94,19 @@
                             </li>
                             <li>
                                 <span>Customer Name</span>
-                                <span class="textbo">Wade Warren</span>
+                                <span class="textbo">@Html.DisplayFor(model => model.IdentityUser.UserName)</span>
                             </li>
                             <li>
                                 <span>Mobile No</span>
-                                <span class="textbo">(406) 555-0120</span>
+                                <span class="textbo">@Html.DisplayFor(model => model.Mobile_Number)</span>
                             </li>
                             <li>
                                 <span>Subject</span>
-                                <span class="textbo">White Gloves</span>
+                                <span class="textbo">@Html.DisplayFor(model => model.Package.Package_Name)</span>
                             </li>
                             <li>
-                                <span>Payment Amount</span>
-                                <span class="textbo">$235.00</span>
+                                <span>Price</span>
+                                <span class="textbo">@Html.DisplayFor(model => model.Package.Package_Price)</span>
                             </li>
                         </ul>
                     </div>
