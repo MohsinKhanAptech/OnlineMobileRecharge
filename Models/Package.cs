@@ -46,6 +46,7 @@ namespace OnlineMobileRecharge.Models
     public enum EnumPackageType
     {
         Prepaid,
-        Postpaid
+        Postpaid,
+        Special
     }
 }

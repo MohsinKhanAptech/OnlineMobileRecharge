@@ -54,8 +54,8 @@
                                     <div class="w-100 d-flex flex-column flex-lg-row gap-2">
                                         <select id="rechargeType" name="rechargeType" class="form-control" onchange="formSubmit()">
                                             <option value="">All</option>
-                                            <option value="Top_up">Top_up</option>
-                                            <option value="Special">Special</option>
+                                            <option value="top_up">Top_up</option>
+                                            <option value="special">Special</option>
                                             <option value="postpaid">postpaid</option>
                                         </select>
                                         <select id="sortOrder" name="sortOrder" class="form-control" onchange="formSubmit()">
@@ -153,11 +153,14 @@
     document.getElementById("maxPrice").value = maxPrice;
 
     switch (rechargeType) {
-        case "prepaid":
-            document.querySelector("option[value='prepaid']").setAttribute("selected", "selected");
+        case "top_up":
+            document.querySelector("option[value='top_up']").setAttribute("selected", "selected");
             break;
         case "postpaid":
             document.querySelector("option[value='postpaid']").setAttribute("selected", "selected");
+            break;
+        case "special":
+            document.querySelector("option[value='special']").setAttribute("selected", "selected");
             break;
     }
     switch (sortOrder) {

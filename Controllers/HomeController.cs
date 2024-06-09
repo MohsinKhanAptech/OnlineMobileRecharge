@@ -179,6 +179,9 @@ namespace OnlineMobileRecharge.Controllers
                 case "postpaid":
                     recharges = recharges.FindAll(r => r.Recharge_Type.Equals(EnumPackageType.Postpaid));
                     break;
+                case "special":
+                    recharges = recharges.FindAll(r => r.Recharge_Type.Equals(EnumPackageType.Special));
+                    break;
             }
             if (searchQuery != null)
             {
