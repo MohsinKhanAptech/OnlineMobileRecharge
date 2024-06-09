@@ -31,7 +31,8 @@
     </div>
     <!--Container-->
 </section>
-<!-- breadcumnd banner End --><!-- Recharges Section Here -->
+<!-- breadcumnd banner End -->
+<!-- Recharges Section Here -->
 <section class="flight__onewaysection pb__60 pt-5">
     <div class="container">
         <div class="row justify-content-center">
@@ -77,14 +78,14 @@
                                         <thead>
                                             @if (Model.Any() == true)
                                             {
-                                            <tr class="bg-secondary-subtle">
-                                                <th scope="col">@Html.DisplayNameFor(model => model.Recharge_Name)</th>
-                                                <th scope="col">@Html.DisplayNameFor(model => model.Recharge_Amount)</th>
-                                                <th scope="col">@Html.DisplayNameFor(model => model.Recharge_Tax_Rate)</th>
-                                                <th scope="col">@Html.DisplayNameFor(model => model.Recharge_Type)</th>
-                                                <th scope="col">@Html.DisplayNameFor(model => model.Recharge_Price)</th>
-                                                <th scope="col">Buy Now</th>
-                                            </tr>
+                                                <tr class="bg-secondary-subtle">
+                                                    <th scope="col">@Html.DisplayNameFor(model => model.Recharge_Name)</th>
+                                                    <th scope="col">@Html.DisplayNameFor(model => model.Recharge_Amount)</th>
+                                                    <th scope="col">@Html.DisplayNameFor(model => model.Recharge_Tax_Rate)</th>
+                                                    <th scope="col">@Html.DisplayNameFor(model => model.Recharge_Type)</th>
+                                                    <th scope="col">@Html.DisplayNameFor(model => model.Recharge_Price)</th>
+                                                    <th scope="col">Buy Now</th>
+                                                </tr>
                                             }
                                         </thead>
                                         <tbody>
