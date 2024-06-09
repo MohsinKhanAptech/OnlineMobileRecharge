@@ -12,7 +12,7 @@ using OnlineMobileRecharge.Data;
 namespace OnlineMobileRecharge.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240608191035_InitialMigration")]
+    [Migration("20240609184019_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />
@@ -545,6 +545,14 @@ namespace OnlineMobileRecharge.Data.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ServiceTransaction_Id"));
+
+                    b.Property<string>("Mobile_Number")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Session_Id")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("Transaction_Date")
                         .HasColumnType("datetime2");

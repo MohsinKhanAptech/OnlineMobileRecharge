@@ -543,6 +543,14 @@ namespace OnlineMobileRecharge.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ServiceTransaction_Id"));
 
+                    b.Property<string>("Mobile_Number")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Session_Id")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("Transaction_Date")
                         .HasColumnType("datetime2");
 

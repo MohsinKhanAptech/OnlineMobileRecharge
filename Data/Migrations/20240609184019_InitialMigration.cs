@@ -199,8 +199,10 @@ namespace OnlineMobileRecharge.Data.Migrations
                 {
                     ServiceTransaction_Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    Session_Id = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Tune_Id = table.Column<int>(type: "int", nullable: false),
                     User_Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Mobile_Number = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Transaction_Date = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
