@@ -19,8 +19,8 @@ builder.Services.Configure<StripeSetting>(builder.Configuration.GetSection("Stri
 
 builder.Services.AddIdentity<IdentityUser, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<ApplicationDbContext>()
-    .AddRoles<IdentityRole>()
-    .AddDefaultTokenProviders();
+    .AddDefaultTokenProviders()
+    .AddRoles<IdentityRole>();
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();

@@ -166,30 +166,38 @@ namespace OnlineMobileRecharge.Data
                     await roleManager.CreateAsync(new IdentityRole("User"));
                 }
 
+                string adminName = "admin";
+                string adminPhone = "03012345678";
                 string adminEmail = "admin@admin.com";
                 string adminPassword = "Admin!123";
 
                 if (await userManager.FindByEmailAsync(adminEmail) == null)
                 {
                     var admin = new IdentityUser();
-                    admin.UserName = adminEmail;
+                    admin.UserName = adminName;
+                    admin.PhoneNumber = adminPhone;
                     admin.Email = adminEmail;
                     admin.EmailConfirmed = true;
+                    admin.PhoneNumberConfirmed = true;
 
                     await userManager.CreateAsync(admin, adminPassword);
 
                     await userManager.AddToRoleAsync(admin, "Admin");
                 }
 
+                 string userName = "user";
+                 string userPhone = "03123456789";
                  string userEmail = "user@user.com";
                  string userPassword = "User!123";
 
                 if (await userManager.FindByEmailAsync(userEmail) == null)
                 {
                     var user = new IdentityUser();
-                    user.UserName = userEmail;
+                    user.UserName = userName;
+                    user.PhoneNumber = userPhone;
                     user.Email = userEmail;
                     user.EmailConfirmed = true;
+                    user.PhoneNumberConfirmed = true;
 
                     await userManager.CreateAsync(user, userPassword);
 
