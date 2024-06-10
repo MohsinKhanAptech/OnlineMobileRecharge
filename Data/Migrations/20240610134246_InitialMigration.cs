@@ -277,18 +277,20 @@ namespace OnlineMobileRecharge.Data.Migrations
                 name: "CustomRechargeTransactions",
                 columns: table => new
                 {
-                    CRecharge_Id = table.Column<int>(type: "int", nullable: false)
+                    CustomRecharge_Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    CRecharge_Price = table.Column<double>(type: "float", nullable: false),
+                    Session_Id = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Recharge_Price = table.Column<double>(type: "float", nullable: false),
                     Tax_Id = table.Column<int>(type: "int", nullable: false),
                     TaxRateTax_Id = table.Column<int>(type: "int", nullable: false),
+                    Recharge_Amount = table.Column<double>(type: "float", nullable: false),
                     Mobile_Number = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Recharge_Type = table.Column<int>(type: "int", nullable: false),
                     Transaction_Date = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_CustomRechargeTransactions", x => x.CRecharge_Id);
+                    table.PrimaryKey("PK_CustomRechargeTransactions", x => x.CustomRecharge_Id);
                     table.ForeignKey(
                         name: "FK_CustomRechargeTransactions_TaxRates_TaxRateTax_Id",
                         column: x => x.TaxRateTax_Id,

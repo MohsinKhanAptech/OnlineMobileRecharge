@@ -12,7 +12,7 @@ using OnlineMobileRecharge.Data;
 namespace OnlineMobileRecharge.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240609184019_InitialMigration")]
+    [Migration("20240610134246_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />
@@ -289,21 +289,28 @@ namespace OnlineMobileRecharge.Data.Migrations
 
             modelBuilder.Entity("OnlineMobileRecharge.Models.CustomRechargeTransaction", b =>
                 {
-                    b.Property<int>("CRecharge_Id")
+                    b.Property<int>("CustomRecharge_Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CRecharge_Id"));
-
-                    b.Property<double>("CRecharge_Price")
-                        .HasColumnType("float");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CustomRecharge_Id"));
 
                     b.Property<string>("Mobile_Number")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<double>("Recharge_Amount")
+                        .HasColumnType("float");
+
+                    b.Property<double>("Recharge_Price")
+                        .HasColumnType("float");
+
                     b.Property<int>("Recharge_Type")
                         .HasColumnType("int");
+
+                    b.Property<string>("Session_Id")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("TaxRateTax_Id")
                         .HasColumnType("int");
@@ -314,7 +321,7 @@ namespace OnlineMobileRecharge.Data.Migrations
                     b.Property<DateTime>("Transaction_Date")
                         .HasColumnType("datetime2");
 
-                    b.HasKey("CRecharge_Id");
+                    b.HasKey("CustomRecharge_Id");
 
                     b.HasIndex("TaxRateTax_Id");
 

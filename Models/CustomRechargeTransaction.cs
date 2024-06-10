@@ -7,14 +7,20 @@ namespace OnlineMobileRecharge.Models
     {
         [Key]
         [DisplayName("Id")]
-        public int CRecharge_Id { get; set; }
+        public int CustomRecharge_Id { get; set; }
+        [Required]
+        [DisplayName("Session Id")]
+        public string Session_Id { get; set; }
         [Required]
         [DisplayName("Price")]
-        public double CRecharge_Price { get; set; }
+        public double Recharge_Price { get; set; }
         [Required]
         [DisplayName("Tax Rate")]
         public int Tax_Id { get; set; }
         public TaxRate TaxRate { get; set; }
+        [Required]
+        [DisplayName("Amount")]
+        public double Recharge_Amount { get; set; }
         [Required, Phone]
         [DisplayName("Mobile Number")]
         public string Mobile_Number { get; set; }
