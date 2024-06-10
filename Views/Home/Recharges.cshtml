@@ -92,12 +92,12 @@
                                             @foreach (var item in Model)
                                             {
                                                 <tr>
-                                                    <td><span class="d-block pt-3 mt-1">@Html.DisplayFor(modelItem => item.Recharge_Name)</span></td>
-                                                    <td><span class="d-block pt-3 mt-1">@Html.DisplayFor(modelItem => item.Recharge_Amount)</span></td>
-                                                    <td><span class="d-block pt-3 mt-1">@Html.DisplayFor(modelItem => item.Recharge_Tax_Rate)</span></td>
-                                                    <td><span class="d-block pt-3 mt-1">@Html.DisplayFor(modelItem => item.Recharge_Type)</span></td>
-                                                    <td><span class="d-block pt-3 mt-1">@Html.DisplayFor(modelItem => item.Recharge_Price)</span></td>
-                                                    <td><a asp-action="RechargeOrderSummary" asp-route-id="@item.Recharge_Id" class="cmn__btn mt-1"><span>Buy</span></a></td>
+                                                    <td><span class="d-block pt-2 mt-1">@Html.DisplayFor(modelItem => item.Recharge_Name)</span></td>
+                                                    <td><span class="d-block pt-2 mt-1">@Html.DisplayFor(modelItem => item.Recharge_Amount)</span></td>
+                                                    <td><span class="d-block pt-2 mt-1">@Html.DisplayFor(modelItem => item.Recharge_Tax_Rate)</span></td>
+                                                    <td><span class="d-block pt-2 mt-1">@Html.DisplayFor(modelItem => item.Recharge_Type)</span></td>
+                                                    <td><span class="d-block pt-2 mt-1">@Html.DisplayFor(modelItem => item.Recharge_Price)</span></td>
+                                                    <td><a asp-action="RechargeOrderSummary" asp-route-id="@item.Recharge_Id" class="cmn__btn mt-1 rounded"><span>Buy</span></a></td>
                                                 </tr>
                                             }
                                             @if (Model.Any() == false)

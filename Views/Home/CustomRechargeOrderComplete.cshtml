@@ -1,4 +1,4 @@
-﻿@model OnlineMobileRecharge.Models.RechargeTransaction
+﻿@model OnlineMobileRecharge.Models.CustomRechargeTransaction
 @{
     Layout = "_HomeLayout";
     ViewData["Title"] = "Order Complete";
@@ -46,7 +46,7 @@
                             </span>
                         </div>
                         <span class="fz-24 fw-700">
-                            @Html.DisplayFor(model => model.Recharge.Recharge_Price)
+                            @Html.DisplayFor(model => model.Recharge_Price)
                         </span>
                     </div>
                     <ul class="order__button mb__40 justify-content-center">
@@ -78,7 +78,7 @@
                         <ul>
                             <li>
                                 <span>Transactions ID</span>
-                                <span class="textbo">@Html.DisplayFor(model => model.RechargeTransaction_Id)</span>
+                                <span class="textbo">@Html.DisplayFor(model => model.CustomRecharge_Id)</span>
                             </li>
                             <li>
                                 <span>Date</span>
@@ -97,12 +97,16 @@
                                 <span class="textbo">@Html.DisplayFor(model => model.Mobile_Number)</span>
                             </li>
                             <li>
-                                <span>Subject</span>
-                                <span class="textbo">@Html.DisplayFor(model => model.Recharge.Recharge_Name)</span>
+                                <span>Recharge Price</span>
+                                <span class="textbo">@Html.DisplayFor(model => model.Recharge_Price)</span>
                             </li>
                             <li>
-                                <span>Payment Amount</span>
-                                <span class="textbo">@Html.DisplayFor(model => model.Recharge.Recharge_Price)</span>
+                                <span>Tax Rate</span>
+                                <span class="textbo">@Html.DisplayFor(model => model.TaxRate.Tax_Rate)%</span>
+                            </li>
+                            <li>
+                                <span>Recharge Amount</span>
+                                <span class="textbo">@Html.DisplayFor(model => model.Recharge_Amount)</span>
                             </li>
                         </ul>
                     </div>
@@ -140,7 +144,7 @@
                             </a>
                         </div>
                         <div class="dbutton">
-                            <a asp-action="Recharges" class="cmn__btn"><span> Go Back </span></a>
+                            <a asp-action="Index" class="cmn__btn"><span> Go Back </span></a>
                         </div>
                     </div>
                 </div>

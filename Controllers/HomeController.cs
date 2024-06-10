@@ -1,12 +1,9 @@
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using NuGet.Protocol;
 using OnlineMobileRecharge.Data;
 using OnlineMobileRecharge.Models;
 using Stripe.Checkout;
 using System.Diagnostics;
-using System.Drawing.Printing;
 using System.Security.Claims;
 
 namespace OnlineMobileRecharge.Controllers
@@ -150,6 +147,12 @@ namespace OnlineMobileRecharge.Controllers
             _context.SaveChanges();
             Response.Headers.Append("Location", session.Url);
             _context.SaveChanges();
+
+            if (packageTransaction.Package.Package_Type == EnumPackageType.Postpaid)
+            {
+                return View(nameof(PackageOrderComplete), packageTransaction);
+            }
+
             return new StatusCodeResult(303);
         }
 
@@ -287,6 +290,83 @@ namespace OnlineMobileRecharge.Controllers
                 return View(nameof(Recharges));
             }
             return View(rechargeTransaction);
+        }
+
+        // Custom Recharge 
+        public IActionResult CustomRecharge()
+        {
+            customRechargeTransaction = new CustomRechargeTransaction
+            {
+                TaxRate = _context.TaxRates.First(),
+                Tax_Id = _context.TaxRates.First().Tax_Id,
+                Transaction_Date = DateTime.Now,
+            };
+            return View(customRechargeTransaction);
+        }
+
+        // POST Custom Recharge Order summary
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult CustomRechargeOrderSummary()
+        {
+            customRechargeTransaction.TaxRate = _context.TaxRates.First();
+            customRechargeTransaction.Tax_Id = customRechargeTransaction.TaxRate.Tax_Id;
+            if (customRechargeTransaction.Recharge_Amount != customRechargeTransaction.Recharge_Price - customRechargeTransaction.Recharge_Price * customRechargeTransaction.TaxRate.Tax_Rate / 100)
+            {
+                return RedirectToAction(nameof(CustomRecharge), customRechargeTransaction);
+            };
+            customRechargeTransaction.Transaction_Date = DateTime.Now;
+            customRechargeTransaction.Session_Id = "0";
+            _context.CustomRechargeTransactions.Add(customRechargeTransaction);
+            _context.SaveChanges();
+
+            var domain = "https://localhost:7147/";
+            var options = new SessionCreateOptions
+            {
+                PaymentMethodTypes = new List<string> {
+                    "card",
+                },
+                LineItems = new List<SessionLineItemOptions>(),
+                Mode = "payment",
+                SuccessUrl = domain + $"Home/CustomRechargeOrderComplete/{customRechargeTransaction.CustomRecharge_Id}",
+                CancelUrl = domain + $"Home/Index"
+            };
+
+            var sessionLineItem = new SessionLineItemOptions
+            {
+                PriceData = new SessionLineItemPriceDataOptions
+                {
+                    UnitAmount = (long)(customRechargeTransaction.Recharge_Price * 100),
+                    Currency = "PKR",
+                    ProductData = new SessionLineItemPriceDataProductDataOptions
+                    {
+                        Name = $"Custom Recharge Rs.{customRechargeTransaction.Recharge_Price}"
+                    },
+                },
+                Quantity = 1
+
+            };
+            options.LineItems.Add(sessionLineItem);
+
+            var service = new SessionService();
+            Session session = service.Create(options);
+            customRechargeTransaction.Session_Id = session.Id;
+            _context.SaveChanges();
+            Response.Headers.Append("Location", session.Url);
+            _context.SaveChanges();
+            return new StatusCodeResult(303);
+        }
+
+        // Custom Recharge Order complete
+        public IActionResult CustomRechargeOrderComplete(int id)
+        {
+            var customRechargeTransaction = _context.CustomRechargeTransactions.Find(id);
+            customRechargeTransaction.TaxRate = _context.TaxRates.Find(customRechargeTransaction.Tax_Id);
+            if (customRechargeTransaction == null)
+            {
+                return RedirectToAction(nameof(CustomRecharge));
+            }
+            return View(customRechargeTransaction);
         }
 
         // Services

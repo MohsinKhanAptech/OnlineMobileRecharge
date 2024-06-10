@@ -1,0 +1,99 @@
+﻿@model OnlineMobileRecharge.Models.CustomRechargeTransaction
+@{
+    Layout = "_HomeLayout";
+    ViewData["Title"] = "Custom Recharge";
+}
+
+<!-- breadcumnd banner Here -->
+<section class="breadcumnd__banner p-5 mt-2">
+    <!--Container-->
+    <div class="container">
+        <div class="breadcumnd__wrapper">
+            <h2 class="bread__title">
+                Custom Recharge
+            </h2>
+            <ul class="breadcumnd__link">
+                <li>
+                    <a asp-action="Index">
+                        Home
+                    </a>
+                </li>
+                <li>
+                    <i class="material-symbols-outlined">
+                        chevron_right
+                    </i>
+                </li>
+                <li>
+                    Custom Recharge
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!--Container-->
+</section>
+<!-- breadcumnd banner End -->
+<!-- Recharges Section Here -->
+<section class="flight__onewaysection pb__60 pt-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-xxl-8 col-xl-10 col-lg-12">
+                <div class="order__wrappers">
+                    <div class="choose__valu">
+                        <div class="oparator__texts">
+                            <h5>Recharges</h5>
+                        </div>
+                        <form asp-action="CustomRechargeOrderSummary" method="post" class="d-grid">
+                            <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+                            <div class="form-floating mb-3">
+                                <input asp-for="@Model.Recharge_Price" id="cRechargePrice" class="form-control"
+                                       aria-required="true" placeholder="Price" onkeyup="calculateRechargeAmount()" />
+                                <label asp-for="@Model.Recharge_Price">Recharge Price</label>
+                                <span asp-validation-for="@Model.Recharge_Price" class="text-danger"></span>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input asp-for="@Model.TaxRate.Tax_Rate" class="form-control"
+                                       disabled aria-required="true" placeholder="Tax Rate" value="@Model.TaxRate.Tax_Rate%" />
+                                <label asp-for="@Model.TaxRate.Tax_Rate">Tax Rate</label>
+                                <span asp-validation-for="@Model.TaxRate.Tax_Rate" class="text-danger"></span>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input asp-for="@Model.Recharge_Amount" id="cRechargeAmount" class="form-control"
+                                       aria-required="true" placeholder="Recharge_Amount" onkeyup="calculateRechargePrice()" />
+                                <label asp-for="@Model.Recharge_Amount">Recharge Amount</label>
+                                <span asp-validation-for="@Model.Recharge_Amount" class="text-danger"></span>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input asp-for="@Model.Mobile_Number" class="form-control" autocomplete="tel" aria-required="true" placeholder="Mobile Number" />
+                                <label asp-for="@Model.Mobile_Number">Mobile Number</label>
+                                <span asp-validation-for="@Model.Mobile_Number" class="text-danger"></span>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <select asp-for="@Model.Recharge_Type" class="text-dark" aria-required="true"
+                                        asp-items="@Html.GetEnumSelectList<EnumRechargeType>()">
+                                </select>
+                                <span asp-validation-for="@Model.Recharge_Type" class="text-danger"></span>
+                            </div>
+                            <div class="">
+                                <input type="submit" class="w-100 btn btn-primary" value="Recharge" />
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Recharges Section Here -->
+<script>
+    let taxRate = @Model.TaxRate.Tax_Rate;
+    let inpPrice = document.getElementById("cRechargePrice");
+    let inpAmount = document.getElementById("cRechargeAmount");
+
+    function calculateRechargeAmount() {
+        inpAmount.value = inpPrice.value - inpPrice.value * taxRate / 100;
+    }
+    function calculateRechargePrice() {
+        let x = inpAmount.value / (100 - taxRate) * 100;
+        inpPrice.value = Math.round((x + Number.EPSILON) * 100) / 100;
+    }
+</script>
