@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using OnlineMobileRecharge.Models;
 using SQLitePCL;
+using Stripe;
 
 namespace OnlineMobileRecharge.Data
 {
@@ -155,6 +156,20 @@ namespace OnlineMobileRecharge.Data
                             Tune_Description = "Default Caller Tune",
                             Tune_Path = "~/CallerTunes/Default.mp4",
                             Tune_Price = 0,
+                        }
+                    });
+                    await context.SaveChangesAsync();
+                }
+
+                if (!await context.TaxRates.AnyAsync())
+                {
+                    await context.TaxRates.AddRangeAsync(new List<Models.TaxRate>()
+                    {
+                        new Models.TaxRate
+                        {
+                            Tax_Name = "Sales Tax",
+                            Tax_Description = "15% Sales Tax",
+                            Tax_Rate = 15,
                         }
                     });
                     await context.SaveChangesAsync();
