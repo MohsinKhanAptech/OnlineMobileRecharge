@@ -1,7 +1,14 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @inject SignInManager<IdentityUser> SignInManager
 @inject UserManager<IdentityUser> UserManager
-
+@{
+    var userRole = false;
+    if (SignInManager.IsSignedIn(User))
+    {
+        var user = await SignInManager.UserManager.FindByNameAsync(User.Identity.Name);
+        userRole = UserManager.IsInRoleAsync(user, "Admin").Result;
+    }
+}
 <!--Header Section Here -->
 <header class="header-section">
     <div class="container">
@@ -42,6 +49,25 @@
                 </div>
             </div>
             <ul class="main-menu">
+                @if (userRole)
+                {
+                    <li class="grid__style">
+                        <a asp-action="Index" asp-controller="Admin" class="d-flex">
+                            <span> Admin Dashboard </span>
+                            <span class="icons">
+                                <i class="material-symbols-outlined"> expand_more </i>
+                            </span>
+                        </a>
+                        <ul class="sub-menu">
+                            <li class="subtwohober">
+                                <a asp-action="Recharges" asp-controller="Admin">Recharges</a>
+                            </li>
+                            <li>
+                                <a asp-action="Packages" asp-controller="Admin">Packages</a>
+                            </li>
+                        </ul>
+                    </li>
+                }
                 <li class="grid__style">
                     <a asp-action="Recharges" class="d-flex">
                         <span> Recharge </span>
