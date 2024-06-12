@@ -169,6 +169,18 @@ namespace OnlineMobileRecharge.Controllers
             return View(packageTransaction);
         }
 
+        // Package genereate receipt
+        //[HttpPost]
+        [Authorize]
+        public object PackageGenerateReciept(int id)
+        {
+            var transaction = _context.PackageTransactions.Find(id);
+            transaction.IdentityUser = _context.Users.Find(transaction.User_Id);
+            transaction.Package = _context.Packages.Find(transaction.Package_Id);
+
+            return transaction;
+        }
+
         // Recharges
         public IActionResult Recharges(string searchQuery, int minPrice, int maxPrice, string rechargeType, string sortOrder, int page = 1, int pageSize = 8)
         {
