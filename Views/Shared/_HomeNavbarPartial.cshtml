@@ -52,7 +52,7 @@
                 @if (userRole)
                 {
                     <li class="grid__style">
-                        <a asp-action="Index" asp-controller="Admin" class="d-flex">
+                        <a href="javascript:void(0)" class="d-flex">
                             <span> Admin Dashboard </span>
                             <span class="icons">
                                 <i class="material-symbols-outlined"> expand_more </i>
@@ -60,6 +60,9 @@
                         </a>
                         <ul class="sub-menu">
                             <li class="subtwohober">
+                                <a asp-action="Index" asp-controller="Admin">Dashboard</a>
+                            </li>
+                            <li>
                                 <a asp-action="Recharges" asp-controller="Admin">Recharges</a>
                             </li>
                             <li>
@@ -69,7 +72,7 @@
                     </li>
                 }
                 <li class="grid__style">
-                    <a asp-action="Recharges" class="d-flex">
+                    <a href="javascript:void(0)" class="d-flex">
                         <span> Recharge </span>
                         <span class="icons">
                             <i class="material-symbols-outlined"> expand_more </i>
@@ -80,18 +83,21 @@
                             <a asp-action="CustomRecharge">Custom Recharge</a>
                         </li>
                         <li>
-                            <a asp-action="Recharges" asp-route-packageType="prepaid">Prepaid Recharge</a>
+                            <a asp-action="Recharges">All Recharges</a>
                         </li>
                         <li>
-                            <a asp-action="Recharges" asp-route-packageType="postpaid">Postpaid Recharge</a>
+                            <a asp-action="Recharges" asp-route-packageType="prepaid">Prepaid Recharges</a>
                         </li>
                         <li>
-                            <a asp-action="Recharges" asp-route-packageType="special">Special Recharge</a>
+                            <a asp-action="Recharges" asp-route-packageType="postpaid">Postpaid Recharges</a>
+                        </li>
+                        <li>
+                            <a asp-action="Recharges" asp-route-packageType="special">Special Recharges</a>
                         </li>
                     </ul>
                 </li>
                 <li class="grid__style">
-                    <a asp-action="Packages" class="d-flex">
+                    <a href="javascript:void(0)" class="d-flex">
                         <span> Packages </span>
                         <span class="icons">
                             <i class="material-symbols-outlined"> expand_more </i>
@@ -99,6 +105,9 @@
                     </a>
                     <ul class="sub-menu">
                         <li class="subtwohober">
+                            <a asp-action="Packages">All Packages</a>
+                        </li>
+                        <li>
                             <a asp-action="Packages" asp-route-packageType="prepaid">Prepaid Packages</a>
                         </li>
                         <li>
@@ -107,7 +116,7 @@
                     </ul>
                 </li>
                 <li class="grid__style">
-                    <a asp-action="Services" class="d-flex">
+                    <a href="javascript:void(0)" class="d-flex">
                         <span> Services </span>
                         <span class="icons">
                             <i class="material-symbols-outlined"> expand_more </i>
@@ -115,10 +124,7 @@
                     </a>
                     <ul class="sub-menu">
                         <li class="subtwohober">
-                            <a asp-action="CallerTunes">Caller Tune</a>
-                        </li>
-                        <li>
-                            <a asp-action="Services">Do Not Disturb</a>
+                            <a asp-action="CallerTunes">Caller Tunes</a>
                         </li>
                     </ul>
                 </li>
@@ -140,10 +146,29 @@
             <div class="sigin__grp d-flex align-items-center">
                 @if (SignInManager.IsSignedIn(User))
                 {
-                    <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity?.Name!</a>
-                    <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-                        <button type="submit" class="btn btn-outline-primary py-2" style="transition: 250ms;">Logout</button>
-                    </form>
+                    <ul class="main-menu">
+                        <li class="grid__style">
+                            <a class="d-flex" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">
+                                <span> Hello @User.Identity?.Name! </span>
+                                <span class="icons">
+                                    <i class="material-symbols-outlined"> expand_more </i>
+                                </span>
+                            </a>
+                            <ul class="sub-menu">
+                                <li class="subtwohober">
+                                    <a asp-area="Identity" asp-page="/Account/Manage/Index">Manage Account</a>
+                                </li>
+                                <li>
+                                    <a asp-action="Services">Manage Services</a>
+                                </li>
+                                <li>
+                                    <form class="" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                                        <input type="submit" class="d-block border-0 bg-white text-start ps-3 py-2" value="Logout" />
+                                    </form>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
                 }
                 else
                 {

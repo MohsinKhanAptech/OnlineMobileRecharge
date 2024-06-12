@@ -56,10 +56,10 @@
                                     <tbody>
                                         <tr>
                                             <td>
-                                                <form asp-action="DoNotDisturb" id="dndForm" class="d-block pt-3 mt-1" method="post">
-                                                    <input type="hidden" name="serviceId" value="@Model.Service_Id" />
-                                                    <input asp-for="@Model.Do_Not_Disturb" name="doNotDisturb"
-                                                           onchange="document.getElementById('dndForm').submit()" />
+                                                <form asp-action="DoNotDisturb" id="dndForm" class="d-block pt-2 mt-1" method="post">
+                                                        <input type="hidden" name="serviceId" value="@Model.Service_Id" />
+                                                        <input asp-for="@Model.Do_Not_Disturb" name="doNotDisturb" class="form-check-input"
+                                                               onchange="document.getElementById('dndForm').submit()" style="width:28px; aspect-ratio:1;" />
                                                 </form>
                                             </td>
                                             <td><span class="d-block pt-3 mt-1">@Html.DisplayFor(model => model.Caller_Tune.Tune_Name)</span></td>

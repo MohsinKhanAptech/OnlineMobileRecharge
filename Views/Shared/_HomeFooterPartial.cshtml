@@ -17,23 +17,23 @@
                             </p>
                             <ul class="social d-flex gap-3">
                                 <li>
-                                    <a href="javascript:void(0)" class="social__icon">
+                                    <a href="https://www.facebook.com/" class="social__icon">
                                         <img src="~/Home/assets/img/svg/facebook.svg" alt="svg" />
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="javascript:void(0)" class="social__icon">
+                                    <a href="https://www.instagram.com/" class="social__icon">
                                         <img src="~/Home/assets/img/svg/instagram.svg" alt="svg" />
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="javascript:void(0)" class="social__icon">
+                                    <a href="https://twitter.com/" class="social__icon">
                                         <img src="~/Home/assets/img/svg/twitter.svg" alt="svg" />
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="javascript:void(0)" class="social__icon">
-                                        <img src="~/Home/assets/img/svg/ball.svg" alt="svg" />
+                                    <a href="https://www.linkedin.com/" class="social__icon">
+                                        <img src="~/Home/assets/img/svg/linkedin.svg" alt="svg" />
                                     </a>
                                 </li>
                             </ul>
@@ -46,14 +46,10 @@
                                 <h4 class="fz-24 pratext">Quick Links</h4>
                             </div>
                             <div class="widget__link">
-                                <a href="index.html" class="link fz-18 pratext"> Home </a>
-                                <a href="about.html" class="link fz-18 pratext"> About </a>
-                                <a href="index.html" class="link fz-18 pratext">
-                                    Recharge
-                                </a>
-                                <a href="contact.html" class="link fz-18 pratext">
-                                    Contact
-                                </a>
+                                <a asp-action="Index" class="link fz-18 pratext"> Home </a>
+                                <a asp-action="Packages" class="link fz-18 pratext"> Packages </a>
+                                <a asp-action="Recharges" class="link fz-18 pratext"> Recharges </a>
+                                <a asp-action="CallerTunes" class="link fz-18 pratext"> Caller Tunes </a>
                             </div>
                         </div>
                     </div>
@@ -115,13 +111,16 @@
                 </p>
                 <ul class="footer__bottom__link">
                     <li>
-                        <a href="help-support.html"> Support </a>
+                        <a asp-action="About"> About </a>
                     </li>
                     <li>
-                        <a href="help-support.html"> Terms of Use </a>
+                        <a asp-action="Contact"> Contact </a>
                     </li>
                     <li>
-                        <a href="help.html"> Privacy Policy </a>
+                        <a asp-action="Feedback"> Feedback </a>
+                    </li>
+                    <li>
+                        <a asp-action="FAQ"> FAQ's </a>
                     </li>
                 </ul>
             </div>
