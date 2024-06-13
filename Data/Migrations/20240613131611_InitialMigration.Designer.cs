@@ -12,7 +12,7 @@ using OnlineMobileRecharge.Data;
 namespace OnlineMobileRecharge.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240613095305_InitialMigration")]
+    [Migration("20240613131611_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />
@@ -325,7 +325,6 @@ namespace OnlineMobileRecharge.Data.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("User_Id")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("CustomRecharge_Id");
@@ -524,7 +523,6 @@ namespace OnlineMobileRecharge.Data.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("User_Id")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("RechargeTransaction_Id");

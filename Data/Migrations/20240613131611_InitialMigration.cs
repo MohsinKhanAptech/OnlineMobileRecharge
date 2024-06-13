@@ -258,7 +258,7 @@ namespace OnlineMobileRecharge.Data.Migrations
                     RechargeTransaction_Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Session_Id = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    User_Id = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    User_Id = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     IdentityUserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     Recharge_Id = table.Column<int>(type: "int", nullable: false),
                     Mobile_Number = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -287,7 +287,7 @@ namespace OnlineMobileRecharge.Data.Migrations
                     CustomRecharge_Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Session_Id = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    User_Id = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    User_Id = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     IdentityUserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     Recharge_Price = table.Column<double>(type: "float", nullable: false),
                     Tax_Id = table.Column<int>(type: "int", nullable: false),

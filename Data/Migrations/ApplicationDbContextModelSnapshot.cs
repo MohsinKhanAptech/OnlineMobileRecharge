@@ -322,7 +322,6 @@ namespace OnlineMobileRecharge.Data.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("User_Id")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("CustomRecharge_Id");
@@ -521,7 +520,6 @@ namespace OnlineMobileRecharge.Data.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("User_Id")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("RechargeTransaction_Id");

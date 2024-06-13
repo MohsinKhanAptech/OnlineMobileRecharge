@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using OnlineMobileRecharge.Data;
@@ -13,6 +14,14 @@ namespace OnlineMobileRecharge.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly ApplicationDbContext _context;
+        private readonly SignInManager<IdentityUser> _signInManager;
+
+        public HomeController(ILogger<HomeController> logger, ApplicationDbContext context, SignInManager<IdentityUser> signInManager)
+        {
+            _logger = logger;
+            _context = context;
+            _signInManager = signInManager;
+        }
 
         [BindProperty]
         public RechargeTransaction rechargeTransaction { get; set; }
@@ -22,12 +31,6 @@ namespace OnlineMobileRecharge.Controllers
         public PackageTransaction packageTransaction { get; set; }
         [BindProperty]
         public ServiceTransaction tuneTransaction { get; set; }
-
-        public HomeController(ILogger<HomeController> logger, ApplicationDbContext context)
-        {
-            _logger = logger;
-            _context = context;
-        }
 
         // index page
         public IActionResult Index() { return View(); }
@@ -236,12 +239,8 @@ namespace OnlineMobileRecharge.Controllers
         // Recharge Order summary
         public IActionResult RechargeOrderSummary(int id)
         {
-            var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
-
             rechargeTransaction = new RechargeTransaction()
             {
-                User_Id = userId,
-                IdentityUser = _context.Users.Find(userId),
                 Recharge_Id = id,
                 Mobile_Number = "",
                 Recharge = _context.Recharges.Find(id)
@@ -254,10 +253,13 @@ namespace OnlineMobileRecharge.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult RechargeOrderSummary()
         {
-            var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            if (_signInManager.IsSignedIn(User))
+            {
+                var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+                customRechargeTransaction.User_Id = userId;
+                customRechargeTransaction.IdentityUser = _context.Users.Find(userId);
+            }
 
-            rechargeTransaction.User_Id = userId;
-            rechargeTransaction.IdentityUser = _context.Users.Find(userId);
             rechargeTransaction.Recharge = _context.Recharges.Find(rechargeTransaction.Recharge_Id);
             rechargeTransaction.Transaction_Date = DateTime.UtcNow;
             rechargeTransaction.Session_Id = "0";
@@ -316,12 +318,8 @@ namespace OnlineMobileRecharge.Controllers
         // Custom Recharge 
         public IActionResult CustomRecharge()
         {
-            var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
-
             customRechargeTransaction = new CustomRechargeTransaction
             {
-                User_Id = userId,
-                IdentityUser = _context.Users.Find(userId),
                 TaxRate = _context.TaxRates.First(),
                 Tax_Id = _context.TaxRates.First().Tax_Id,
                 Transaction_Date = DateTime.UtcNow,
@@ -334,10 +332,13 @@ namespace OnlineMobileRecharge.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult CustomRechargeOrderSummary()
         {
-            var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            if (_signInManager.IsSignedIn(User))
+            {
+                var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+                customRechargeTransaction.User_Id = userId;
+                customRechargeTransaction.IdentityUser = _context.Users.Find(userId);
+            }
 
-            customRechargeTransaction.User_Id = userId;
-            customRechargeTransaction.IdentityUser = _context.Users.Find(userId);
             customRechargeTransaction.TaxRate = _context.TaxRates.First();
             customRechargeTransaction.Tax_Id = customRechargeTransaction.TaxRate.Tax_Id;
             if (customRechargeTransaction.Recharge_Amount != customRechargeTransaction.Recharge_Price - customRechargeTransaction.Recharge_Price * customRechargeTransaction.TaxRate.Tax_Rate / 100)

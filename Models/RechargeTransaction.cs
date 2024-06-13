@@ -3,6 +3,7 @@ using Microsoft.CodeAnalysis.CodeFixes;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Diagnostics.CodeAnalysis;
 
 namespace OnlineMobileRecharge.Models
 {
@@ -15,8 +16,10 @@ namespace OnlineMobileRecharge.Models
         [DisplayName("Session Id")]
         public string Session_Id { get; set; }
         [DisplayName("User Id")]
-        public string User_Id { get; set; }
-        public IdentityUser IdentityUser { get; set; }
+        [AllowNull]
+        public string? User_Id { get; set; }
+        [AllowNull]
+        public IdentityUser? IdentityUser { get; set; }
         [Required]
         [DisplayName("Recharge Id")]
         public int Recharge_Id { get; set; }
