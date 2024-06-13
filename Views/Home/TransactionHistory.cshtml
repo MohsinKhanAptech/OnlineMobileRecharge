@@ -1,0 +1,301 @@
+﻿@{
+    Layout = "_HomeLayout";
+    ViewData["Title"] = "Transaction History";
+}
+
+<!-- breadcumnd banner Here -->
+<section class="breadcumnd__banner p-5 mt-2">
+    <!--Container-->
+    <div class="container">
+        <div class="breadcumnd__wrapper">
+            <h2 class="bread__title">
+                Transaction History
+            </h2>
+            <ul class="breadcumnd__link">
+                <li>
+                    <a asp-action="Index">
+                        Home
+                    </a>
+                </li>
+                <li>
+                    <i class="material-symbols-outlined">
+                        chevron_right
+                    </i>
+                </li>
+                <li>
+                    Transaction History
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!--Container-->
+</section>
+<!-- breadcumnd banner End -->
+<!-- History Section Here -->
+<section class="flight__onewaysection pb__60 pt-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-xxl-10 col-xl-12">
+                <div class="order__wrappers">
+                    <div class="choose__valu mb-5">
+                        <div class="oparator__texts mw-100 mb-3">
+                            <h5 class="mb-3">Quick Links</h5>
+                            <div class="d-grid gap-2">
+                                <a href="#DownlaodTransactions" class="h6 link-primary">
+                                    Downlaod All Transaction History
+                                </a>
+                                <a href="#RechargeTransactions" class="h6 link-primary">
+                                    Recharge Transactions
+                                </a>
+                                <a href="#CustomRechargeTransactions" class="h6 link-primary">
+                                    Custom Recharge Transactions
+                                </a>
+                                <a href="#PackageTransactions" class="h6 link-primary">
+                                    Package Transactions
+                                </a>
+                                <a href="#ServiceTransactions" class="h6 link-primary">
+                                    Service Transactions
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="DownlaodTransactions" class="choose__valu mb-5">
+                        <div class="oparator__texts mw-100 mb-3">
+                            <h5>Downlaod Transaction History</h5>
+                        </div>
+                        <div class="text mb-3 ms-3">
+                            By clicking on the button below you will be redirected to a json file containing all your transaction history.<br />
+                            To download it press Ctrl + S on your keyboard.
+                        </div>
+                        <div class="d-grid gap-2">
+                            <a asp-action="DownloadTransactionHistory" class="btn btn-primary">Click Here To Continue</a>
+                        </div>
+                    </div>
+                    <div id="RechargeTransactions" class="choose__valu mb-5">
+                        <div class="oparator__texts mw-100 mb-3">
+                            <h5>Recharge Transactions</h5>
+                        </div>
+                        <div class="card border-secondary-subtle">
+                            <div class="table-responsive rounded">
+                                <table class="table text-center mb-0">
+                                    <thead>
+                                        <tr class="bg-secondary-subtle">
+                                            <th scope="col">Id</th>
+                                            <th scope="col">Name</th>
+                                            <th scope="col">Mobile Number</th>
+                                            <th scope="col">Price</th>
+                                            <th scope="col">Date & Time</th>
+                                            <th scope="col">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (RechargeTransaction item in ViewBag.rechargeTransactions)
+                                        {
+                                            <tr>
+                                                <td>
+                                                    <span class="d-block pt-3 mt-1">@item.RechargeTransaction_Id</span>
+                                                </td>
+                                                <td>
+                                                    <span class="d-block pt-3 mt-1">@item.Recharge.Recharge_Name</span>
+                                                </td>
+                                                <td>
+                                                    <span class="d-block pt-3 mt-1">@item.Mobile_Number</span>
+                                                </td>
+                                                <td>
+                                                    <span class="d-block pt-3 mt-1">@item.Recharge.Recharge_Price</span>
+                                                </td>
+                                                <td>
+                                                    <span class="d-block pt-3 mt-1">@item.Transaction_Date.ToLocalTime()</span>
+                                                </td>
+                                                <td>
+                                                    <a asp-action="CustomRechargeOrderComplete" asp-route-id="@item.RechargeTransaction_Id" class="cmn__btn mt-2 py-2 rounded">
+                                                        <span>View</span>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        }
+                                        @if (ViewBag.rechargeTransactions == null)
+                                        {
+                                            <div class="d3 text-center p-2 my-4">No Results Found</div>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="CustomRechargeTransactions" class="choose__valu mb-5">
+                        <div class="oparator__texts mw-100 mb-3">
+                            <h5>Custom Recharge Transactions</h5>
+                        </div>
+                        <div class="card border-secondary-subtle">
+                            <div class="table-responsive rounded">
+                                <table class="table text-center mb-0">
+                                    <thead>
+                                        <tr class="bg-secondary-subtle">
+                                            <th scope="col">Id</th>
+                                            <th scope="col">Mobile Number</th>
+                                            <th scope="col">Price</th>
+                                            <th scope="col">Tax Rate</th>
+                                            <th scope="col">Amount</th>
+                                            <th scope="col">Date & Time</th>
+                                            <th scope="col">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (CustomRechargeTransaction item in ViewBag.customRechargeTransactions)
+                                        {
+                                            <tr>
+                                                <td>
+                                                    <span class="d-block pt-3 mt-1">@item.CustomRecharge_Id</span>
+                                                </td>
+                                                <td>
+                                                    <span class="d-block pt-3 mt-1">@item.Mobile_Number</span>
+                                                </td>
+                                                <td>
+                                                    <span class="d-block pt-3 mt-1">@item.Recharge_Price</span>
+                                                </td>
+                                                <td>
+                                                    <span class="d-block pt-3 mt-1">@item.TaxRate.Tax_Rate%</span>
+                                                </td>
+                                                <td>
+                                                    <span class="d-block pt-3 mt-1">@item.Recharge_Amount</span>
+                                                </td>
+                                                <td>
+                                                    <span class="d-block pt-3 mt-1">@item.Transaction_Date.ToLocalTime()</span>
+                                                </td>
+                                                <td>
+                                                    <a asp-action="CustomRechargeOrderComplete" asp-route-id="@item.CustomRecharge_Id" class="cmn__btn mt-2 py-2 rounded">
+                                                        <span>View</span>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        }
+                                        @if (ViewBag.customRechargeTransactions == null)
+                                        {
+                                            <div class="d3 text-center p-2 my-4">No Results Found</div>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="PackageTransactions" class="choose__valu mb-5">
+                        <div class="oparator__texts mw-100 mb-3">
+                            <h5>Package Transactions</h5>
+                        </div>
+                        <div class="card border-secondary-subtle">
+                            <div class="table-responsive rounded">
+                                <table class="table text-center mb-0">
+                                    <thead>
+                                        <tr class="bg-secondary-subtle">
+                                            <th scope="col">Id</th>
+                                            <th scope="col">Name</th>
+                                            <th scope="col">Mobile Number</th>
+                                            <th scope="col">Price</th>
+                                            <th scope="col">Date & Time</th>
+                                            <th scope="col">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (PackageTransaction item in ViewBag.packageTransactions)
+                                        {
+                                            <tr>
+                                                <td>
+                                                    <span class="d-block pt-3 mt-1">@item.PackageTransaction_Id</span>
+                                                </td>
+                                                <td>
+                                                    <span class="d-block pt-3 mt-1">@item.Package.Package_Name</span>
+                                                </td>
+                                                <td>
+                                                    <span class="d-block pt-3 mt-1">@item.Mobile_Number</span>
+                                                </td>
+                                                <td>
+                                                    <span class="d-block pt-3 mt-1">@item.Package.Package_Price</span>
+                                                </td>
+                                                <td>
+                                                    <span class="d-block pt-3 mt-1">@item.Transaction_Date.ToLocalTime()</span>
+                                                </td>
+                                                <td>
+                                                    <a asp-action="PackageOrderComplete" asp-route-id="@item.PackageTransaction_Id" class="cmn__btn mt-2 py-2 rounded">
+                                                        <span>View</span>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        }
+                                        @if (ViewBag.packageTransactions == null)
+                                        {
+                                            <div class="d3 text-center p-2 my-4">No Results Found</div>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="ServiceTransactions" class="choose__valu mb-5">
+                        <div class="oparator__texts mw-100 mb-3">
+                            <h5>Caller Tunes</h5>
+                        </div>
+                        <div class="card border-secondary-subtle">
+                            <div class="table-responsive rounded">
+                                <table class="table text-center mb-0">
+                                    <thead>
+                                        <tr class="bg-secondary-subtle">
+                                            <th scope="col">Id</th>
+                                            <th scope="col">Name</th>
+                                            <th scope="col">Price</th>
+                                            <th scope="col">Audio</th>
+                                            <th scope="col">Date & Time</th>
+                                            <th scope="col">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (ServiceTransaction item in ViewBag.serviceTransactions)
+                                        {
+                                            <tr>
+                                                <td>
+                                                    <span class="d-block pt-3 mt-1">@item.ServiceTransaction_Id</span>
+                                                </td>
+                                                <td>
+                                                    <span class="d-block pt-3 mt-1">@item.CallerTune.Tune_Name</span>
+                                                </td>
+                                                <td>
+                                                    <span class="d-block pt-3 mt-1">@item.CallerTune.Tune_Price</span>
+                                                </td>
+                                                <td>
+                                                    <span class="d-block mt-1">
+                                                        <audio controls src="@item.CallerTune.Tune_Path"></audio>
+                                                    </span>
+                                                </td>
+                                                <td>
+                                                    <span class="d-block mt-1">
+                                                        <span class="d-block pt-3 mt-1">@item.Transaction_Date.ToLocalTime()</span>
+                                                    </span>
+                                                </td>
+                                                <td>
+                                                    <a asp-action="CallerTuneOrderComplete" asp-route-id="@item.ServiceTransaction_Id" class="cmn__btn mt-2 py-2 rounded">
+                                                        <span>View</span>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        }
+                                        @if (ViewBag.serviceTransactions == null)
+                                        {
+                                            <div class="d3 text-center p-2 my-4">No Results Found</div>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- History Section Here -->
+<style>
+    html {
+        scroll-behavior: smooth;
+        scroll-padding: 6rem;
+    }
+</style>

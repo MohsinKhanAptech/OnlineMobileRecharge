@@ -527,6 +527,43 @@ namespace OnlineMobileRecharge.Controllers
             _context.SaveChanges();
             return RedirectToAction(nameof(Services));
         }
+
+        // Transaction History
+        [Authorize]
+        public IActionResult TransactionHistory()
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var rechargeTransactions = _context.RechargeTransactions.Where(x => x.User_Id == userId).Include(x => x.IdentityUser).Include(x => x.Recharge).ToList();
+            var customRechargeTransactions = _context.CustomRechargeTransactions.Where(x => x.User_Id == userId).Include(x => x.IdentityUser).Include(x=>x.TaxRate).ToList();
+            var packageTransactions = _context.PackageTransactions.Where(x => x.User_Id == userId).Include(x => x.IdentityUser).Include(x => x.Package).ToList();
+            var serviceTransactions = _context.ServiceTransactions.Where(x => x.User_Id == userId).Include(x=>x.IdentityUser).Include(x => x.CallerTune).ToList();
+
+            ViewBag.rechargeTransactions = rechargeTransactions;
+            ViewBag.customRechargeTransactions = customRechargeTransactions;
+            ViewBag.packageTransactions = packageTransactions;
+            ViewBag.serviceTransactions = serviceTransactions;
+
+            return View();
+        }
+
+        // download transaction history
+        [Authorize]
+        public List<object> DownloadTransactionHistory()
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var rechargeTransactions = _context.RechargeTransactions.Where(x => x.User_Id == userId).Include(x => x.IdentityUser).Include(x => x.Recharge).ToList();
+            var customRechargeTransactions = _context.CustomRechargeTransactions.Where(x => x.User_Id == userId).Include(x => x.IdentityUser).Include(x => x.TaxRate).ToList();
+            var packageTransactions = _context.PackageTransactions.Where(x => x.User_Id == userId).Include(x => x.IdentityUser).Include(x => x.Package).ToList();
+            var serviceTransactions = _context.ServiceTransactions.Where(x => x.User_Id == userId).Include(x => x.IdentityUser).Include(x => x.CallerTune).ToList();
+
+            var transactionHistory = new List<object> {rechargeTransactions,customRechargeTransactions,packageTransactions, serviceTransactions};
+
+            return transactionHistory;
+        }
+
+
         // contact us page
         public IActionResult Contact() { return View(); }
 
