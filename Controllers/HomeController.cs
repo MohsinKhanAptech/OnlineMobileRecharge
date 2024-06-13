@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using OnlineMobileRecharge.Data;
 using OnlineMobileRecharge.Models;
 using Stripe.Checkout;
@@ -108,7 +109,7 @@ namespace OnlineMobileRecharge.Controllers
             packageTransaction.User_Id = userId;
             packageTransaction.IdentityUser = _context.Users.Find(userId);
             packageTransaction.Package = _context.Packages.Find(packageTransaction.Package_Id);
-            packageTransaction.Transaction_Date = DateTime.Now;
+            packageTransaction.Transaction_Date = DateTime.UtcNow;
             packageTransaction.Session_Id = "0";
             _context.PackageTransactions.Add(packageTransaction);
             _context.SaveChanges();
@@ -235,8 +236,12 @@ namespace OnlineMobileRecharge.Controllers
         // Recharge Order summary
         public IActionResult RechargeOrderSummary(int id)
         {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+
             rechargeTransaction = new RechargeTransaction()
             {
+                User_Id = userId,
+                IdentityUser = _context.Users.Find(userId),
                 Recharge_Id = id,
                 Mobile_Number = "",
                 Recharge = _context.Recharges.Find(id)
@@ -249,8 +254,12 @@ namespace OnlineMobileRecharge.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult RechargeOrderSummary()
         {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+
+            rechargeTransaction.User_Id = userId;
+            rechargeTransaction.IdentityUser = _context.Users.Find(userId);
             rechargeTransaction.Recharge = _context.Recharges.Find(rechargeTransaction.Recharge_Id);
-            rechargeTransaction.Transaction_Date = DateTime.Now;
+            rechargeTransaction.Transaction_Date = DateTime.UtcNow;
             rechargeTransaction.Session_Id = "0";
             _context.RechargeTransactions.Add(rechargeTransaction);
             _context.SaveChanges();
@@ -307,11 +316,15 @@ namespace OnlineMobileRecharge.Controllers
         // Custom Recharge 
         public IActionResult CustomRecharge()
         {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+
             customRechargeTransaction = new CustomRechargeTransaction
             {
+                User_Id = userId,
+                IdentityUser = _context.Users.Find(userId),
                 TaxRate = _context.TaxRates.First(),
                 Tax_Id = _context.TaxRates.First().Tax_Id,
-                Transaction_Date = DateTime.Now,
+                Transaction_Date = DateTime.UtcNow,
             };
             return View(customRechargeTransaction);
         }
@@ -321,13 +334,17 @@ namespace OnlineMobileRecharge.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult CustomRechargeOrderSummary()
         {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+
+            customRechargeTransaction.User_Id = userId;
+            customRechargeTransaction.IdentityUser = _context.Users.Find(userId);
             customRechargeTransaction.TaxRate = _context.TaxRates.First();
             customRechargeTransaction.Tax_Id = customRechargeTransaction.TaxRate.Tax_Id;
             if (customRechargeTransaction.Recharge_Amount != customRechargeTransaction.Recharge_Price - customRechargeTransaction.Recharge_Price * customRechargeTransaction.TaxRate.Tax_Rate / 100)
             {
                 return RedirectToAction(nameof(CustomRecharge), customRechargeTransaction);
             };
-            customRechargeTransaction.Transaction_Date = DateTime.Now;
+            customRechargeTransaction.Transaction_Date = DateTime.UtcNow;
             customRechargeTransaction.Session_Id = "0";
             _context.CustomRechargeTransactions.Add(customRechargeTransaction);
             _context.SaveChanges();
@@ -445,7 +462,7 @@ namespace OnlineMobileRecharge.Controllers
                 User_Id = userId,
                 IdentityUser = user,
                 Mobile_Number = user.PhoneNumber,
-                Transaction_Date = DateTime.Now,
+                Transaction_Date = DateTime.UtcNow,
             };
             return View(tuneTransaction);
         }
@@ -463,7 +480,7 @@ namespace OnlineMobileRecharge.Controllers
             tuneTransaction.IdentityUser = user;
             tuneTransaction.Mobile_Number = user.PhoneNumber;
             tuneTransaction.CallerTune = _context.CallerTunes.Find(tuneTransaction.Tune_Id);
-            tuneTransaction.Transaction_Date = DateTime.Now;
+            tuneTransaction.Transaction_Date = DateTime.UtcNow;
             tuneTransaction.Session_Id = "0";
             _context.ServiceTransactions.Add(tuneTransaction);
             _context.SaveChanges();
@@ -519,6 +536,7 @@ namespace OnlineMobileRecharge.Controllers
         }
 
         // Do Not Disturb
+        [Authorize]
         public IActionResult DoNotDisturb(int serviceId, bool doNotDisturb)
         {
             var service = _context.Services.Find(serviceId);
@@ -601,7 +619,6 @@ namespace OnlineMobileRecharge.Controllers
                 return View();
             }
         }
-
 
         // About page
         public IActionResult About() { return View(); }

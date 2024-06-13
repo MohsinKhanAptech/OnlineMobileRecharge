@@ -82,7 +82,7 @@
                             </li>
                             <li>
                                 <span>Date</span>
-                                <span class="textbo">@Html.DisplayFor(model => model.Transaction_Date)</span>
+                                <span class="textbo">@Model.Transaction_Date.ToLocalTime()</span>
                             </li>
                             <li>
                                 <span>Mode of Payment</span>
