@@ -20,10 +20,10 @@
                         <div class="col-xxl-10">
                             <div class="card mb-4">
                                 <div class="table-responsive">
-                                    <table class="table m-0 p-0">
+                                    <table class="table table-bordered m-0 p-0">
                                         <tbody>
                                             <tr class="d-flex flex-column d-sm-table-row">
-                                                <td class="col-sm-2 fw-bold">
+                                                <td class="col-sm-2 fw-bold bg-opacity-10 bg-secondary">
                                                     @Html.DisplayNameFor(model => model.Package_Name)
                                                 </td>
                                                 <td class="col-sm-10">
@@ -31,7 +31,7 @@
                                                 </td>
                                             </tr>
                                             <tr class="d-flex flex-column d-sm-table-row">
-                                                <td class="col-sm-2 fw-bold">
+                                                <td class="col-sm-2 fw-bold bg-opacity-10 bg-secondary">
                                                     @Html.DisplayNameFor(model => model.Package_Description)
                                                 </td>
                                                 <td class="col-sm-10">
@@ -39,7 +39,7 @@
                                                 </td>
                                             </tr>
                                             <tr class="d-flex flex-column d-sm-table-row">
-                                                <td class="col-sm-2 fw-bold">
+                                                <td class="col-sm-2 fw-bold bg-opacity-10 bg-secondary">
                                                     @Html.DisplayNameFor(model => model.Package_Off_Net_Mins)
                                                 </td>
                                                 <td class="col-sm-10">
@@ -47,7 +47,7 @@
                                                 </td>
                                             </tr>
                                             <tr class="d-flex flex-column d-sm-table-row">
-                                                <td class="col-sm-2 fw-bold">
+                                                <td class="col-sm-2 fw-bold bg-opacity-10 bg-secondary">
                                                     @Html.DisplayNameFor(model => model.Package_On_Net_Mins)
                                                 </td>
                                                 <td class="col-sm-10">
@@ -55,7 +55,7 @@
                                                 </td>
                                             </tr>
                                             <tr class="d-flex flex-column d-sm-table-row">
-                                                <td class="col-sm-2 fw-bold">
+                                                <td class="col-sm-2 fw-bold bg-opacity-10 bg-secondary">
                                                     @Html.DisplayNameFor(model => model.Package_Data)
                                                 </td>
                                                 <td class="col-sm-10">
@@ -63,7 +63,7 @@
                                                 </td>
                                             </tr>
                                             <tr class="d-flex flex-column d-sm-table-row">
-                                                <td class="col-sm-2 fw-bold">
+                                                <td class="col-sm-2 fw-bold bg-opacity-10 bg-secondary">
                                                     @Html.DisplayNameFor(model => model.Package_SMS)
                                                 </td>
                                                 <td class="col-sm-10">
@@ -71,7 +71,7 @@
                                                 </td>
                                             </tr>
                                             <tr class="d-flex flex-column d-sm-table-row">
-                                                <td class="col-sm-2 fw-bold">
+                                                <td class="col-sm-2 fw-bold bg-opacity-10 bg-secondary">
                                                     @Html.DisplayNameFor(model => model.Package_Duration)
                                                 </td>
                                                 <td class="col-sm-10">
@@ -79,7 +79,7 @@
                                                 </td>
                                             </tr>
                                             <tr class="d-flex flex-column d-sm-table-row">
-                                                <td class="col-sm-2 fw-bold">
+                                                <td class="col-sm-2 fw-bold bg-opacity-10 bg-secondary">
                                                     @Html.DisplayNameFor(model => model.Package_Price)
                                                 </td>
                                                 <td class="col-sm-2">
@@ -87,7 +87,7 @@
                                                 </td>
                                             </tr>
                                             <tr class="d-flex flex-column d-sm-table-row">
-                                                <td class="col-sm-2 fw-bold">
+                                                <td class="col-sm-2 fw-bold bg-opacity-10 bg-secondary">
                                                     @Html.DisplayNameFor(model => model.Package_Type)
                                                 </td>
                                                 <td class="col-sm-10">
@@ -104,65 +104,6 @@
                                     <a asp-action="Packages" class="btn btn-secondary">Back to List</a>
                                 </div>
                             </div>
-
-
-                            @*                             <dl class="row">
-                            <dt class="col-sm-2">
-                            @Html.DisplayNameFor(model => model.Package_Name)
-                            </dt>
-                            <dd class="col-sm-10">
-                            @Html.DisplayFor(model => model.Package_Name)
-                            </dd>
-                            <dt class="col-sm-2">
-                            @Html.DisplayNameFor(model => model.Package_Description)
-                            </dt>
-                            <dd class="col-sm-10">
-                            @Html.DisplayFor(model => model.Package_Description)
-                            </dd>
-                            <dt class="col-sm-2">
-                            @Html.DisplayNameFor(model => model.Package_Off_Net_Mins)
-                            </dt>
-                            <dd class="col-sm-10">
-                            @Html.DisplayFor(model => model.Package_Off_Net_Mins) Minutes
-                            </dd>
-                            <dt class="col-sm-2">
-                            @Html.DisplayNameFor(model => model.Package_On_Net_Mins)
-                            </dt>
-                            <dd class="col-sm-10">
-                            @Html.DisplayFor(model => model.Package_On_Net_Mins) Minutes
-                            </dd>
-                            <dt class="col-sm-2">
-                            @Html.DisplayNameFor(model => model.Package_Data)
-                            </dt>
-                            <dd class="col-sm-10">
-                            @Html.DisplayFor(model => model.Package_Data) MB
-                            </dd>
-                            <dt class="col-sm-2">
-                            @Html.DisplayNameFor(model => model.Package_SMS)
-                            </dt>
-                            <dd class="col-sm-10">
-                            @Html.DisplayFor(model => model.Package_SMS)
-                            </dd>
-                            <dt class="col-sm-2">
-                            @Html.DisplayNameFor(model => model.Package_Duration)
-                            </dt>
-                            <dd class="col-sm-10">
-                            @Html.DisplayFor(model => model.Package_Duration) days
-                            </dd>
-                            <dt class="col-sm-2">
-                            @Html.DisplayNameFor(model => model.Package_Price)
-                            </dt>
-                            <dd class="col-sm-10">
-                            Rs. @Html.DisplayFor(model => model.Package_Price)
-                            </dd>
-                            <dt class="col-sm-2">
-                            @Html.DisplayNameFor(model => model.Package_Type)
-                            </dt>
-                            <dd class="col-sm-10">
-                            @Html.DisplayFor(model => model.Package_Type)
-                            </dd>
-                            </dl>
-                            *@
                         </div>
                     </div>
                 </div>

@@ -1,0 +1,70 @@
+﻿@model OnlineMobileRecharge.Models.Recharge
+
+@{
+    ViewData["Title"] = "Edit Recharge";
+    Layout = "_AdminLayout";
+}
+
+<div id="layoutSidenav_content">
+    <main>
+        <div class="container-fluid px-4">
+            <h1 class="mt-4">Edit Recharge</h1>
+            <ol class="breadcrumb mb-4">
+                <li class="breadcrumb-item"><a asp-action="Index">Dashboard</a></li>
+                <li class="breadcrumb-item active">Edit Recharge</li>
+            </ol>
+            <div class="col-12">
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-6">
+                            <form asp-action="RechargeEdit" method="post">
+                                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                <input type="hidden" asp-for="Recharge_Id" />
+                                <div class="form-floating mb-3">
+                                    <input asp-for="Recharge_Name" class="form-control" />
+                                    <label asp-for="Recharge_Name" class="control-label"></label>
+                                    <span asp-validation-for="Recharge_Name" class="text-danger"></span>
+                                </div>
+                                <div class="form-floating mb-3">
+                                    <input asp-for="Recharge_Description" class="form-control" />
+                                    <label asp-for="Recharge_Description" class="control-label"></label>
+                                    <span asp-validation-for="Recharge_Description" class="text-danger"></span>
+                                </div>
+                                <div class="form-floating mb-3">
+                                    <input asp-for="Recharge_Amount" class="form-control" />
+                                    <label asp-for="Recharge_Amount" class="control-label"></label>
+                                    <span asp-validation-for="Recharge_Amount" class="text-danger"></span>
+                                </div>
+                                <div class="form-floating mb-3">
+                                    <input asp-for="Recharge_Price" class="form-control" />
+                                    <label asp-for="Recharge_Price" class="control-label"></label>
+                                    <span asp-validation-for="Recharge_Price" class="text-danger"></span>
+                                </div>
+                                <div class="form-floating mb-3">
+                                    <input asp-for="Recharge_Tax_Rate" class="form-control" />
+                                    <label asp-for="Recharge_Tax_Rate" class="control-label"></label>
+                                    <span asp-validation-for="Recharge_Tax_Rate" class="text-danger"></span>
+                                </div>
+                                <div class="form-floating mb-3">
+                                    <input asp-for="Recharge_Taxed_Amount" class="form-control" />
+                                    <label asp-for="Recharge_Taxed_Amount" class="control-label"></label>
+                                    <span asp-validation-for="Recharge_Taxed_Amount" class="text-danger"></span>
+                                </div>
+                                <div class="form-floating mb-3">
+                                    <select asp-for="Recharge_Type" asp-items="Html.GetEnumSelectList<EnumPackageType>()" class="form-control"></select>
+                                    <label asp-for="Recharge_Type" class="control-label"></label>
+                                    <span asp-validation-for="Recharge_Type" class="text-danger"></span>
+                                </div>
+                                <div class="form-floating mb-3 d-flex flex-row-reverse gap-2">
+                                    <input type="submit" value="Save Changes" class="btn btn-primary" />
+                                    <a asp-action="Recharges" class="btn btn-secondary">Back to List</a>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <partial name="_AdminFooterPartial" />
+</div>

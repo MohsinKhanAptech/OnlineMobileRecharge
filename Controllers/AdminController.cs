@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using NuGet.Packaging.Core;
 using OnlineMobileRecharge.Data;
 using OnlineMobileRecharge.Models;
 
@@ -23,13 +21,56 @@ namespace OnlineMobileRecharge.Controllers
         // GET: AdminController
         public ActionResult Index() { return View(); }
 
-        public IActionResult Packages()
+        // GET: AdminController/Packages
+        public IActionResult Packages(string searchQuery, int minPrice, int maxPrice, string packageType, string sortOrder, int page = 1, int pageSize = 30)
         {
-            var data = _context.Packages.ToList();
-            return View(data);
+            var packages = _context.Packages.ToList();
+
+            switch (packageType)
+            {
+                case "prepaid":
+                    packages = packages.FindAll(p => p.Package_Type.Equals(EnumPackageType.Prepaid));
+                    break;
+                case "postpaid":
+                    packages = packages.FindAll(p => p.Package_Type.Equals(EnumPackageType.Postpaid));
+                    break;
+            }
+            if (searchQuery != null)
+            {
+                packages = packages.FindAll(p => p.Package_Name.ToLower().Contains(searchQuery.ToLower()));
+                page = 1;
+            }
+            if (minPrice >= 0 && maxPrice > 0 && minPrice <= maxPrice)
+            {
+                packages = packages.Where(p => p.Package_Price >= minPrice && p.Package_Price <= maxPrice).ToList();
+            }
+            switch (sortOrder)
+            {
+                case "name":
+                    packages = packages.OrderBy(p => p.Package_Name).ToList();
+                    break;
+                case "name_desc":
+                    packages = packages.OrderByDescending(p => p.Package_Name).ToList();
+                    break;
+                case "price":
+                    packages = packages.OrderBy(p => p.Package_Price).ToList();
+                    break;
+                case "price_desc":
+                    packages = packages.OrderByDescending(p => p.Package_Price).ToList();
+                    break;
+            }
+
+            var totalCount = packages.Count;
+            var totalPages = (int)Math.Ceiling((decimal)totalCount / pageSize);
+            var itemsPerPage = packages.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+
+            ViewData["totalPages"] = totalPages;
+            ViewData["currentPage"] = page;
+
+            return View(itemsPerPage);
         }
 
-        // GET: AdminController/Details/5
+        // GET: AdminController/PackageDetails/5
         public ActionResult PackageDetails(int id)
         {
             var package = _context.Packages.Find(id);
@@ -37,7 +78,7 @@ namespace OnlineMobileRecharge.Controllers
             {
                 return View(package);
             }
-            return View(nameof(Error404));
+            return RedirectToAction(nameof(Error404));
         }
 
         // GET: AdminController/PackageAdd
@@ -57,7 +98,7 @@ namespace OnlineMobileRecharge.Controllers
             return View();
         }
 
-        // GET: AdminController/Edit/5
+        // GET: AdminController/PackageEdit/5
         public ActionResult PackageEdit(int id)
         {
             var package = _context.Packages.Find(id);
@@ -65,17 +106,17 @@ namespace OnlineMobileRecharge.Controllers
             {
                 return View(package);
             }
-            return View(nameof(Error404));
+            return RedirectToAction(nameof(Error404));
         }
 
-        // POST: AdminController/Edit/5
+        // POST: AdminController/PackageEdit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult PackageEdit(int id, Package package)
         {
             if (id != package.Package_Id)
             {
-                return View(nameof(Error404));
+                return RedirectToAction(nameof(Error404));
             }
             if (ModelState.IsValid)
             {
@@ -83,10 +124,10 @@ namespace OnlineMobileRecharge.Controllers
                 _context.SaveChanges();
                 return RedirectToAction(nameof(Packages));
             }
-            return View(nameof(Error404));
+            return RedirectToAction(nameof(Error404));
         }
 
-        // GET: AdminController/Delete/5
+        // GET: AdminController/PackageDelete/5
         public ActionResult PackageDelete(int id)
         {
             var package = _context.Packages.Find(id);
@@ -94,10 +135,10 @@ namespace OnlineMobileRecharge.Controllers
             {
                 return View(package);
             }
-            return View(nameof(Error404));
+            return RedirectToAction(nameof(Error404));
         }
 
-        // POST: AdminController/Delete/5
+        // POST: AdminController/PackageDelete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult PackageDelete(int id, string name)
@@ -109,7 +150,408 @@ namespace OnlineMobileRecharge.Controllers
                 _context.SaveChanges();
                 return RedirectToAction(nameof(Packages));
             }
-            return View(nameof(Error404));
+            return RedirectToAction(nameof(Error404));
+        }
+
+        // GET: AdminController/Recharge
+        public IActionResult Recharges(string searchQuery, int minPrice, int maxPrice, string rechargeType, string sortOrder, int page = 1, int pageSize = 30)
+        {
+            var recharges = _context.Recharges.ToList();
+
+            switch (rechargeType)
+            {
+                case "prepaid":
+                    recharges = recharges.FindAll(r => r.Recharge_Type.Equals(EnumPackageType.Prepaid));
+                    break;
+                case "postpaid":
+                    recharges = recharges.FindAll(r => r.Recharge_Type.Equals(EnumPackageType.Postpaid));
+                    break;
+                case "special":
+                    recharges = recharges.FindAll(r => r.Recharge_Type.Equals(EnumPackageType.Special));
+                    break;
+            }
+            if (searchQuery != null)
+            {
+                recharges = recharges.FindAll(r => r.Recharge_Name.ToLower().Contains(searchQuery.ToLower()));
+            }
+            if (minPrice >= 0 && maxPrice > 0 && minPrice <= maxPrice)
+            {
+                recharges = recharges.Where(r => r.Recharge_Price >= minPrice && r.Recharge_Price <= maxPrice).ToList();
+            }
+            switch (sortOrder)
+            {
+                case "name":
+                    recharges = recharges.OrderBy(r => r.Recharge_Name).ToList();
+                    break;
+                case "name_desc":
+                    recharges = recharges.OrderByDescending(r => r.Recharge_Name).ToList();
+                    break;
+                case "price":
+                    recharges = recharges.OrderBy(r => r.Recharge_Price).ToList();
+                    break;
+                case "price_desc":
+                    recharges = recharges.OrderByDescending(r => r.Recharge_Price).ToList();
+                    break;
+            }
+
+            var totalCount = recharges.Count;
+            var totalPages = (int)Math.Ceiling((decimal)totalCount / pageSize);
+            var itemsPerPage = recharges.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+
+            ViewData["totalPages"] = totalPages;
+            ViewData["currentPage"] = page;
+
+            return View(itemsPerPage);
+        }
+
+        // GET: AdminController/RechargeDetails/5
+        public ActionResult RechargeDetails(int id)
+        {
+            var recharge = _context.Recharges.Find(id);
+            if (recharge != null)
+            {
+                return View(recharge);
+            }
+            return RedirectToAction(nameof(Error404));
+        }
+
+        // GET: AdminController/RechargeAdd
+        public ActionResult RechargeAdd() { return View(); }
+
+        // POST: AdminController/RechargeAdd
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult RechargeAdd(Recharge recharge)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Recharges.Add(recharge);
+                _context.SaveChanges();
+                return RedirectToAction(nameof(Recharges));
+            }
+            return View();
+        }
+
+        // GET: AdminController/RechargeEdit/5
+        public ActionResult RechargeEdit(int id)
+        {
+            var recharge = _context.Recharges.Find(id);
+            if (recharge != null)
+            {
+                return View(recharge);
+            }
+            return RedirectToAction(nameof(Error404));
+        }
+
+        // POST: AdminController/RechargeEdit/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult RechargeEdit(int id, Recharge recharge)
+        {
+            if (id != recharge.Recharge_Id)
+            {
+                return RedirectToAction(nameof(Error404));
+            }
+            if (ModelState.IsValid)
+            {
+                _context.Recharges.Update(recharge);
+                _context.SaveChanges();
+                return RedirectToAction(nameof(Recharges));
+            }
+            return RedirectToAction(nameof(Error404));
+        }
+
+        // GET: AdminController/RechargeDelete/5
+        public ActionResult RechargeDelete(int id)
+        {
+            var recharge = _context.Recharges.Find(id);
+            if (recharge != null)
+            {
+                return View(recharge);
+            }
+            return RedirectToAction(nameof(Error404));
+        }
+
+        // POST: AdminController/RechargeDelete/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult RechargeDelete(int id, string name)
+        {
+            var recharge = _context.Recharges.Find(id);
+            if (recharge != null)
+            {
+                _context.Recharges.Remove(recharge);
+                _context.SaveChanges();
+                return RedirectToAction(nameof(Recharges));
+            }
+            return RedirectToAction(nameof(Error404));
+        }
+
+        // GET: AdminController/CallerTunes
+        public IActionResult CallerTunes(string searchQuery, int minPrice, int maxPrice, string sortOrder, int page = 1, int pageSize = 30)
+        {
+            var tune = _context.CallerTunes.ToList();
+
+            if (searchQuery != null)
+            {
+                tune = tune.FindAll(r => r.Tune_Name.ToLower().Contains(searchQuery.ToLower()));
+            }
+            if (minPrice >= 0 && maxPrice > 0 && minPrice <= maxPrice)
+            {
+                tune = tune.Where(r => r.Tune_Price >= minPrice && r.Tune_Price <= maxPrice).ToList();
+            }
+            switch (sortOrder)
+            {
+                case "name":
+                    tune = tune.OrderBy(r => r.Tune_Name).ToList();
+                    break;
+                case "name_desc":
+                    tune = tune.OrderByDescending(r => r.Tune_Name).ToList();
+                    break;
+                case "price":
+                    tune = tune.OrderBy(r => r.Tune_Price).ToList();
+                    break;
+                case "price_desc":
+                    tune = tune.OrderByDescending(r => r.Tune_Price).ToList();
+                    break;
+            }
+
+            var totalCount = tune.Count;
+            var totalPages = (int)Math.Ceiling((decimal)totalCount / pageSize);
+            var itemsPerPage = tune.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+
+            ViewData["totalPages"] = totalPages;
+            ViewData["currentPage"] = page;
+
+            return View(itemsPerPage);
+        }
+
+        // GET: AdminController/CallerTuneAdd
+        public ActionResult CallerTuneAdd() { return View(); }
+
+        // POST: AdminController/CallerTuneAdd
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult CallerTuneAdd(CallerTune callertune)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.CallerTunes.Add(callertune);
+                _context.SaveChanges();
+                return RedirectToAction(nameof(CallerTunes));
+            }
+            return View();
+        }
+        // GET: AdminController/CallerTuneDetails/5
+        public ActionResult CallerTuneDetails(int id)
+        {
+            var callerTune = _context.CallerTunes.Find(id);
+            if (callerTune != null)
+            {
+                return View(callerTune);
+            }
+            return RedirectToAction(nameof(Error404));
+        }
+
+        // GET: AdminController/CallerTuneEdit/5
+        public ActionResult CallerTuneEdit(int id)
+        {
+            var callertune = _context.CallerTunes.Find(id);
+            if (callertune != null)
+            {
+                return View(callertune);
+            }
+            return RedirectToAction(nameof(Error404));
+        }
+
+        // POST: AdminController/CallerTuneEdit/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult CallerTuneEdit(int id, CallerTune callertune)
+        {
+            if (id != callertune.Tune_Id)
+            {
+                return RedirectToAction(nameof(Error404));
+            }
+            if (ModelState.IsValid)
+            {
+                _context.CallerTunes.Update(callertune);
+                _context.SaveChanges();
+                return RedirectToAction(nameof(CallerTunes));
+            }
+            return RedirectToAction(nameof(Error404));
+        }
+
+        // GET: AdminController/CallerTuneDelete/5
+        public ActionResult CallerTuneDelete(int id)
+        {
+            var callertune = _context.CallerTunes.Find(id);
+            if (callertune != null)
+            {
+                return View(callertune);
+            }
+            return RedirectToAction(nameof(Error404));
+        }
+
+        // POST: AdminController/CallerTuneDelete/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult CallerTuneDelete(int id, string name)
+        {
+            var callertune = _context.CallerTunes.Find(id);
+            if (callertune != null)
+            {
+                _context.CallerTunes.Remove(callertune);
+                _context.SaveChanges();
+                return RedirectToAction(nameof(CallerTunes));
+            }
+            return RedirectToAction(nameof(Error404));
+        }
+
+        // GET: AdminController/TaxRates
+        public IActionResult TaxRates()
+        {
+            var data = _context.TaxRates.ToList();
+            return View(data);
+        }
+
+        // GET: AdminController/TaxDetails/5
+        public ActionResult TaxDetails(int id)
+        {
+            var taxrate = _context.TaxRates.Find(id);
+            if (taxrate != null)
+            {
+                return View(taxrate);
+            }
+            return RedirectToAction(nameof(Error404));
+        }
+
+        // GET: AdminController/TaxAdd
+        public ActionResult TaxAdd() { return View(); }
+
+        // POST: AdminController/TaxAdd
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult TaxAdd(TaxRate taxrate)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.TaxRates.Add(taxrate);
+                _context.SaveChanges();
+                return RedirectToAction(nameof(TaxRates));
+            }
+            return View();
+        }
+
+        // GET: AdminController/TaxEdit/5
+        public ActionResult TaxEdit(int id)
+        {
+            var taxrate = _context.TaxRates.Find(id);
+            if (taxrate != null)
+            {
+                return View(taxrate);
+            }
+            return RedirectToAction(nameof(Error404));
+        }
+
+        // POST: AdminController/TaxEdit/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult TaxEdit(int id, TaxRate taxrate)
+        {
+            if (id != taxrate.Tax_Id)
+            {
+                return RedirectToAction(nameof(Error404));
+            }
+            if (ModelState.IsValid)
+            {
+                _context.TaxRates.Update(taxrate);
+                _context.SaveChanges();
+                return RedirectToAction(nameof(TaxRates));
+            }
+            return RedirectToAction(nameof(Error404));
+        }
+
+        // GET: AdminController/TaxDelete/5
+        public ActionResult TaxDelete(int id)
+        {
+            var taxrate = _context.TaxRates.Find(id);
+            if (taxrate != null)
+            {
+                return View(taxrate);
+            }
+            return RedirectToAction(nameof(Error404));
+        }
+
+        // POST: AdminController/TaxDelete/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult TaxDelete(int id, string name)
+        {
+            var taxrate = _context.TaxRates.Find(id);
+            if (taxrate != null)
+            {
+                _context.TaxRates.Remove(taxrate);
+                _context.SaveChanges();
+                return RedirectToAction(nameof(TaxRates));
+            }
+            return RedirectToAction(nameof(Error404));
+        }
+
+        // GET: AdminController/Service
+        public IActionResult Service()
+        {
+            var data = _context.Services.Include(x => x.IdentityUser).Include(x => x.Caller_Tune).ToList();
+            return View(data);
+        }
+
+        // GET: AdminController/PackageTransaction
+        public IActionResult PackageTransaction()
+        {
+            var data = _context.PackageTransactions.Include(x => x.Package).ToList();
+            return View(data);
+        }
+
+        // GET: AdminController/RechargeTransaction
+        public IActionResult RechargeTransaction()
+        {
+            var data = _context.RechargeTransactions.Include(x => x.Recharge).ToList();
+            return View(data);
+        }
+
+        // GET: AdminController/CustomRechargeTransaction
+        public IActionResult CustomRechargeTransaction()
+        {
+            var data = _context.CustomRechargeTransactions.Include(x => x.TaxRate).ToList();
+            return View(data);
+        }
+
+        // GET: AdminController/ServiceTransaction
+        public IActionResult ServiceTransaction()
+        {
+            var data = _context.ServiceTransactions.Include(x=>x.CallerTune).ToList();
+            return View(data);
+        }
+
+        // GET: AdminController/Contact
+        public IActionResult Contact()
+        {
+            var data = _context.Contacts.ToList();
+            return View(data);
+        }
+
+        // GET: AdminController/FeedBack
+        public IActionResult FeedBack()
+        {
+            var data = _context.Feedbacks.ToList();
+            return View(data);
+        }
+
+        // GET: AdminController/Newsletter
+        public IActionResult Newsletter()
+        {
+            var data = _context.Newsletter.ToList();
+            return View(data);
         }
 
         // GET: AdminController/Error404

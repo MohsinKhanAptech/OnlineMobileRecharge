@@ -9,7 +9,7 @@
                     </div>
                     Dashboard
                 </a>
-                <div class="sb-sidenav-menu-heading">Tables</div>
+                <div class="sb-sidenav-menu-heading">Manage</div>
                 <a class="nav-link" asp-action="Packages">
                     <div class="sb-nav-link-icon">
                         <i class="fas fa-cubes"></i>
@@ -22,11 +22,23 @@
                     </div>
                     Recharges
                 </a>
+                <a class="nav-link" asp-action="TaxRates">
+                    <div class="sb-nav-link-icon">
+                        <i class="fas fa-sack-dollar"></i>
+                    </div>
+                    Tax Rate
+                </a>
                 <a class="nav-link" asp-action="CallerTunes">
                     <div class="sb-nav-link-icon">
                         <i class="fas fa-music"></i>
                     </div>
                     Caller Tunes
+                </a>
+                <a class="nav-link" asp-action="Service">
+                    <div class="sb-nav-link-icon">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    Services
                 </a>
                 <a class="nav-link" asp-action="Users">
                     <div class="sb-nav-link-icon">
@@ -35,89 +47,85 @@
                     Users
                 </a>
                 <div class="sb-sidenav-menu-heading">Transactions</div>
-                <a class="nav-link" asp-action="PackageTransactions">
-                    <div class="sb-nav-link-icon">
-                        <i class="fas fa-cubes"></i>
-                    </div>
-                    PackageTransactions
-                </a>
-                <a class="nav-link" asp-action="RechargeTransactions">
-                    <div class="sb-nav-link-icon">
-                        <i class="fas fa-bolt"></i>
-                    </div>
-                    RechargeTransactions
-                </a>
-                <div class="sb-sidenav-menu-heading">Others</div>
-                <a class="nav-link" asp-action="Newsletters">
-                    <div class="sb-nav-link-icon">
-                        <i class="fas fa-newspaper"></i>
-                    </div>
-                    Newsletter
-                </a>
-                <a class="nav-link" asp-action="Feedbacks">
-                    <div class="sb-nav-link-icon">
-                        <i class="fas fa-comments"></i>
-                    </div>
-                    Feedbacks
-                </a>
-                <a class="nav-link" asp-action="Contact">
-                    <div class="sb-nav-link-icon">
-                        <i class="fas fa-user-group"></i>
-                    </div>
-                    Contact
-                </a>
 
-                @*
                 <a class="nav-link collapsed" href="" data-bs-toggle="collapse"
-                data-bs-target="#pagesCollapseError" aria-expanded="false"
-                aria-controls="pagesCollapseError">
-                <div class="sb-nav-link-icon"><i class="fas fa-cubes"></i></div>
-                Packages
-                <div class="sb-sidenav-collapse-arrow">
-                <i class="fas fa-angle-down"></i>
+                   data-bs-target="#collapseExample1" aria-expanded="false"
+                   aria-controls="collapseExample1">
+                    <div class="sb-nav-link-icon"><i class="fas fa-book"></i></div>
+                    Transaction History
+                    <div class="sb-sidenav-collapse-arrow">
+                        <i class="fas fa-angle-down"></i>
+                    </div>
+                </a>
+                <div class="collapse" id="collapseExample1" aria-labelledby="headingOne"
+                     data-bs-parent="#sidenavAccordionPages">
+                    <nav class="sb-sidenav-menu-nested nav">
+                        <a class="nav-link" asp-action="PackageTransaction">
+                            <div class="sb-nav-link-icon">
+                                <i class="fas fa-cubes"></i>
+                            </div>
+                            Packages
+                        </a>
+                        <a class="nav-link" asp-action="RechargeTransaction">
+                            <div class="sb-nav-link-icon">
+                                <i class="fas fa-bolt"></i>
+                            </div>
+                            Recharges
+                        </a>
+                        <a class="nav-link" asp-action="CustomRechargeTransaction">
+                            <div class="sb-nav-link-icon">
+                                <i class="fas fa-user-pen"></i>
+                            </div>
+                            Custom Recharges
+                        </a>
+                        <a class="nav-link" asp-action="ServiceTransaction">
+                            <div class="sb-nav-link-icon">
+                                <i class="fas fa-star"></i>
+                            </div>
+                            Services
+                        </a>
+                    </nav>
                 </div>
+
+                <div class="sb-sidenav-menu-heading">Others</div>
+
+                <a class="nav-link collapsed" href="" data-bs-toggle="collapse"
+                   data-bs-target="#pagesCollapseError" aria-expanded="false"
+                   aria-controls="pagesCollapseError">
+                    <div class="sb-nav-link-icon"><i class="fas fa-message"></i></div>
+                    Feedback & More
+                    <div class="sb-sidenav-collapse-arrow">
+                        <i class="fas fa-angle-down"></i>
+                    </div>
                 </a>
                 <div class="collapse" id="pagesCollapseError" aria-labelledby="headingOne"
-                data-bs-parent="#sidenavAccordionPages">
-                <nav class="sb-sidenav-menu-nested nav">
-                <a class="nav-link" asp-action="ListPackages">
-                <div class="sb-nav-link-icon">
-                <i class="fas fa-rectangle-list"></i>
+                     data-bs-parent="#sidenavAccordionPages">
+                    <nav class="sb-sidenav-menu-nested nav">
+                        <a class="nav-link" asp-action="Newsletter">
+                            <div class="sb-nav-link-icon">
+                                <i class="fas fa-newspaper"></i>
+                            </div>
+                            Newsletter
+                        </a>
+                        <a class="nav-link" asp-action="Feedback">
+                            <div class="sb-nav-link-icon">
+                                <i class="fas fa-comments"></i>
+                            </div>
+                            Feedback
+                        </a>
+                        <a class="nav-link" asp-action="Contact">
+                            <div class="sb-nav-link-icon">
+                                <i class="fas fa-user-group"></i>
+                            </div>
+                            Contact
+                        </a>
+                    </nav>
                 </div>
-                List Packages
-                </a>
-                <a class="nav-link" asp-action="ViewPackage">
-                <div class="sb-nav-link-icon">
-                <i class="fas fa-eye"></i>
-                </div>
-                View Package
-                </a>
-                <a class="nav-link" asp-action="AddPackage">
-                <div class="sb-nav-link-icon">
-                <i class="fas fa-circle-plus"></i>
-                </div>
-                Add Package
-                </a>
-                <a class="nav-link" asp-action="EditPackage">
-                <div class="sb-nav-link-icon">
-                <i class="fas fa-pen-to-square"></i>
-                </div>
-                Edit Package
-                </a>
-                <a class="nav-link" asp-action="DeletePackage">
-                <div class="sb-nav-link-icon">
-                <i class="fas fa-trash"></i>
-                </div>
-                Delete Package
-                </a>
-                </nav>
-                </div>
-                *@
             </div>
         </div>
         <div class="sb-sidenav-footer">
             <div class="small">Logged in as:</div>
-            Start Bootstrap
+            @User.Identity?.Name
         </div>
     </nav>
 </div>

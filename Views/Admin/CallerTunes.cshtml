@@ -1,21 +1,21 @@
-﻿@model IEnumerable<OnlineMobileRecharge.Models.Package>
+﻿@model IEnumerable<OnlineMobileRecharge.Models.CallerTune>
 
 @{
     Layout = "_AdminLayout";
-    ViewData["Title"] = "Packages List";
+    ViewData["Title"] = "Caller Tune List";
 }
 
 <div id="layoutSidenav_content">
     <main>
         <div class="container-fluid px-4">
-            <h1 class="mt-4">View Packages</h1>
+            <h1 class="mt-4">View Caller Tunes</h1>
             <ol class="breadcrumb mb-4">
                 <li class="breadcrumb-item"><a asp-action="Index">Dashboard</a></li>
-                <li class="breadcrumb-item active">View Packages</li>
+                <li class="breadcrumb-item active">View Caller Tunes</li>
             </ol>
-            <p><a asp-action="PackageAdd" class="btn btn-primary">Create New</a></p>
+            <p><a asp-action="CallerTuneAdd" class="btn btn-primary">Create New</a></p>
             <div class="card mb-4 p-4 pb-0">
-                <form asp-action="Packages" method="get" id="searchPackagesForm" class="d-grid">
+                <form asp-action="CallerTunes" method="get" id="searchCallerTunesForm" class="d-grid">
                     <div class="mb-4">
                         <div class="d-flex flex-column gap-2">
                             <div class="w-100 d-flex flex-nowrap gap-0 border rounded">
@@ -25,11 +25,6 @@
                                 </button>
                             </div>
                             <div class="w-100 d-flex flex-column flex-lg-row gap-2">
-                                <select id="packageType" name="packageType" class="form-control" onchange="formSubmit()">
-                                    <option value="">All</option>
-                                    <option value="prepaid">Prepaid</option>
-                                    <option value="postpaid">Postpaid</option>
-                                </select>
                                 <select id="sortOrder" name="sortOrder" class="form-control" onchange="formSubmit()">
                                     <option value="name">Name Ascending</option>
                                     <option value="name_desc">Name Descending</option>
@@ -50,31 +45,16 @@
                                 <thead>
                                     <tr class="text-center table-active">
                                         <th>
-                                            @Html.DisplayNameFor(model => model.Package_Name)
+                                            @Html.DisplayNameFor(model => model.Tune_Name)
                                         </th>
                                         <th class="d-none d-lg-table-cell">
-                                            @Html.DisplayNameFor(model => model.Package_Description)
+                                            @Html.DisplayNameFor(model => model.Tune_Description)
                                         </th>
                                         <th>
-                                            @Html.DisplayNameFor(model => model.Package_Off_Net_Mins)
+                                            Audio
                                         </th>
                                         <th>
-                                            @Html.DisplayNameFor(model => model.Package_On_Net_Mins)
-                                        </th>
-                                        <th>
-                                            @Html.DisplayNameFor(model => model.Package_Data)
-                                        </th>
-                                        <th>
-                                            @Html.DisplayNameFor(model => model.Package_SMS)
-                                        </th>
-                                        <th>
-                                            @Html.DisplayNameFor(model => model.Package_Duration)
-                                        </th>
-                                        <th>
-                                            @Html.DisplayNameFor(model => model.Package_Price)
-                                        </th>
-                                        <th>
-                                            @Html.DisplayNameFor(model => model.Package_Type)
+                                            @Html.DisplayNameFor(model => model.Tune_Price)
                                         </th>
                                         <th>Actions</th>
                                     </tr>
@@ -83,38 +63,29 @@
                                     @foreach (var item in Model)
                                     {
                                         <tr class="text-center">
-                                            <td class="text-truncate" style="max-width: 150px;">
-                                                @Html.DisplayFor(modelItem => item.Package_Name)
+                                            <td class="text-truncate pt-4" style="max-width: 150px;">
+                                                <span class="d-block mt-2">
+                                                    @Html.DisplayFor(modelItem => item.Tune_Name)
+                                                </span>
                                             </td>
-                                            <td class="d-none d-lg-table-cell text-truncate" style="max-width: 150px;">
-                                                @Html.DisplayFor(modelItem => item.Package_Description)
+                                            <td class="d-none pt-4 d-lg-table-cell text-truncate" style="max-width: 150px;">
+                                                <span class="d-block mt-1">
+                                                    @Html.DisplayFor(modelItem => item.Tune_Description)
+                                                </span>
                                             </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.Package_Off_Net_Mins)
+                                            <td class="pt-2">
+                                                <audio class="mt-2" controls src="@item.Tune_Path"></audio>
                                             </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.Package_On_Net_Mins)
+                                            <td class="pt-4">
+                                                <span class="d-block mt-1">
+                                                    @Html.DisplayFor(modelItem => item.Tune_Price)
+                                                </span>
                                             </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.Package_Data) MB
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.Package_SMS)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.Package_Duration) days
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.Package_Price)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.Package_Type)
-                                            </td>
-                                            <td>
-                                                <div class="d-flex justify-content-center">
-                                                    <a class="text-secondary" asp-action="PackageDetails" asp-route-id="@item.Package_Id">Details</a> &nbsp|&nbsp
-                                                    <a class="text-warning" asp-action="PackageEdit" asp-route-id="@item.Package_Id">Edit</a> &nbsp|&nbsp
-                                                    <a class="text-danger" asp-action="PackageDelete" asp-route-id="@item.Package_Id">Delete</a>
+                                            <td class="pt-4">
+                                                <div class="d-flex justify-content-center mt-1">
+                                                    <a class="text-secondary" asp-action="CallerTuneDetails" asp-route-id="@item.Tune_Id">Details</a> &nbsp|&nbsp
+                                                    <a class="text-warning" asp-action="CallerTuneEdit" asp-route-id="@item.Tune_Id">Edit</a> &nbsp|&nbsp
+                                                    <a class="text-danger" asp-action="CallerTuneDelete" asp-route-id="@item.Tune_Id">Delete</a>
                                                 </div>
                                             </td>
                                         </tr>
@@ -156,12 +127,12 @@
 <script>
     function formSubmit(page) {
         document.getElementById("page").value = page;
-        document.getElementById('searchPackagesForm').submit()
+        document.getElementById('searchCallerTunesForm').submit()
     };
 
     let params = new URLSearchParams(location.search);
     document.getElementById("searchQuery").value = params.get("searchQuery");
-    let packageType = params.get("packageType");
+    let callerTuneType = params.get("callerTuneType");
     let sortOrder = params.get("sortOrder");
     let minPrice = params.get("minPrice");
     let maxPrice = params.get("maxPrice");
@@ -169,7 +140,7 @@
     document.getElementById("minPrice").value = minPrice;
     document.getElementById("maxPrice").value = maxPrice;
 
-    switch (packageType) {
+    switch (callerTuneType) {
         case "prepaid":
             document.querySelector("option[value='prepaid']").setAttribute("selected", "selected");
             break;
