@@ -258,6 +258,8 @@ namespace OnlineMobileRecharge.Data.Migrations
                     RechargeTransaction_Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Session_Id = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    User_Id = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IdentityUserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     Recharge_Id = table.Column<int>(type: "int", nullable: false),
                     Mobile_Number = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Transaction_Date = table.Column<DateTime>(type: "datetime2", nullable: false)
@@ -265,6 +267,11 @@ namespace OnlineMobileRecharge.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_RechargeTransactions", x => x.RechargeTransaction_Id);
+                    table.ForeignKey(
+                        name: "FK_RechargeTransactions_AspNetUsers_IdentityUserId",
+                        column: x => x.IdentityUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_RechargeTransactions_Recharges_Recharge_Id",
                         column: x => x.Recharge_Id,
@@ -280,6 +287,8 @@ namespace OnlineMobileRecharge.Data.Migrations
                     CustomRecharge_Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Session_Id = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    User_Id = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IdentityUserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     Recharge_Price = table.Column<double>(type: "float", nullable: false),
                     Tax_Id = table.Column<int>(type: "int", nullable: false),
                     TaxRateTax_Id = table.Column<int>(type: "int", nullable: false),
@@ -292,12 +301,22 @@ namespace OnlineMobileRecharge.Data.Migrations
                 {
                     table.PrimaryKey("PK_CustomRechargeTransactions", x => x.CustomRecharge_Id);
                     table.ForeignKey(
+                        name: "FK_CustomRechargeTransactions_AspNetUsers_IdentityUserId",
+                        column: x => x.IdentityUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
+                    table.ForeignKey(
                         name: "FK_CustomRechargeTransactions_TaxRates_TaxRateTax_Id",
                         column: x => x.TaxRateTax_Id,
                         principalTable: "TaxRates",
                         principalColumn: "Tax_Id",
                         onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CustomRechargeTransactions_IdentityUserId",
+                table: "CustomRechargeTransactions",
+                column: "IdentityUserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_CustomRechargeTransactions_TaxRateTax_Id",
@@ -313,6 +332,11 @@ namespace OnlineMobileRecharge.Data.Migrations
                 name: "IX_PackageTransactions_User_Id",
                 table: "PackageTransactions",
                 column: "User_Id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_RechargeTransactions_IdentityUserId",
+                table: "RechargeTransactions",
+                column: "IdentityUserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_RechargeTransactions_Recharge_Id",

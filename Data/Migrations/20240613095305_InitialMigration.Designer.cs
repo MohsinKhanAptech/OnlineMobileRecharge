@@ -12,7 +12,7 @@ using OnlineMobileRecharge.Data;
 namespace OnlineMobileRecharge.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240610134246_InitialMigration")]
+    [Migration("20240613095305_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />
@@ -295,6 +295,9 @@ namespace OnlineMobileRecharge.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CustomRecharge_Id"));
 
+                    b.Property<string>("IdentityUserId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("Mobile_Number")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -321,7 +324,13 @@ namespace OnlineMobileRecharge.Data.Migrations
                     b.Property<DateTime>("Transaction_Date")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("User_Id")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("CustomRecharge_Id");
+
+                    b.HasIndex("IdentityUserId");
 
                     b.HasIndex("TaxRateTax_Id");
 
@@ -497,6 +506,9 @@ namespace OnlineMobileRecharge.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RechargeTransaction_Id"));
 
+                    b.Property<string>("IdentityUserId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("Mobile_Number")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -511,7 +523,13 @@ namespace OnlineMobileRecharge.Data.Migrations
                     b.Property<DateTime>("Transaction_Date")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("User_Id")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("RechargeTransaction_Id");
+
+                    b.HasIndex("IdentityUserId");
 
                     b.HasIndex("Recharge_Id");
 
@@ -657,11 +675,17 @@ namespace OnlineMobileRecharge.Data.Migrations
 
             modelBuilder.Entity("OnlineMobileRecharge.Models.CustomRechargeTransaction", b =>
                 {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "IdentityUser")
+                        .WithMany()
+                        .HasForeignKey("IdentityUserId");
+
                     b.HasOne("OnlineMobileRecharge.Models.TaxRate", "TaxRate")
                         .WithMany()
                         .HasForeignKey("TaxRateTax_Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("IdentityUser");
 
                     b.Navigation("TaxRate");
                 });
@@ -687,11 +711,17 @@ namespace OnlineMobileRecharge.Data.Migrations
 
             modelBuilder.Entity("OnlineMobileRecharge.Models.RechargeTransaction", b =>
                 {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "IdentityUser")
+                        .WithMany()
+                        .HasForeignKey("IdentityUserId");
+
                     b.HasOne("OnlineMobileRecharge.Models.Recharge", "Recharge")
                         .WithMany()
                         .HasForeignKey("Recharge_Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("IdentityUser");
 
                     b.Navigation("Recharge");
                 });

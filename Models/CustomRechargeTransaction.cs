@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using Microsoft.AspNetCore.Identity;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace OnlineMobileRecharge.Models
@@ -11,6 +12,9 @@ namespace OnlineMobileRecharge.Models
         [Required]
         [DisplayName("Session Id")]
         public string Session_Id { get; set; }
+        [DisplayName("User Id")]
+        public string User_Id { get; set; }
+        public IdentityUser IdentityUser { get; set; }
         [Required]
         [DisplayName("Price")]
         public double Recharge_Price { get; set; }

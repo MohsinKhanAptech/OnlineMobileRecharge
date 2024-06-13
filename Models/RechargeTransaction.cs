@@ -1,4 +1,5 @@
-﻿using Microsoft.CodeAnalysis.CodeFixes;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.CodeAnalysis.CodeFixes;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -13,6 +14,9 @@ namespace OnlineMobileRecharge.Models
         [Required]
         [DisplayName("Session Id")]
         public string Session_Id { get; set; }
+        [DisplayName("User Id")]
+        public string User_Id { get; set; }
+        public IdentityUser IdentityUser { get; set; }
         [Required]
         [DisplayName("Recharge Id")]
         public int Recharge_Id { get; set; }

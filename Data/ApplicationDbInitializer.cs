@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using OnlineMobileRecharge.Models;
+using Org.BouncyCastle.Bcpg;
 using SQLitePCL;
 using Stripe;
 
@@ -219,26 +220,105 @@ namespace OnlineMobileRecharge.Data
 
                 if (await userManager.FindByEmailAsync(userEmail) == null)
                 {
-                    var user = new IdentityUser();
-                    user.UserName = userName;
-                    user.PhoneNumber = userPhone;
-                    user.Email = userEmail;
-                    user.EmailConfirmed = true;
-                    user.PhoneNumberConfirmed = true;
+                    var newUser = new IdentityUser();
+                    newUser.UserName = userName;
+                    newUser.PhoneNumber = userPhone;
+                    newUser.Email = userEmail;
+                    newUser.EmailConfirmed = true;
+                    newUser.PhoneNumberConfirmed = true;
 
-                    await userManager.CreateAsync(user, userPassword);
+                    await userManager.CreateAsync(newUser, userPassword);
 
-                    await userManager.AddToRoleAsync(user, "User");
+                    await userManager.AddToRoleAsync(newUser, "User");
 
                     // add service for user
                     await context.Services.AddAsync(new Service()
                     {
-                        User_Id = user.Id,
-                        IdentityUser = user,
+                        User_Id = newUser.Id,
+                        IdentityUser = newUser,
                         Caller_Tune_Id = 1,
                         Caller_Tune = context.CallerTunes.Find(1),
                         Do_Not_Disturb = false,
                     });
+                    await context.SaveChangesAsync();
+                }
+
+                // add transactions
+                var user = await context.Users.FirstAsync();
+
+                if (!await context.PackageTransactions.AnyAsync())
+                {
+                    foreach (var package in context.Packages)
+                    {
+                        await context.PackageTransactions.AddAsync(new Models.PackageTransaction()
+                        {
+                            Package_Id = package.Package_Id,
+                            Package = await context.Packages.FindAsync(package.Package_Id),
+                            Mobile_Number = userPhone,
+                            User_Id = user.Id,
+                            IdentityUser = await context.Users.FindAsync(user.Id),
+                            Session_Id = $"{package.Package_Id}Session",
+                            Transaction_Date = DateTime.UtcNow,
+                        });
+                    }
+                    await context.SaveChangesAsync();
+                }
+
+                if (!await context.RechargeTransactions.AnyAsync())
+                {
+                    foreach (var recharge in context.Recharges)
+                    {
+                        await context.RechargeTransactions.AddAsync(new Models.RechargeTransaction()
+                        {
+                            Recharge_Id = recharge.Recharge_Id,
+                            Recharge = await context.Recharges.FindAsync(recharge.Recharge_Id),
+                            Mobile_Number = userPhone,
+                            User_Id = user.Id,
+                            IdentityUser = await context.Users.FindAsync(user.Id),
+                            Session_Id = $"{recharge.Recharge_Id}Session",
+                            Transaction_Date = DateTime.UtcNow,
+                        });
+                    }
+                    await context.SaveChangesAsync();
+                }
+
+                if (!await context.ServiceTransactions.AnyAsync())
+                {
+                    foreach (var tune in context.CallerTunes)
+                    {
+                        await context.ServiceTransactions.AddAsync(new Models.ServiceTransaction()
+                        {
+                            Tune_Id = tune.Tune_Id,
+                            CallerTune = await context.CallerTunes.FindAsync(tune.Tune_Id),
+                            Mobile_Number = userPhone,
+                            User_Id = user.Id,
+                            IdentityUser = await context.Users.FindAsync(user.Id),
+                            Session_Id = $"{tune.Tune_Id}Session",
+                            Transaction_Date = DateTime.UtcNow,
+                        });
+                    }
+                    await context.SaveChangesAsync();
+                }
+
+                if (!await context.CustomRechargeTransactions.AnyAsync())
+                {
+                    var taxRate = await context.TaxRates.FirstAsync();
+                    for (int i = 200; i < 1000; i = i + 100)
+                    {
+                        await context.CustomRechargeTransactions.AddAsync(new Models.CustomRechargeTransaction()
+                        {
+                            Tax_Id = taxRate.Tax_Id,
+                            TaxRate = taxRate,
+                            Recharge_Price = i,
+                            Recharge_Amount = i - i * taxRate.Tax_Rate / 100,
+                            Mobile_Number = userPhone,
+                            User_Id = user.Id,
+                            IdentityUser = await context.Users.FindAsync(user.Id),
+                            Recharge_Type = EnumRechargeType.Special,
+                            Session_Id = $"{i}Session",
+                            Transaction_Date = DateTime.UtcNow,
+                        });
+                    }
                     await context.SaveChangesAsync();
                 }
             }
