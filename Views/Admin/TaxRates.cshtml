@@ -1,21 +1,21 @@
-﻿@model IEnumerable<OnlineMobileRecharge.Models.CallerTune>
+﻿@model IEnumerable<OnlineMobileRecharge.Models.TaxRate>
 
 @{
     Layout = "_AdminLayout";
-    ViewData["Title"] = "Caller Tune List";
+    ViewData["Title"] = "List Tax Rate";
 }
 
 <div id="layoutSidenav_content">
     <main>
         <div class="container-fluid px-4">
-            <h1 class="mt-4">View Caller Tunes</h1>
+            <h1 class="mt-4">View Tax Rate</h1>
             <ol class="breadcrumb mb-4">
                 <li class="breadcrumb-item"><a asp-action="Index">Dashboard</a></li>
-                <li class="breadcrumb-item active">View Caller Tunes</li>
+                <li class="breadcrumb-item active">View Tax Rate</li>
             </ol>
-            <p><a asp-action="CallerTuneAdd" class="btn btn-primary">Create New</a></p>
+            <p><a asp-action="TaxAdd" class="btn btn-primary">Create New</a></p>
             <div class="card mb-4 p-4 pb-0">
-                <form asp-action="CallerTunes" method="get" id="searchCallerTunesForm" class="d-grid">
+                <form asp-action="TaxRates" method="get" id="searchTaxRatesForm" class="d-grid">
                     <div class="mb-4">
                         <div class="d-flex flex-column gap-2">
                             <div class="w-100 d-flex flex-nowrap gap-0 border rounded">
@@ -28,13 +28,7 @@
                                 <select id="sortOrder" name="sortOrder" class="form-control" onchange="formSubmit()">
                                     <option value="name">Name Ascending</option>
                                     <option value="name_desc">Name Descending</option>
-                                    <option value="price">Price Ascending</option>
-                                    <option value="price_desc">Price Descending</option>
                                 </select>
-                            </div>
-                            <div class="w-100 d-flex flex-column flex-lg-row gap-2">
-                                <input type="number" id="minPrice" name="minPrice" class="form-control" placeholder="Minimum Price" />
-                                <input type="number" id="maxPrice" name="maxPrice" class="form-control" placeholder="Maximum Price" />
                             </div>
                             <input class="btn btn-primary" type="submit" value="Filter" />
                         </div>
@@ -45,16 +39,13 @@
                                 <thead>
                                     <tr class="text-center table-active">
                                         <th>
-                                            @Html.DisplayNameFor(model => model.Tune_Name)
-                                        </th>
-                                        <th class="d-none d-lg-table-cell">
-                                            @Html.DisplayNameFor(model => model.Tune_Description)
+                                            @Html.DisplayNameFor(model => model.Tax_Name)
                                         </th>
                                         <th>
-                                            Audio
+                                            @Html.DisplayNameFor(model => model.Tax_Description)
                                         </th>
                                         <th>
-                                            @Html.DisplayNameFor(model => model.Tune_Price)
+                                            @Html.DisplayNameFor(model => model.Tax_Rate)
                                         </th>
                                         <th>Actions</th>
                                     </tr>
@@ -63,29 +54,20 @@
                                     @foreach (var item in Model)
                                     {
                                         <tr class="text-center">
-                                            <td class="text-truncate pt-4" style="max-width: 150px;">
-                                                <span class="d-block mt-2">
-                                                    @Html.DisplayFor(modelItem => item.Tune_Name)
-                                                </span>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Tax_Name)
                                             </td>
-                                            <td class="d-none pt-4 d-lg-table-cell text-truncate" style="max-width: 150px;">
-                                                <span class="d-block mt-1">
-                                                    @Html.DisplayFor(modelItem => item.Tune_Description)
-                                                </span>
+                                            <td class="d-none d-lg-table-cell text-truncate" style="max-width: 150px;">
+                                                @Html.DisplayFor(modelItem => item.Tax_Description)
                                             </td>
-                                            <td class="pt-2">
-                                                <audio class="mt-2" controls src="@item.Tune_Path"></audio>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Tax_Rate)
                                             </td>
-                                            <td class="pt-4">
-                                                <span class="d-block mt-1">
-                                                    @Html.DisplayFor(modelItem => item.Tune_Price)
-                                                </span>
-                                            </td>
-                                            <td class="pt-4">
-                                                <div class="d-flex justify-content-center mt-1">
-                                                    <a class="text-secondary" asp-action="CallerTuneDetails" asp-route-id="@item.Tune_Id">Details</a> &nbsp|&nbsp
-                                                    <a class="text-warning" asp-action="CallerTuneEdit" asp-route-id="@item.Tune_Id">Edit</a> &nbsp|&nbsp
-                                                    <a class="text-danger" asp-action="CallerTuneDelete" asp-route-id="@item.Tune_Id">Delete</a>
+                                            <td>
+                                                <div class="d-flex justify-content-center">
+                                                    <a class="text-secondary" asp-action="TaxDetails" asp-route-id="@item.Tax_Id">Details</a> &nbsp|&nbsp
+                                                    <a class="text-warning" asp-action="TaxEdit" asp-route-id="@item.Tax_Id">Edit</a> &nbsp|&nbsp
+                                                    <a class="text-danger" asp-action="TaxDelete" asp-route-id="@item.Tax_Id">Delete</a>
                                                 </div>
                                             </td>
                                         </tr>
@@ -127,17 +109,12 @@
 <script>
     function formSubmit(page) {
         document.getElementById("page").value = page;
-        document.getElementById('searchCallerTunesForm').submit()
+        document.getElementById('searchTaxRatesForm').submit()
     };
 
     let params = new URLSearchParams(location.search);
     document.getElementById("searchQuery").value = params.get("searchQuery");
     let sortOrder = params.get("sortOrder");
-    let minPrice = params.get("minPrice");
-    let maxPrice = params.get("maxPrice");
-
-    document.getElementById("minPrice").value = minPrice;
-    document.getElementById("maxPrice").value = maxPrice;
 
     switch (sortOrder) {
         case "name":
@@ -145,12 +122,6 @@
             break;
         case "name_desc":
             document.querySelector("option[value='name_desc']").setAttribute("selected", "selected");
-            break;
-        case "price":
-            document.querySelector("option[value='price']").setAttribute("selected", "selected");
-            break;
-        case "price_desc":
-            document.querySelector("option[value='price_desc']").setAttribute("selected", "selected");
             break;
     }
 </script>

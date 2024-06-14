@@ -1,0 +1,55 @@
+﻿@model IEnumerable<OnlineMobileRecharge.Models.PackageTransaction>
+
+@{
+    Layout = "_AdminLayout";
+    ViewData["Title"] = "Packages Transaction List";
+}
+<div id="layoutSidenav_content">
+    <main>
+        <div class="container-fluid px-4">
+            <h1 class="mt-4">Package Transaction</h1>
+            <ol class="breadcrumb mb-4">
+                <li class="breadcrumb-item"><a asp-action="Index">Dashboard</a></li>
+                <li class="breadcrumb-item active">View Package Transaction</li>
+            </ol>
+
+            <div class="card mb-4">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr class="text-center">
+                                <th>
+                                    @Html.DisplayNameFor(model => model.IdentityUser)
+                                </th>
+                                <th class="d-none d-lg-table-cell">
+                                    @Html.DisplayNameFor(model => model.Package)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Mobile_Number)
+                                </th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr class="text-center">
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.IdentityUser.Id)
+                                    </td>
+                                    <td class="d-none d-lg-table-cell text-truncate" style="max-width: 150px;">
+                                        @Html.DisplayFor(modelItem => item.Package.Package_Description)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Mobile_Number)
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+    <partial name="_AdminFooterPartial" />
+</div>

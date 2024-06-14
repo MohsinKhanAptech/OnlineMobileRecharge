@@ -1,0 +1,43 @@
+﻿@model IEnumerable<OnlineMobileRecharge.Models.Newsletter>
+
+@{
+    Layout = "_AdminLayout";
+    ViewData["Title"] = "NewsLetter List";
+}
+
+<div id="layoutSidenav_content">
+    <main>
+        <div class="container-fluid px-4">
+            <h1 class="mt-4">NewsLetter</h1>
+            <ol class="breadcrumb mb-4">
+                <li class="breadcrumb-item"><a asp-action="Index">Dashboard</a></li>
+                <li class="breadcrumb-item active">View NewsLetter</li>
+            </ol>
+
+            <div class="card mb-4">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr class="text-center">
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Newsletter_Email)
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Newsletter_Email)
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+    <partial name="_AdminFooterPartial" />
+</div>

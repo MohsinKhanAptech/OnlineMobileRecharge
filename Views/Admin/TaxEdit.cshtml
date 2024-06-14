@@ -1,0 +1,50 @@
+﻿@model OnlineMobileRecharge.Models.TaxRate
+@{
+    ViewData["Title"] = "Edit Tax Rate";
+    Layout = "_AdminLayout";
+}
+
+<div id="layoutSidenav_content">
+    <main>
+        <div class="container-fluid px-4">
+            <h1 class="mt-4">Edit Tax Rate</h1>
+            <ol class="breadcrumb mb-4">
+                <li class="breadcrumb-item"><a asp-action="Index">Dashboard</a></li>
+                <li class="breadcrumb-item active">Edit Tax Rate</li>
+            </ol>
+            <div class="col-12">
+                <div class="container">
+
+                    <div class="row justify-content-center">
+                        <div class="col-lg-6">
+                            <form asp-action="TaxEdit" method="post">
+                                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                <input type="hidden" asp-for="Tax_Id" />
+                                <div class="form-floating mb-3">
+                                    <input asp-for="Tax_Name" class="form-control" />
+                                    <label asp-for="Tax_Name" class="control-label"></label>
+                                    <span asp-validation-for="Tax_Name" class="text-danger"></span>
+                                </div>
+                                <div class="form-floating mb-3">
+                                    <input asp-for="Tax_Description" class="form-control" />
+                                    <label asp-for="Tax_Description" class="control-label"></label>
+                                    <span asp-validation-for="Tax_Description" class="text-danger"></span>
+                                </div>
+                                <div class="form-floating mb-3">
+                                    <input asp-for="Tax_Rate" class="form-control" />
+                                    <label asp-for="Tax_Rate" class="control-label"></label>
+                                    <span asp-validation-for="Tax_Rate" class="text-danger"></span>
+                                </div>
+                                <div class="form-floating mb-3 d-flex flex-row-reverse gap-2">
+                                    <input type="submit" value="Save Changes" class="btn btn-primary" />
+                                    <a asp-action="TaxRates" class="btn btn-secondary">Back to List</a>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <partial name="_AdminFooterPartial" />
+</div>

@@ -1,16 +1,16 @@
-﻿@model OnlineMobileRecharge.Models.CallerTune
+﻿@model OnlineMobileRecharge.Models.Service
 @{
-    ViewData["Title"] = "Caller Tune Details";
+    ViewData["Title"] = "Service Details";
     Layout = "_AdminLayout";
 }
 
 <div id="layoutSidenav_content">
     <main>
         <div class="container-fluid px-4">
-            <h1 class="mt-4">Caller Tune Details</h1>
+            <h1 class="mt-4">Service Details</h1>
             <ol class="breadcrumb mb-4">
                 <li class="breadcrumb-item"><a asp-action="Index">Dashboard</a></li>
-                <li class="breadcrumb-item active">Caller Tune Details</li>
+                <li class="breadcrumb-item active">Service Details</li>
             </ol>
             <div class="col-12">
                 <div class="container">
@@ -22,26 +22,26 @@
                                         <tbody>
                                             <tr class="d-flex flex-column d-sm-table-row">
                                                 <td class="col-sm-2 fw-bold bg-opacity-10 bg-secondary">
-                                                    @Html.DisplayNameFor(model => model.Tune_Name)
+                                                    @Html.DisplayNameFor(model => model.IdentityUser.UserName)
                                                 </td>
                                                 <td class="col-sm-10">
-                                                    @Html.DisplayFor(model => model.Tune_Name)
+                                                    @Html.DisplayFor(model => model.IdentityUser.UserName)
                                                 </td>
                                             </tr>
                                             <tr class="d-flex flex-column d-sm-table-row">
                                                 <td class="col-sm-2 fw-bold bg-opacity-10 bg-secondary">
-                                                    @Html.DisplayNameFor(model => model.Tune_Description)
+                                                    @Html.DisplayNameFor(model => model.Do_Not_Disturb)
                                                 </td>
                                                 <td class="col-sm-10">
-                                                    @Html.DisplayFor(model => model.Tune_Description)
+                                                    @Html.DisplayFor(model => model.Do_Not_Disturb)
                                                 </td>
                                             </tr>
                                             <tr class="d-flex flex-column d-sm-table-row">
                                                 <td class="col-sm-2 fw-bold bg-opacity-10 bg-secondary">
-                                                    @Html.DisplayNameFor(model => model.Tune_Path)
+                                                    Caller Tune Name
                                                 </td>
                                                 <td class="col-sm-10">
-                                                    @Html.DisplayFor(model => model.Tune_Path)
+                                                    @Html.DisplayFor(model => model.Caller_Tune.Tune_Name)
                                                 </td>
                                             </tr>
                                             <tr class="d-flex flex-column d-sm-table-row">
@@ -49,24 +49,22 @@
                                                     <span class="d-block pt-4">Audio</span>
                                                 </td>
                                                 <td class="col-sm-10">
-                                                    <audio class="mt-2" controls src="@Model.Tune_Path"></audio>
+                                                    <audio class="mt-2" controls src="@Model.Caller_Tune.Tune_Path"></audio>
                                                 </td>
                                             </tr>
                                             <tr class="d-flex flex-column d-sm-table-row">
                                                 <td class="col-sm-2 fw-bold bg-opacity-10 bg-secondary">
-                                                    @Html.DisplayNameFor(model => model.Tune_Price)
+                                                    @Html.DisplayNameFor(model => model.Caller_Tune.Tune_Price)
                                                 </td>
                                                 <td class="col-sm-10">
-                                                    @Html.DisplayFor(model => model.Tune_Price)
+                                                    @Html.DisplayFor(model => model.Caller_Tune.Tune_Price)
                                                 </td>
                                             </tr>
                                         </tbody>
                                     </table>
                                 </div>
                                 <div class="w-100 d-flex flex-row-reverse flex-wrap gap-2 p-2">
-                                    <a asp-action="CallerTuneDelete" asp-route-id="@Model?.Tune_Id" class="btn btn-danger">Delete</a>
-                                    <a asp-action="CallerTuneEdit" asp-route-id="@Model?.Tune_Id" class="btn btn-warning">Edit</a>
-                                    <a asp-action="CallerTunes" class="btn btn-secondary">Back to List</a>
+                                    <a asp-action="Service" class="btn btn-secondary">Back to List</a>
                                 </div>
                             </div>
                         </div>

@@ -1,0 +1,55 @@
+﻿@model IEnumerable<OnlineMobileRecharge.Models.Feedback>
+
+@{
+    Layout = "_AdminLayout";
+    ViewData["Title"] = "FeedBack List";
+}
+
+<div id="layoutSidenav_content">
+    <main>
+        <div class="container-fluid px-4">
+            <h1 class="mt-4">FeedBack</h1>
+            <ol class="breadcrumb mb-4">
+                <li class="breadcrumb-item"><a asp-action="Index">Dashboard</a></li>
+                <li class="breadcrumb-item active">View FeedBack</li>
+            </ol>
+
+            <div class="card mb-4">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr class="text-center">
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Feedback_Name)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Feedback_Email)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Feedback_Message)
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Feedback_Name)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Feedback_Email)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Feedback_Message)
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+    <partial name="_AdminFooterPartial" />
+</div>

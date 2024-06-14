@@ -294,25 +294,25 @@ namespace OnlineMobileRecharge.Controllers
 
             if (searchQuery != null)
             {
-                tune = tune.FindAll(r => r.Tune_Name.ToLower().Contains(searchQuery.ToLower()));
+                tune = tune.FindAll(c => c.Tune_Name.ToLower().Contains(searchQuery.ToLower()));
             }
             if (minPrice >= 0 && maxPrice > 0 && minPrice <= maxPrice)
             {
-                tune = tune.Where(r => r.Tune_Price >= minPrice && r.Tune_Price <= maxPrice).ToList();
+                tune = tune.Where(c => c.Tune_Price >= minPrice && c.Tune_Price <= maxPrice).ToList();
             }
             switch (sortOrder)
             {
                 case "name":
-                    tune = tune.OrderBy(r => r.Tune_Name).ToList();
+                    tune = tune.OrderBy(c => c.Tune_Name).ToList();
                     break;
                 case "name_desc":
-                    tune = tune.OrderByDescending(r => r.Tune_Name).ToList();
+                    tune = tune.OrderByDescending(c => c.Tune_Name).ToList();
                     break;
                 case "price":
-                    tune = tune.OrderBy(r => r.Tune_Price).ToList();
+                    tune = tune.OrderBy(c => c.Tune_Price).ToList();
                     break;
                 case "price_desc":
-                    tune = tune.OrderByDescending(r => r.Tune_Price).ToList();
+                    tune = tune.OrderByDescending(c => c.Tune_Price).ToList();
                     break;
             }
 
@@ -409,10 +409,32 @@ namespace OnlineMobileRecharge.Controllers
         }
 
         // GET: AdminController/TaxRates
-        public IActionResult TaxRates()
+        public IActionResult TaxRates(string searchQuery, string sortOrder, int page = 1, int pageSize = 30)
         {
-            var data = _context.TaxRates.ToList();
-            return View(data);
+            var taxRate = _context.TaxRates.ToList();
+
+            if (searchQuery != null)
+            {
+                taxRate = taxRate.FindAll(t => t.Tax_Name.ToLower().Contains(searchQuery.ToLower()));
+            }
+            switch (sortOrder)
+            {
+                case "name":
+                    taxRate = taxRate.OrderBy(t => t.Tax_Name).ToList();
+                    break;
+                case "name_desc":
+                    taxRate = taxRate.OrderByDescending(t => t.Tax_Name).ToList();
+                    break;
+            }
+
+            var totalCount = taxRate.Count;
+            var totalPages = (int)Math.Ceiling((decimal)totalCount / pageSize);
+            var itemsPerPage = taxRate.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+
+            ViewData["totalPages"] = totalPages;
+            ViewData["currentPage"] = page;
+
+            return View(itemsPerPage);
         }
 
         // GET: AdminController/TaxDetails/5
@@ -499,10 +521,43 @@ namespace OnlineMobileRecharge.Controllers
         }
 
         // GET: AdminController/Service
-        public IActionResult Service()
+        public IActionResult Service(string searchQuery, string sortOrder, int page = 1, int pageSize = 30)
         {
-            var data = _context.Services.Include(x => x.IdentityUser).Include(x => x.Caller_Tune).ToList();
-            return View(data);
+            var services = _context.Services.Include(s => s.Caller_Tune).Include(s => s.IdentityUser).ToList();
+
+            if (searchQuery != null)
+            {
+                services = services.FindAll(s => s.IdentityUser.UserName.ToLower().Contains(searchQuery.ToLower()));
+            }
+            switch (sortOrder)
+            {
+                case "name":
+                    services = services.OrderBy(s => s.IdentityUser.UserName).ToList();
+                    break;
+                case "name_desc":
+                    services = services.OrderByDescending(s => s.IdentityUser.UserName).ToList();
+                    break;
+            }
+
+            var totalCount = services.Count;
+            var totalPages = (int)Math.Ceiling((decimal)totalCount / pageSize);
+            var itemsPerPage = services.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+
+            ViewData["totalPages"] = totalPages;
+            ViewData["currentPage"] = page;
+
+            return View(services);
+        }
+
+        // GET: AdminController/ServiceDetails/5
+        public ActionResult ServiceDetails(int id)
+        {
+            var service = _context.Services.Include(s => s.Caller_Tune).Include(s => s.IdentityUser).First(s => s.Service_Id == id);
+            if (service != null)
+            {
+                return View(service);
+            }
+            return RedirectToAction(nameof(Error404));
         }
 
         // GET: AdminController/PackageTransaction
@@ -529,7 +584,7 @@ namespace OnlineMobileRecharge.Controllers
         // GET: AdminController/ServiceTransaction
         public IActionResult ServiceTransaction()
         {
-            var data = _context.ServiceTransactions.Include(x=>x.CallerTune).ToList();
+            var data = _context.ServiceTransactions.Include(x => x.CallerTune).ToList();
             return View(data);
         }
 
