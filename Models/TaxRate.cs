@@ -6,13 +6,13 @@ namespace OnlineMobileRecharge.Models
     public class TaxRate
     {
         [Key]
-        [DisplayName("Id")]
+        [DisplayName("Tax Rate Id")]
         public int Tax_Id { get; set; }
         [Required]
-        [DisplayName("Name")]
+        [DisplayName("Tax Rate Name")]
         public string Tax_Name { get; set; }
         [Required]
-        [DisplayName("Description")]
+        [DisplayName("Tax Rate Description")]
         public string Tax_Description { get; set; }
         [Required]
         [DisplayName("Tax Rate")]

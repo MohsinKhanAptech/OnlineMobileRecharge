@@ -6,13 +6,13 @@ namespace OnlineMobileRecharge.Models
     public class Package
     {
         [Key]
-        [DisplayName("Id")]
+        [DisplayName("Package Id")]
         public int Package_Id { get; set; }
         [Required]
-        [DisplayName("Name")]
+        [DisplayName("Package Name")]
         public string Package_Name { get; set; }
         [Required]
-        [DisplayName("Description")]
+        [DisplayName("Package Description")]
         public string Package_Description { get; set; }
         [Required]
         [DisplayName("Offnet Mins")]
@@ -23,7 +23,7 @@ namespace OnlineMobileRecharge.Models
         [RegularExpression("[0-9]+")]
         public Int64 Package_On_Net_Mins { get; set; }
         [Required]
-        [DisplayName("Data")]
+        [DisplayName("Internet Data")]
         [RegularExpression("[0-9]+")]
         public Int64 Package_Data { get; set; }
         [Required]
@@ -31,16 +31,16 @@ namespace OnlineMobileRecharge.Models
         [RegularExpression("[0-9]+")]
         public Int64 Package_SMS { get; set; }
         [Required]
-        [DisplayName("Duration")]
+        [DisplayName("Package Duration")]
         [RegularExpression("[0-9]+")]
         public int Package_Duration { get; set; }
         [Required]
-        [DisplayName("Price")]
+        [DisplayName("Package Price")]
         [DataType(DataType.Currency)]
         public double Package_Price { get; set; }
         [Required]
         [EnumDataType(typeof(EnumPackageType))]
-        [DisplayName("Type")]
+        [DisplayName("Package Type")]
         public EnumPackageType Package_Type { get; set; }
     }
     public enum EnumPackageType

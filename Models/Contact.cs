@@ -6,25 +6,25 @@ namespace OnlineMobileRecharge.Models
     public class Contact
     {
         [Key]
-        [DisplayName("Id")]
+        [DisplayName("Contact Id")]
         public int Contact_Id { get; set; }
         [Required]
-        [DisplayName("Name")]
+        [DisplayName("Contact Name")]
         public string Contact_Name { get; set; }
         [Required, EmailAddress]
-        [DisplayName("Email")]
+        [DisplayName("Contact Email")]
         public string Contact_Email { get; set; }
         [Required, Phone]
-        [DisplayName("Mobile Number")]
+        [DisplayName("Contact Mobile Number")]
         public string Contact_Phone { get; set; }
         [Required]
-        [DisplayName("Intrest")]
+        [DisplayName("Contact Intrest")]
         public string Contact_Intrest { get; set; }
         [Required]
-        [DisplayName("Message")]
+        [DisplayName("Contact Message")]
         public string Contact_Message { get; set; }
         [Required]
-        [DisplayName("Date Added")]
+        [DisplayName("Contact Date Added")]
         public DateTime Date_Added { get; set; }
     }
 }

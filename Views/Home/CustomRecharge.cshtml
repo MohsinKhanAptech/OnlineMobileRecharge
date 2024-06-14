@@ -67,12 +67,6 @@
                                 <label asp-for="@Model.Mobile_Number">Mobile Number</label>
                                 <span asp-validation-for="@Model.Mobile_Number" class="text-danger"></span>
                             </div>
-                            <div class="form-floating mb-3">
-                                <select asp-for="@Model.Recharge_Type" class="text-dark" aria-required="true"
-                                        asp-items="@Html.GetEnumSelectList<EnumRechargeType>()">
-                                </select>
-                                <span asp-validation-for="@Model.Recharge_Type" class="text-danger"></span>
-                            </div>
                             <div class="">
                                 <input type="submit" class="w-100 btn btn-primary" value="Recharge" />
                             </div>

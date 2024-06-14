@@ -561,52 +561,300 @@ namespace OnlineMobileRecharge.Controllers
         }
 
         // GET: AdminController/PackageTransaction
-        public IActionResult PackageTransaction()
+        public IActionResult PackageTransaction(string searchQuery, int minPrice, int maxPrice, string packageType, string sortOrder, int page = 1, int pageSize = 30)
         {
-            var data = _context.PackageTransactions.Include(x => x.Package).ToList();
-            return View(data);
+            var transactions = _context.PackageTransactions.Include(x => x.Package).Include(x => x.IdentityUser).ToList();
+
+            switch (packageType)
+            {
+                case "prepaid":
+                    transactions = transactions.FindAll(p => p.Package.Package_Type.Equals(EnumPackageType.Prepaid));
+                    break;
+                case "postpaid":
+                    transactions = transactions.FindAll(p => p.Package.Package_Type.Equals(EnumPackageType.Postpaid));
+                    break;
+            }
+            if (searchQuery != null)
+            {
+                transactions = transactions.FindAll(p => p.Package.Package_Name.ToLower().Contains(searchQuery.ToLower()));
+                page = 1;
+            }
+            if (minPrice >= 0 && maxPrice > 0 && minPrice <= maxPrice)
+            {
+                transactions = transactions.Where(p => p.Package.Package_Price >= minPrice && p.Package.Package_Price <= maxPrice).ToList();
+            }
+            switch (sortOrder)
+            {
+                case "name":
+                    transactions = transactions.OrderBy(p => p.Package.Package_Name).ToList();
+                    break;
+                case "name_desc":
+                    transactions = transactions.OrderByDescending(p => p.Package.Package_Name).ToList();
+                    break;
+                case "price":
+                    transactions = transactions.OrderBy(p => p.Package.Package_Price).ToList();
+                    break;
+                case "price_desc":
+                    transactions = transactions.OrderByDescending(p => p.Package.Package_Price).ToList();
+                    break;
+            }
+
+            var totalCount = transactions.Count;
+            var totalPages = (int)Math.Ceiling((decimal)totalCount / pageSize);
+            var itemsPerPage = transactions.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+
+            ViewData["totalPages"] = totalPages;
+            ViewData["currentPage"] = page;
+
+            return View(itemsPerPage);
         }
 
-        // GET: AdminController/RechargeTransaction
-        public IActionResult RechargeTransaction()
+        // GET: AdminController/PackageTrasnactionDetails/5
+        public IActionResult PackageTrasnactionDetails(int id)
         {
-            var data = _context.RechargeTransactions.Include(x => x.Recharge).ToList();
-            return View(data);
+            var transaction = _context.PackageTransactions.Include(x => x.Package).Include(x => x.IdentityUser).First(x => x.PackageTransaction_Id == id);
+            return View(transaction);
+        }
+
+        // TODO: REcharge TYPES
+        // GET: AdminController/RechargeTransaction
+        public IActionResult RechargeTransaction(string searchQuery, int minPrice, int maxPrice, string rechargeType, string sortOrder, int page = 1, int pageSize = 30)
+        {
+            var transactions = _context.RechargeTransactions.Include(x => x.Recharge).Include(x => x.IdentityUser).ToList();
+
+            switch (rechargeType)
+            {
+                case "prepaid":
+                    transactions = transactions.FindAll(p => p.Recharge.Recharge_Type.Equals(EnumPackageType.Prepaid));
+                    break;
+                case "postpaid":
+                    transactions = transactions.FindAll(p => p.Recharge.Recharge_Type.Equals(EnumPackageType.Postpaid));
+                    break;
+            }
+            if (searchQuery != null)
+            {
+                transactions = transactions.FindAll(p => p.Recharge.Recharge_Name.ToLower().Contains(searchQuery.ToLower()));
+                page = 1;
+            }
+            if (minPrice >= 0 && maxPrice > 0 && minPrice <= maxPrice)
+            {
+                transactions = transactions.Where(p => p.Recharge.Recharge_Price >= minPrice && p.Recharge.Recharge_Price <= maxPrice).ToList();
+            }
+            switch (sortOrder)
+            {
+                case "name":
+                    transactions = transactions.OrderBy(p => p.Recharge.Recharge_Name).ToList();
+                    break;
+                case "name_desc":
+                    transactions = transactions.OrderByDescending(p => p.Recharge.Recharge_Name).ToList();
+                    break;
+                case "price":
+                    transactions = transactions.OrderBy(p => p.Recharge.Recharge_Price).ToList();
+                    break;
+                case "price_desc":
+                    transactions = transactions.OrderByDescending(p => p.Recharge.Recharge_Price).ToList();
+                    break;
+            }
+
+            var totalCount = transactions.Count;
+            var totalPages = (int)Math.Ceiling((decimal)totalCount / pageSize);
+            var itemsPerPage = transactions.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+
+            ViewData["totalPages"] = totalPages;
+            ViewData["currentPage"] = page;
+
+            return View(itemsPerPage);
+        }
+
+        // GET: AdminController/RechargeTransactionDetails/5
+        public IActionResult RechargeTransactionDetails(int id)
+        {
+            var transaction = _context.RechargeTransactions.Include(x => x.Recharge).Include(x => x.IdentityUser).First(x => x.RechargeTransaction_Id == id);
+            return View(transaction);
         }
 
         // GET: AdminController/CustomRechargeTransaction
-        public IActionResult CustomRechargeTransaction()
+        public IActionResult CustomRechargeTransaction(string searchQuery, int minPrice, int maxPrice, string sortOrder, int page = 1, int pageSize = 30)
         {
-            var data = _context.CustomRechargeTransactions.Include(x => x.TaxRate).ToList();
-            return View(data);
+            var transactions = _context.CustomRechargeTransactions.Include(x => x.TaxRate).Include(x => x.IdentityUser).ToList();
+
+            if (searchQuery != null)
+            {
+                transactions = transactions.FindAll(p => p.IdentityUser.UserName.ToLower().Contains(searchQuery.ToLower()));
+                page = 1;
+            }
+            if (minPrice >= 0 && maxPrice > 0 && minPrice <= maxPrice)
+            {
+                transactions = transactions.Where(p => p.Recharge_Price >= minPrice && p.Recharge_Price <= maxPrice).ToList();
+            }
+            switch (sortOrder)
+            {
+                case "name":
+                    transactions = transactions.OrderBy(p => p.IdentityUser.UserName).ToList();
+                    break;
+                case "name_desc":
+                    transactions = transactions.OrderByDescending(p => p.IdentityUser.UserName).ToList();
+                    break;
+                case "price":
+                    transactions = transactions.OrderBy(p => p.Recharge_Price).ToList();
+                    break;
+                case "price_desc":
+                    transactions = transactions.OrderByDescending(p => p.Recharge_Price).ToList();
+                    break;
+            }
+
+            var totalCount = transactions.Count;
+            var totalPages = (int)Math.Ceiling((decimal)totalCount / pageSize);
+            var itemsPerPage = transactions.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+
+            ViewData["totalPages"] = totalPages;
+            ViewData["currentPage"] = page;
+
+            return View(itemsPerPage);
+        }
+
+        // GET: AdminController/CustomRechargeTransactionDetails/5
+        public IActionResult CustomRechargeTransactionDetails(int id)
+        {
+            var transaction = _context.CustomRechargeTransactions.Include(x => x.TaxRate).Include(x => x.IdentityUser).First(x => x.CustomRecharge_Id == id);
+            return View(transaction);
         }
 
         // GET: AdminController/ServiceTransaction
-        public IActionResult ServiceTransaction()
+        public IActionResult ServiceTransaction(string searchQuery, int minPrice, int maxPrice, string sortOrder, int page = 1, int pageSize = 30)
         {
-            var data = _context.ServiceTransactions.Include(x => x.CallerTune).ToList();
-            return View(data);
+            var transactions = _context.ServiceTransactions.Include(x => x.CallerTune).Include(x => x.IdentityUser).ToList();
+
+            if (searchQuery != null)
+            {
+                transactions = transactions.FindAll(p => p.IdentityUser.UserName.ToLower().Contains(searchQuery.ToLower()));
+                page = 1;
+            }
+            if (minPrice >= 0 && maxPrice > 0 && minPrice <= maxPrice)
+            {
+                transactions = transactions.Where(p => p.CallerTune.Tune_Price >= minPrice && p.CallerTune.Tune_Price <= maxPrice).ToList();
+            }
+            switch (sortOrder)
+            {
+                case "name":
+                    transactions = transactions.OrderBy(p => p.IdentityUser.UserName).ToList();
+                    break;
+                case "name_desc":
+                    transactions = transactions.OrderByDescending(p => p.IdentityUser.UserName).ToList();
+                    break;
+                case "price":
+                    transactions = transactions.OrderBy(p => p.CallerTune.Tune_Price).ToList();
+                    break;
+                case "price_desc":
+                    transactions = transactions.OrderByDescending(p => p.CallerTune.Tune_Price).ToList();
+                    break;
+            }
+
+            var totalCount = transactions.Count;
+            var totalPages = (int)Math.Ceiling((decimal)totalCount / pageSize);
+            var itemsPerPage = transactions.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+
+            ViewData["totalPages"] = totalPages;
+            ViewData["currentPage"] = page;
+
+            return View(itemsPerPage);
+        }
+
+        // GET: AdminController/ServiceTransactionDetails/5
+        public IActionResult ServiceTransactionDetails(int id)
+        {
+            var transaction = _context.ServiceTransactions.Include(x => x.CallerTune).Include(x => x.IdentityUser).First(x => x.ServiceTransaction_Id == id);
+            return View(transaction);
         }
 
         // GET: AdminController/Contact
-        public IActionResult Contact()
+        public IActionResult Contact(string searchQuery, string sortOrder, int page = 1, int pageSize = 30)
         {
-            var data = _context.Contacts.ToList();
-            return View(data);
+            var transactions = _context.Contacts.ToList();
+
+            if (searchQuery != null)
+            {
+                transactions = transactions.FindAll(p => p.Contact_Email.ToLower().Contains(searchQuery.ToLower()));
+                page = 1;
+            }
+            switch (sortOrder)
+            {
+                case "name":
+                    transactions = transactions.OrderBy(p => p.Contact_Email).ToList();
+                    break;
+                case "name_desc":
+                    transactions = transactions.OrderByDescending(p => p.Contact_Email).ToList();
+                    break;
+            }
+
+            var totalCount = transactions.Count;
+            var totalPages = (int)Math.Ceiling((decimal)totalCount / pageSize);
+            var itemsPerPage = transactions.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+
+            ViewData["totalPages"] = totalPages;
+            ViewData["currentPage"] = page;
+
+            return View(itemsPerPage);
         }
 
         // GET: AdminController/FeedBack
-        public IActionResult FeedBack()
+        public IActionResult FeedBack(string searchQuery, string sortOrder, int page = 1, int pageSize = 30)
         {
-            var data = _context.Feedbacks.ToList();
-            return View(data);
+            var transactions = _context.Feedbacks.ToList();
+
+            if (searchQuery != null)
+            {
+                transactions = transactions.FindAll(p => p.Feedback_Email.ToLower().Contains(searchQuery.ToLower()));
+                page = 1;
+            }
+            switch (sortOrder)
+            {
+                case "name":
+                    transactions = transactions.OrderBy(p => p.Feedback_Email).ToList();
+                    break;
+                case "name_desc":
+                    transactions = transactions.OrderByDescending(p => p.Feedback_Email).ToList();
+                    break;
+            }
+
+            var totalCount = transactions.Count;
+            var totalPages = (int)Math.Ceiling((decimal)totalCount / pageSize);
+            var itemsPerPage = transactions.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+
+            ViewData["totalPages"] = totalPages;
+            ViewData["currentPage"] = page;
+
+            return View(itemsPerPage);
         }
 
         // GET: AdminController/Newsletter
-        public IActionResult Newsletter()
+        public IActionResult Newsletter(string searchQuery, string sortOrder, int page = 1, int pageSize = 30)
         {
-            var data = _context.Newsletter.ToList();
-            return View(data);
+            var transactions = _context.Newsletter.ToList();
+
+            if (searchQuery != null)
+            {
+                transactions = transactions.FindAll(p => p.Newsletter_Email.ToLower().Contains(searchQuery.ToLower()));
+                page = 1;
+            }
+            switch (sortOrder)
+            {
+                case "name":
+                    transactions = transactions.OrderBy(p => p.Newsletter_Email).ToList();
+                    break;
+                case "name_desc":
+                    transactions = transactions.OrderByDescending(p => p.Newsletter_Email).ToList();
+                    break;
+            }
+
+            var totalCount = transactions.Count;
+            var totalPages = (int)Math.Ceiling((decimal)totalCount / pageSize);
+            var itemsPerPage = transactions.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+
+            ViewData["totalPages"] = totalPages;
+            ViewData["currentPage"] = page;
+
+            return View(itemsPerPage);
         }
 
         // GET: AdminController/Error404

@@ -8,7 +8,7 @@ namespace OnlineMobileRecharge.Models
     public class Service
     {
         [Key]
-        [DisplayName("Id")]
+        [DisplayName("Service Id")]
         public int Service_Id { get; set; }
         [Required]
         [DisplayName("User Id")]

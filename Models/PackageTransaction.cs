@@ -8,7 +8,7 @@ namespace OnlineMobileRecharge.Models
     public class PackageTransaction
     {
         [Key]
-        [DisplayName("Id")]
+        [DisplayName("Transaction Id")]
         public int PackageTransaction_Id { get; set; }
         [Required]
         [DisplayName("Session Id")]

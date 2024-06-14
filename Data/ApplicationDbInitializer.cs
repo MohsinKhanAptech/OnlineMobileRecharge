@@ -250,7 +250,7 @@ namespace OnlineMobileRecharge.Data
                 {
                     foreach (var package in context.Packages)
                     {
-                        await context.PackageTransactions.AddAsync(new Models.PackageTransaction()
+                        await context.PackageTransactions.AddAsync(new PackageTransaction()
                         {
                             Package_Id = package.Package_Id,
                             Package = await context.Packages.FindAsync(package.Package_Id),
@@ -268,7 +268,7 @@ namespace OnlineMobileRecharge.Data
                 {
                     foreach (var recharge in context.Recharges)
                     {
-                        await context.RechargeTransactions.AddAsync(new Models.RechargeTransaction()
+                        await context.RechargeTransactions.AddAsync(new RechargeTransaction()
                         {
                             Recharge_Id = recharge.Recharge_Id,
                             Recharge = await context.Recharges.FindAsync(recharge.Recharge_Id),
@@ -286,7 +286,7 @@ namespace OnlineMobileRecharge.Data
                 {
                     foreach (var tune in context.CallerTunes)
                     {
-                        await context.ServiceTransactions.AddAsync(new Models.ServiceTransaction()
+                        await context.ServiceTransactions.AddAsync(new ServiceTransaction()
                         {
                             Tune_Id = tune.Tune_Id,
                             CallerTune = await context.CallerTunes.FindAsync(tune.Tune_Id),
@@ -305,7 +305,7 @@ namespace OnlineMobileRecharge.Data
                     var taxRate = await context.TaxRates.FirstAsync();
                     for (int i = 200; i < 1000; i = i + 100)
                     {
-                        await context.CustomRechargeTransactions.AddAsync(new Models.CustomRechargeTransaction()
+                        await context.CustomRechargeTransactions.AddAsync(new CustomRechargeTransaction()
                         {
                             Tax_Id = taxRate.Tax_Id,
                             TaxRate = taxRate,
@@ -314,9 +314,52 @@ namespace OnlineMobileRecharge.Data
                             Mobile_Number = userPhone,
                             User_Id = user.Id,
                             IdentityUser = await context.Users.FindAsync(user.Id),
-                            Recharge_Type = EnumRechargeType.Special,
                             Session_Id = $"{i}Session",
                             Transaction_Date = DateTime.UtcNow,
+                        });
+                    }
+                    await context.SaveChangesAsync();
+                }
+
+                // others
+                if (!await context.Newsletter.AnyAsync())
+                {
+                    for (int i = 200; i < 1000; i = i + 100)
+                    {
+                        await context.Newsletter.AddAsync(new Newsletter()
+                        {
+                            Newsletter_Email = $"DummyEmail{i}@gmail.com",
+                            Date_Added = DateTime.UtcNow,
+                        });
+                    }
+                    await context.SaveChangesAsync();
+                }
+                if (!await context.Feedbacks.AnyAsync())
+                {
+                    for (int i = 200; i < 1000; i = i + 100)
+                    {
+                        await context.Feedbacks.AddAsync(new Feedback()
+                        {
+                            Feedback_Name = $"Dummy Name {i}",
+                            Feedback_Email = $"DummyEmail{i}@gmail.com",
+                            Feedback_Message = $"Dummy Message {i}",
+                            Date_Added = DateTime.UtcNow,
+                        });
+                    }
+                    await context.SaveChangesAsync();
+                }
+                if (!await context.Contacts.AnyAsync())
+                {
+                    for (int i = 200; i < 1000; i = i + 100)
+                    {
+                        await context.Contacts.AddAsync(new Contact()
+                        {
+                            Contact_Name = $"Dummy Name {i}",
+                            Contact_Phone = $"03001234{i}",
+                            Contact_Email = $"DummyEmail{i}@gmail.com",
+                            Contact_Intrest = $"DummyIntrest {i}",
+                            Contact_Message = $"Dummy Message {i}",
+                            Date_Added = DateTime.UtcNow,
                         });
                     }
                     await context.SaveChangesAsync();

@@ -6,13 +6,13 @@ namespace OnlineMobileRecharge.Models
     public class Newsletter
     {
         [Key]
-        [DisplayName("Id")]
+        [DisplayName("Newsletter Id")]
         public int Newsletter_Id { get; set; }
         [Required, EmailAddress]
-        [DisplayName("Email")]
+        [DisplayName("Newsletter Email")]
         public string Newsletter_Email { get; set; }
         [Required]
-        [DisplayName("Date Added")]
+        [DisplayName("Newsletter Date Added")]
         public DateTime Date_Added { get; set; }
     }
 }

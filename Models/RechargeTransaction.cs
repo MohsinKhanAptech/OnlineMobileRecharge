@@ -10,7 +10,7 @@ namespace OnlineMobileRecharge.Models
     public class RechargeTransaction
     {
         [Key]
-        [DisplayName("Id")]
+        [DisplayName("Transaction Id")]
         public int RechargeTransaction_Id { get; set; }
         [Required]
         [DisplayName("Session Id")]

@@ -7,20 +7,20 @@ namespace OnlineMobileRecharge.Models
     public class Recharge
     {
         [Key]
-        [DisplayName("Id")]
+        [DisplayName("Recharge Id")]
         public int Recharge_Id { get; set; }
         [Required]
-        [DisplayName("Name")]
+        [DisplayName("Recharge Name")]
         public string Recharge_Name { get; set; }
         [Required]
-        [DisplayName("Description")]
+        [DisplayName("Recharge Description")]
         public string Recharge_Description { get; set; }
         [Required]
-        [DisplayName("Amount")]
+        [DisplayName("Recharge Amount")]
         [DataType(DataType.Currency)]
         public double Recharge_Amount { get; set; }
         [Required]
-        [DisplayName("Price")]
+        [DisplayName("Recharge Price")]
         [DataType(DataType.Currency)]
         public double Recharge_Price { get; set; }
         [Required]
@@ -32,7 +32,7 @@ namespace OnlineMobileRecharge.Models
         public double Recharge_Taxed_Amount { get; set; }
         [Required]
         [EnumDataType(typeof(EnumRechargeType))]
-        [DisplayName("Type")]
+        [DisplayName("Recharge Type")]
         public EnumRechargeType Recharge_Type { get; set; }
 
         public Recharge()

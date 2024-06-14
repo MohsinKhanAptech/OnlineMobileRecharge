@@ -9,13 +9,13 @@ namespace OnlineMobileRecharge.Models
     public class ServiceTransaction
     {
         [Key]
-        [DisplayName("Id")]
+        [DisplayName("Transaction Id")]
         public int ServiceTransaction_Id { get; set; }
         [Required]
         [DisplayName("Session Id")]
         public string Session_Id { get; set; }
         [Required]
-        [DisplayName("Recharge Id")]
+        [DisplayName("Caller Tune Id")]
         public int Tune_Id { get; set; }
         [ForeignKey("Tune_Id")]
         public CallerTune CallerTune { get; set; }

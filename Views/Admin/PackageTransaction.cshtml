@@ -1,55 +1,178 @@
 ﻿@model IEnumerable<OnlineMobileRecharge.Models.PackageTransaction>
-
 @{
     Layout = "_AdminLayout";
     ViewData["Title"] = "Packages Transaction List";
 }
+
 <div id="layoutSidenav_content">
     <main>
         <div class="container-fluid px-4">
-            <h1 class="mt-4">Package Transaction</h1>
+            <h1 class="mt-4">View Package Transactions</h1>
             <ol class="breadcrumb mb-4">
                 <li class="breadcrumb-item"><a asp-action="Index">Dashboard</a></li>
-                <li class="breadcrumb-item active">View Package Transaction</li>
+                <li class="breadcrumb-item active">View Packages Transactions</li>
             </ol>
-
-            <div class="card mb-4">
-                <div class="table-responsive">
-                    <table class="table">
-                        <thead>
-                            <tr class="text-center">
-                                <th>
-                                    @Html.DisplayNameFor(model => model.IdentityUser)
-                                </th>
-                                <th class="d-none d-lg-table-cell">
-                                    @Html.DisplayNameFor(model => model.Package)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.Mobile_Number)
-                                </th>
-
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var item in Model)
+            <div class="card mb-4 p-4 pb-0">
+                <form asp-action="PackageTransaction" method="get" id="searchPackageTransactionsForm" class="d-grid">
+                    <div class="mb-4">
+                        <div class="d-flex flex-column gap-2">
+                            <div class="w-100 d-flex flex-nowrap gap-0 border rounded">
+                                <input id="searchQuery" name="searchQuery" class="form-control border-0" type="text" placeholder="Search..." />
+                                <button class="btn btn-primary" type="submit">
+                                    <i class="fa-solid fa-magnifying-glass"></i>
+                                </button>
+                            </div>
+                            <div class="w-100 d-flex flex-column flex-lg-row gap-2">
+                                <select id="packageType" name="packageType" class="form-control" onchange="formSubmit()">
+                                    <option value="">All</option>
+                                    <option value="prepaid">Prepaid</option>
+                                    <option value="postpaid">Postpaid</option>
+                                </select>
+                                <select id="sortOrder" name="sortOrder" class="form-control" onchange="formSubmit()">
+                                    <option value="name">Name Ascending</option>
+                                    <option value="name_desc">Name Descending</option>
+                                    <option value="price">Price Ascending</option>
+                                    <option value="price_desc">Price Descending</option>
+                                </select>
+                            </div>
+                            <div class="w-100 d-flex flex-column flex-lg-row gap-2">
+                                <input type="number" id="minPrice" name="minPrice" class="form-control" placeholder="Minimum Price" />
+                                <input type="number" id="maxPrice" name="maxPrice" class="form-control" placeholder="Maximum Price" />
+                            </div>
+                            <input class="btn btn-primary" type="submit" value="Filter" />
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="table-responsive">
+                            <table class="table mb-0">
+                                <thead>
+                                    <tr class="text-center table-active">
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.IdentityUser.UserName)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.Mobile_Number)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.Package.Package_Name)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.Package.Package_Price)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.Package.Package_Duration)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.Package.Package_Type)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.Transaction_Date)
+                                        </th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr class="text-center">
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.IdentityUser.UserName)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Mobile_Number)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Package.Package_Name)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Package.Package_Price)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Package.Package_Duration) days
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Package.Package_Type)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Transaction_Date)
+                                            </td>
+                                            <td>
+                                                <div class="d-flex justify-content-center">
+                                                    <a class="text-secondary" asp-action="PackageTrasnactionDetails" asp-route-id="@item.PackageTransaction_Id">Details</a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                            @if (Model.Any() == false)
                             {
-                                <tr class="text-center">
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.IdentityUser.Id)
-                                    </td>
-                                    <td class="d-none d-lg-table-cell text-truncate" style="max-width: 150px;">
-                                        @Html.DisplayFor(modelItem => item.Package.Package_Description)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Mobile_Number)
-                                    </td>
-                                </tr>
+                                <div class="d3 text-center p-2 my-4">No Results Found</div>
                             }
-                        </tbody>
-                    </table>
-                </div>
+                        </div>
+                    </div>
+                    <div class="pagination justify-content-center py-4">
+                        <a href="javascript:void(0)" onclick="formSubmit(1)">
+                            <span>
+                                <i class="material-symbols-outlined"> keyboard_double_arrow_left </i>
+                            </span>
+                        </a>
+                        <a href="javascript:void(0)" onclick="formSubmit(@ViewData["currentPage"]-1)">
+                            <span>
+                                <i class="material-symbols-outlined"> navigate_before </i>
+                            </span>
+                        </a>
+                        <a href="javascript:void(0)" class="text-decoration-none"> @ViewData["currentPage"] </a>
+                        <a href="javascript:void(0)" onclick="formSubmit(@ViewData["currentPage"]+1)">
+                            <span>
+                                <i class="material-symbols-outlined"> chevron_right </i>
+                            </span>
+                        </a>
+                        <span class="text-secondary ms-auto"> Page @ViewData["currentPage"]  /  @ViewData["totalPages"] </span>
+                        <input type="hidden" id="page" name="page" value="" />
+                    </div>
+                </form>
             </div>
         </div>
     </main>
     <partial name="_AdminFooterPartial" />
 </div>
+<script>
+    function formSubmit(page) {
+        document.getElementById("page").value = page;
+        document.getElementById('searchPackageTransactionsForm').submit()
+    };
+
+    let params = new URLSearchParams(location.search);
+    document.getElementById("searchQuery").value = params.get("searchQuery");
+    let packageType = params.get("packageType");
+    let sortOrder = params.get("sortOrder");
+    let minPrice = params.get("minPrice");
+    let maxPrice = params.get("maxPrice");
+
+    document.getElementById("minPrice").value = minPrice;
+    document.getElementById("maxPrice").value = maxPrice;
+
+    switch (packageType) {
+        case "prepaid":
+            document.querySelector("option[value='prepaid']").setAttribute("selected", "selected");
+            break;
+        case "postpaid":
+            document.querySelector("option[value='postpaid']").setAttribute("selected", "selected");
+            break;
+    }
+    switch (sortOrder) {
+        case "name":
+            document.querySelector("option[value='name']").setAttribute("selected", "selected");
+            break;
+        case "name_desc":
+            document.querySelector("option[value='name_desc']").setAttribute("selected", "selected");
+            break;
+        case "price":
+            document.querySelector("option[value='price']").setAttribute("selected", "selected");
+            break;
+        case "price_desc":
+            document.querySelector("option[value='price_desc']").setAttribute("selected", "selected");
+            break;
+    }
+</script>

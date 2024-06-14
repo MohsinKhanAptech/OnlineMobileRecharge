@@ -6,19 +6,19 @@ namespace OnlineMobileRecharge.Models
     public class Feedback
     {
         [Key]
-        [DisplayName("Id")]
+        [DisplayName("Feedback Id")]
         public int Feedback_Id { get; set; }
         [Required]
-        [DisplayName("Name")]
+        [DisplayName("Feedback Name")]
         public string Feedback_Name { get; set; }
         [Required, EmailAddress]
-        [DisplayName("Email")]
+        [DisplayName("Feedback Email")]
         public string Feedback_Email { get; set; }
         [Required]
-        [DisplayName("Message")]
+        [DisplayName("Feedback Message")]
         public string Feedback_Message { get; set; }
         [Required]
-        [DisplayName("Date Added")]
+        [DisplayName("Feedback Date Added")]
         public DateTime Date_Added { get; set; }
     }
 }
