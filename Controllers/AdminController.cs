@@ -560,6 +560,46 @@ namespace OnlineMobileRecharge.Controllers
             return RedirectToAction(nameof(Error404));
         }
 
+        // GET: AdminController/Users
+        public IActionResult Users(string searchQuery, string sortOrder, int page = 1, int pageSize = 30)
+        {
+            var users = _context.Users.ToList();
+
+            if (searchQuery != null)
+            {
+                users = users.FindAll(s => s.UserName.ToLower().Contains(searchQuery.ToLower()));
+            }
+            switch (sortOrder)
+            {
+                case "name":
+                    users = users.OrderBy(s => s.UserName).ToList();
+                    break;
+                case "name_desc":
+                    users = users.OrderByDescending(s => s.UserName).ToList();
+                    break;
+            }
+
+            var totalCount = users.Count;
+            var totalPages = (int)Math.Ceiling((decimal)totalCount / pageSize);
+            var itemsPerPage = users.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+
+            ViewData["totalPages"] = totalPages;
+            ViewData["currentPage"] = page;
+
+            return View(users);
+        }
+
+        // GET: AdminController/UserDetails/5
+        public ActionResult UserDetails(string id)
+        {
+            var user = _context.Users.Find(id);
+            if (user != null)
+            {
+                return View(user);
+            }
+            return RedirectToAction(nameof(Error404));
+        }
+
         // GET: AdminController/PackageTransaction
         public IActionResult PackageTransaction(string searchQuery, int minPrice, int maxPrice, string packageType, string sortOrder, int page = 1, int pageSize = 30)
         {
