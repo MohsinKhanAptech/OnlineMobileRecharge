@@ -160,14 +160,14 @@ namespace OnlineMobileRecharge.Controllers
 
             switch (rechargeType)
             {
-                case "prepaid":
-                    recharges = recharges.FindAll(r => r.Recharge_Type.Equals(EnumPackageType.Prepaid));
-                    break;
-                case "postpaid":
-                    recharges = recharges.FindAll(r => r.Recharge_Type.Equals(EnumPackageType.Postpaid));
+                case "topup":
+                    recharges = recharges.FindAll(r => r.Recharge_Type.Equals(EnumRechargeType.Top_up));
                     break;
                 case "special":
-                    recharges = recharges.FindAll(r => r.Recharge_Type.Equals(EnumPackageType.Special));
+                    recharges = recharges.FindAll(r => r.Recharge_Type.Equals(EnumRechargeType.Special));
+                    break;
+                case "postpaid":
+                    recharges = recharges.FindAll(r => r.Recharge_Type.Equals(EnumRechargeType.Postpaid));
                     break;
             }
             if (searchQuery != null)
@@ -656,7 +656,6 @@ namespace OnlineMobileRecharge.Controllers
             return View(transaction);
         }
 
-        // TODO: REcharge TYPES
         // GET: AdminController/RechargeTransaction
         public IActionResult RechargeTransaction(string searchQuery, int minPrice, int maxPrice, string rechargeType, string sortOrder, int page = 1, int pageSize = 30)
         {
@@ -664,11 +663,14 @@ namespace OnlineMobileRecharge.Controllers
 
             switch (rechargeType)
             {
+                case "topup":
+                    transactions = transactions.FindAll(p => p.Recharge.Recharge_Type.Equals(EnumRechargeType.Top_up));
+                    break;
                 case "prepaid":
-                    transactions = transactions.FindAll(p => p.Recharge.Recharge_Type.Equals(EnumPackageType.Prepaid));
+                    transactions = transactions.FindAll(p => p.Recharge.Recharge_Type.Equals(EnumRechargeType.Special));
                     break;
                 case "postpaid":
-                    transactions = transactions.FindAll(p => p.Recharge.Recharge_Type.Equals(EnumPackageType.Postpaid));
+                    transactions = transactions.FindAll(p => p.Recharge.Recharge_Type.Equals(EnumRechargeType.Postpaid));
                     break;
             }
             if (searchQuery != null)

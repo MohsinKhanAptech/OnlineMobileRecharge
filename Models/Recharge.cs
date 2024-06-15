@@ -45,6 +45,7 @@ namespace OnlineMobileRecharge.Models
     public enum EnumRechargeType
     {
         Top_up,
-        Special
+        Special,
+        Postpaid
     }
 }
