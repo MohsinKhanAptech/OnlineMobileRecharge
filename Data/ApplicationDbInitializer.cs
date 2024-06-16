@@ -143,6 +143,33 @@ namespace OnlineMobileRecharge.Data
                             Recharge_Taxed_Amount = 500 / 100 * 15,
                             Recharge_Amount = 500 - (500 / 100 * 15),
                         },
+                        new Recharge {
+                            Recharge_Name = "Rs.1500",
+                            Recharge_Description = "Monthly Max package for maximum fun",
+                            Recharge_Price = 1500,
+                            Recharge_Tax_Rate = 15,
+                            Recharge_Type = EnumRechargeType.Postpaid,
+                            Recharge_Taxed_Amount = 1500 / 100 * 15,
+                            Recharge_Amount = 1500 - (1500 / 100 * 15),
+                        },
+                        new Recharge {
+                            Recharge_Name = "Rs.1000",
+                            Recharge_Description = "Monthly Max package for maximum fun",
+                            Recharge_Price = 1000,
+                            Recharge_Tax_Rate = 15,
+                            Recharge_Type = EnumRechargeType.Postpaid,
+                            Recharge_Taxed_Amount = 1000 / 100 * 15,
+                            Recharge_Amount = 1000 - (1000 / 100 * 15),
+                        },
+                        new Recharge {
+                            Recharge_Name = "Rs.500",
+                            Recharge_Description = "Monthly Max package for maximum fun",
+                            Recharge_Price = 500,
+                            Recharge_Tax_Rate = 15,
+                            Recharge_Type = EnumRechargeType.Postpaid,
+                            Recharge_Taxed_Amount = 500 / 100 * 15,
+                            Recharge_Amount = 500 - (500 / 100 * 15),
+                        },
                     });
                     await context.SaveChangesAsync();
                 }
@@ -244,7 +271,7 @@ namespace OnlineMobileRecharge.Data
                 }
 
                 // add transactions
-                var user = await context.Users.FirstAsync();
+                var user = await context.Users.FindAsync(userManager.FindByNameAsync(userName).Result.Id);
 
                 if (!await context.PackageTransactions.AnyAsync())
                 {
