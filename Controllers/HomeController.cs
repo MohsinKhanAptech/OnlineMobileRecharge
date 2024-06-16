@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using OnlineMobileRecharge.Data;
 using OnlineMobileRecharge.Models;
+using OpenHtmlToPdf;
 using Stripe.Checkout;
 using System.Diagnostics;
 using System.Security.Claims;
@@ -34,6 +35,46 @@ namespace OnlineMobileRecharge.Controllers
 
         // index page
         public IActionResult Index() { return View(); }
+
+        // genereate receipt Html
+        public string GenerateReceiptHtml(string data, string receiptNo)
+        {
+            return
+                "<!doctype html>" +
+                "<html lang=en>" +
+                "<head>" +
+                    "<meta charset=UTF-8>" +
+                    "<meta name=viewport content=\"width=device-width,initial-scale=1\">" +
+                    "<title>Receipt</title>" +
+                "</head>" +
+                "<style>" +
+                    "*{box-sizing:border-box;}" +
+                    ".text-center{text-align:center}" +
+                    ".mp-0{padding:0;margin:0}" +
+                    ".border-light{border-radius:.5rem;border:2px solid #d3d3d3}" +
+                    "html{font-family:system-ui,-apple-system,BlinkMacSystemFont,\"Segoe UI\",Roboto,Oxygen,Ubuntu,Cantarell,\"Open Sans\",\"Helvetica Neue\",sans-serif}" +
+                    "body{height:100vh;margin:6rem 0 0 0;}" +
+                    ".wrapper{width:80rem;margin: auto;padding:2rem}" +
+                    ".heading{margin-bottom:.25rem;font-size:2.5rem}" +
+                    ".sub-heading{color:gray}" +
+                    ".container{display:grid;grid-template-columns:auto auto;margin:2rem 6rem 0 6rem;overflow:hidden}" +
+                    ".container>div{padding:.5rem;width:50%;}" +
+                    ".list-title{background-color:#dcdcdc;float:left;}" +
+                    ".list-title>div{padding:0.5rem;}" +
+                    ".list-content{float:right;}" +
+                    ".list-content>div{padding:0.5rem;}" +
+                "</style>" +
+                "<body>" +
+                    "<div class=\"wrapper border-light\">" +
+                        "<h1 class=\"heading text-center mp-0\">Rechargio</h1>" +
+                        $"<p class=\"sub-heading text-center mp-0\">Receipt No. {receiptNo}</p>" +
+                        "<div class=\"container border-light\">" +
+                            data +
+                        "</div>" +
+                    "</div>" +
+                "</body>" +
+                "</html>";
+        }
 
         // Packages list page
         [Authorize]
@@ -164,8 +205,7 @@ namespace OnlineMobileRecharge.Controllers
         [Authorize]
         public IActionResult PackageOrderComplete(int id)
         {
-            var packageTransaction = _context.PackageTransactions.Find(id);
-            packageTransaction.Package = _context.Packages.Find(packageTransaction.Package_Id);
+            var packageTransaction = _context.PackageTransactions.Include(x => x.IdentityUser).Include(x => x.Package).First(x => x.PackageTransaction_Id == id);
             if (packageTransaction == null)
             {
                 return View(nameof(Packages));
@@ -174,15 +214,51 @@ namespace OnlineMobileRecharge.Controllers
         }
 
         // Package genereate receipt
-        //[HttpPost]
         [Authorize]
-        public object PackageGenerateReciept(int id)
+        public IActionResult PackageGenerateReceipt(int id, bool download)
         {
-            var transaction = _context.PackageTransactions.Find(id);
-            transaction.IdentityUser = _context.Users.Find(transaction.User_Id);
-            transaction.Package = _context.Packages.Find(transaction.Package_Id);
+            var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var transaction = _context.PackageTransactions.Include(x => x.IdentityUser).Include(x => x.Package).First(x => x.PackageTransaction_Id == id);
 
-            return transaction;
+            if (currentUserId != transaction.IdentityUser.Id)
+            {
+                return RedirectToAction(nameof(Error404));
+            }
+
+            var html = GenerateReceiptHtml(
+                            "<div class=\"list-title\">" +
+                                "<div>Transaction Id</div>" +
+                                "<div>Customer Name</div>" +
+                                "<div>Mobile Number</div>" +
+                                "<div>Package Name</div>" +
+                                "<div>Package Duration</div>" +
+                                "<div>Package Type</div>" +
+                                "<div>Package Price</div>" +
+                                "<div>Payment Method</div>" +
+                                "<div>Transaction Date</div>" +
+                            "</div>" +
+                            "<div class=\"list-content\">" +
+                                $"<div>{transaction.PackageTransaction_Id}</div>" +
+                                $"<div>{transaction.IdentityUser.UserName}</div>" +
+                                $"<div>{transaction.Mobile_Number}</div>" +
+                                $"<div>{transaction.Package.Package_Name}</div>" +
+                                $"<div>{transaction.Package.Package_Duration}</div>" +
+                                $"<div>{transaction.Package.Package_Type}</div>" +
+                                $"<div>{transaction.Package.Package_Price}</div>" +
+                                $"<div>Stripe</div>" +
+                                $"<div>{transaction.Transaction_Date.ToLocalTime()}</div>" +
+                            "</div>",
+                            transaction.PackageTransaction_Id.ToString()
+                            );
+
+            var pdf = Pdf.From(html).OfSize(OpenHtmlToPdf.PaperSize.A4Rotated).Content();
+
+            if (download == true)
+            {
+                return File(pdf, "application/pdf", $"Reciept{transaction.Transaction_Date}.pdf");
+            }
+
+            return File(pdf, "application/pdf");
         }
 
         // Recharges
@@ -306,13 +382,64 @@ namespace OnlineMobileRecharge.Controllers
         // Recharge Order complete
         public IActionResult RechargeOrderComplete(int id)
         {
-            var rechargeTransaction = _context.RechargeTransactions.Find(id);
-            rechargeTransaction.Recharge = _context.Recharges.Find(rechargeTransaction.Recharge_Id);
+            var rechargeTransaction = _context.RechargeTransactions.Include(x => x.IdentityUser).Include(x => x.Recharge).First(x => x.RechargeTransaction_Id == id);
             if (rechargeTransaction == null)
             {
                 return View(nameof(Recharges));
             }
             return View(rechargeTransaction);
+        }
+
+        // Package genereate receipt
+        [Authorize]
+        public IActionResult RechargeGenerateReceipt(int id, bool download)
+        {
+            var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var transaction = _context.RechargeTransactions.Include(x => x.IdentityUser).Include(x => x.Recharge).First(x => x.RechargeTransaction_Id == id);
+
+            if (currentUserId != transaction.IdentityUser.Id)
+            {
+                return RedirectToAction(nameof(Error404));
+            }
+
+            var html = GenerateReceiptHtml(
+                            "<div class=\"list-title\">" +
+                                "<div>Transaction Id</div>" +
+                                "<div>Customer Name</div>" +
+                                "<div>Mobile Number</div>" +
+                                "<div>Recharge Name</div>" +
+                                "<div>Recharge Type</div>" +
+                                "<div>Recharge Price</div>" +
+                                "<div>Tax Rate</div>" +
+                                "<div>Taxed Amount</div>" +
+                                "<div>Recharge Amount</div>" +
+                                "<div>Payment Method</div>" +
+                                "<div>Transaction Date</div>" +
+                            "</div>" +
+                            "<div class=\"list-content\">" +
+                                $"<div>{transaction.RechargeTransaction_Id}</div>" +
+                                $"<div>{transaction.IdentityUser.UserName}</div>" +
+                                $"<div>{transaction.Mobile_Number}</div>" +
+                                $"<div>{transaction.Recharge.Recharge_Name}</div>" +
+                                $"<div>{transaction.Recharge.Recharge_Type}</div>" +
+                                $"<div>{transaction.Recharge.Recharge_Price}</div>" +
+                                $"<div>{transaction.Recharge.Recharge_Tax_Rate}</div>" +
+                                $"<div>{transaction.Recharge.Recharge_Taxed_Amount}</div>" +
+                                $"<div>{transaction.Recharge.Recharge_Amount}</div>" +
+                                $"<div>Stripe</div>" +
+                                $"<div>{transaction.Transaction_Date.ToLocalTime()}</div>" +
+                            "</div>",
+                            transaction.RechargeTransaction_Id.ToString()
+                            );
+
+            var pdf = Pdf.From(html).OfSize(OpenHtmlToPdf.PaperSize.A4Rotated).Content();
+
+            if (download == true)
+            {
+                return File(pdf, "application/pdf", $"Reciept{transaction.Transaction_Date}.pdf");
+            }
+
+            return File(pdf, "application/pdf");
         }
 
         // Custom Recharge 
@@ -390,13 +517,58 @@ namespace OnlineMobileRecharge.Controllers
         // Custom Recharge Order complete
         public IActionResult CustomRechargeOrderComplete(int id)
         {
-            var customRechargeTransaction = _context.CustomRechargeTransactions.Find(id);
-            customRechargeTransaction.TaxRate = _context.TaxRates.Find(customRechargeTransaction.Tax_Id);
+            var customRechargeTransaction = _context.CustomRechargeTransactions.Include(x => x.IdentityUser).Include(x => x.TaxRate).First(x => x.CustomRecharge_Id == id);
             if (customRechargeTransaction == null)
             {
                 return RedirectToAction(nameof(CustomRecharge));
             }
             return View(customRechargeTransaction);
+        }
+
+        // Package genereate receipt
+        [Authorize]
+        public IActionResult CustomRechargeGenerateReceipt(int id, bool download)
+        {
+            var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var transaction = _context.CustomRechargeTransactions.Include(x => x.IdentityUser).Include(x => x.TaxRate).First(x => x.CustomRecharge_Id == id);
+
+            if (currentUserId != transaction.IdentityUser.Id)
+            {
+                return RedirectToAction(nameof(Error404));
+            }
+
+            var html = GenerateReceiptHtml(
+                            "<div class=\"list-title\">" +
+                                "<div>Transaction Id</div>" +
+                                "<div>Customer Name</div>" +
+                                "<div>Mobile Number</div>" +
+                                "<div>Recharge Price</div>" +
+                                "<div>Tax Rate</div>" +
+                                "<div>Recharge Amount</div>" +
+                                "<div>Payment Method</div>" +
+                                "<div>Transaction Date</div>" +
+                            "</div>" +
+                            "<div class=\"list-content\">" +
+                                $"<div>{transaction.CustomRecharge_Id}</div>" +
+                                $"<div>{transaction.IdentityUser.UserName}</div>" +
+                                $"<div>{transaction.Mobile_Number}</div>" +
+                                $"<div>{transaction.Recharge_Price}</div>" +
+                                $"<div>{transaction.TaxRate.Tax_Rate}</div>" +
+                                $"<div>{transaction.Recharge_Amount}</div>" +
+                                $"<div>Stripe</div>" +
+                                $"<div>{transaction.Transaction_Date.ToLocalTime()}</div>" +
+                            "</div>",
+                            transaction.CustomRecharge_Id.ToString()
+                            );
+
+            var pdf = Pdf.From(html).OfSize(OpenHtmlToPdf.PaperSize.A4Rotated).Content();
+
+            if (download == true)
+            {
+                return File(pdf, "application/pdf", $"Reciept{transaction.Transaction_Date}.pdf");
+            }
+
+            return File(pdf, "application/pdf");
         }
 
         // Services
@@ -536,6 +708,48 @@ namespace OnlineMobileRecharge.Controllers
             return View(tuneTransaction);
         }
 
+        // Package genereate receipt
+        [Authorize]
+        public IActionResult CallerTuneGenerateReceipt(int id, bool download)
+        {
+            var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var transaction = _context.ServiceTransactions.Include(x => x.IdentityUser).Include(x => x.CallerTune).First(x => x.ServiceTransaction_Id == id);
+
+            if (currentUserId != transaction.IdentityUser.Id)
+            {
+                return RedirectToAction(nameof(Error404));
+            }
+
+            var html = GenerateReceiptHtml(
+                            "<div class=\"list-title\">" +
+                                "<div>Transaction Id</div>" +
+                                "<div>Customer Name</div>" +
+                                "<div>Mobile Number</div>" +
+                                "<div>Caller Tune Price</div>" +
+                                "<div>Payment Method</div>" +
+                                "<div>Transaction Date</div>" +
+                            "</div>" +
+                            "<div class=\"list-content\">" +
+                                $"<div>{transaction.ServiceTransaction_Id}</div>" +
+                                $"<div>{transaction.IdentityUser.UserName}</div>" +
+                                $"<div>{transaction.Mobile_Number}</div>" +
+                                $"<div>{transaction.CallerTune.Tune_Price}</div>" +
+                                $"<div>Stripe</div>" +
+                                $"<div>{transaction.Transaction_Date.ToLocalTime()}</div>" +
+                            "</div>",
+                            transaction.ServiceTransaction_Id.ToString()
+                            );
+
+            var pdf = Pdf.From(html).OfSize(OpenHtmlToPdf.PaperSize.A4Rotated).Content();
+
+            if (download == true)
+            {
+                return File(pdf, "application/pdf", $"Reciept{transaction.Transaction_Date}.pdf");
+            }
+
+            return File(pdf, "application/pdf");
+        }
+
         // Do Not Disturb
         [Authorize]
         public IActionResult DoNotDisturb(int serviceId, bool doNotDisturb)
@@ -554,9 +768,9 @@ namespace OnlineMobileRecharge.Controllers
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
             var rechargeTransactions = _context.RechargeTransactions.Where(x => x.User_Id == userId).Include(x => x.IdentityUser).Include(x => x.Recharge).ToList();
-            var customRechargeTransactions = _context.CustomRechargeTransactions.Where(x => x.User_Id == userId).Include(x => x.IdentityUser).Include(x=>x.TaxRate).ToList();
+            var customRechargeTransactions = _context.CustomRechargeTransactions.Where(x => x.User_Id == userId).Include(x => x.IdentityUser).Include(x => x.TaxRate).ToList();
             var packageTransactions = _context.PackageTransactions.Where(x => x.User_Id == userId).Include(x => x.IdentityUser).Include(x => x.Package).ToList();
-            var serviceTransactions = _context.ServiceTransactions.Where(x => x.User_Id == userId).Include(x=>x.IdentityUser).Include(x => x.CallerTune).ToList();
+            var serviceTransactions = _context.ServiceTransactions.Where(x => x.User_Id == userId).Include(x => x.IdentityUser).Include(x => x.CallerTune).ToList();
 
             ViewBag.rechargeTransactions = rechargeTransactions;
             ViewBag.customRechargeTransactions = customRechargeTransactions;
@@ -577,7 +791,7 @@ namespace OnlineMobileRecharge.Controllers
             var packageTransactions = _context.PackageTransactions.Where(x => x.User_Id == userId).Include(x => x.IdentityUser).Include(x => x.Package).ToList();
             var serviceTransactions = _context.ServiceTransactions.Where(x => x.User_Id == userId).Include(x => x.IdentityUser).Include(x => x.CallerTune).ToList();
 
-            var transactionHistory = new List<object> {rechargeTransactions,customRechargeTransactions,packageTransactions, serviceTransactions};
+            var transactionHistory = new List<object> { rechargeTransactions, customRechargeTransactions, packageTransactions, serviceTransactions };
 
             return transactionHistory;
         }

@@ -112,7 +112,7 @@
                     </div>
                     <div class="payment__success__footer">
                         <div class="payment-success__footer-inner">
-                            <a href="javascript:void(0)">
+                            <a asp-action="PackageGenerateReceipt" asp-route-id="@Model.PackageTransaction_Id" asp-route-download="true">
                                 <span class="icon">
                                     <i class="material-symbols-outlined">
                                         download
@@ -122,7 +122,7 @@
                                     Download
                                 </span>
                             </a>
-                            <a href="javascript:void(0)">
+                            <a asp-action="PackageGenerateReceipt" asp-route-id="@Model.PackageTransaction_Id" asp-route-download="false">
                                 <span class="icon">
                                     <i class="material-symbols-outlined">
                                         print
@@ -132,7 +132,7 @@
                                     Print Receipt
                                 </span>
                             </a>
-                            <a href="hotel-email.html">
+                            <a asp-action="PackageGenerateReceipt" asp-route-id="@Model.PackageTransaction_Id" asp-route-download="false">
                                 <span class="icon">
                                     <i class="material-symbols-outlined">
                                         drafts
