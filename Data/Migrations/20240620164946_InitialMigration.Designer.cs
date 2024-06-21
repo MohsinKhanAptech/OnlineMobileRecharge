@@ -12,7 +12,7 @@ using OnlineMobileRecharge.Data;
 namespace OnlineMobileRecharge.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240613131611_InitialMigration")]
+    [Migration("20240620164946_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />
@@ -308,9 +308,6 @@ namespace OnlineMobileRecharge.Data.Migrations
                     b.Property<double>("Recharge_Price")
                         .HasColumnType("float");
 
-                    b.Property<int>("Recharge_Type")
-                        .HasColumnType("int");
-
                     b.Property<string>("Session_Id")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -441,6 +438,9 @@ namespace OnlineMobileRecharge.Data.Migrations
                     b.Property<int>("Package_Id")
                         .HasColumnType("int");
 
+                    b.Property<bool>("Payment_Completed")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Session_Id")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -511,6 +511,9 @@ namespace OnlineMobileRecharge.Data.Migrations
                     b.Property<string>("Mobile_Number")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("Payment_Completed")
+                        .HasColumnType("bit");
 
                     b.Property<int>("Recharge_Id")
                         .HasColumnType("int");

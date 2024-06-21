@@ -232,6 +232,7 @@ namespace OnlineMobileRecharge.Data.Migrations
                     User_Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Package_Id = table.Column<int>(type: "int", nullable: false),
                     Mobile_Number = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Payment_Completed = table.Column<bool>(type: "bit", nullable: false),
                     Transaction_Date = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
@@ -262,6 +263,7 @@ namespace OnlineMobileRecharge.Data.Migrations
                     IdentityUserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     Recharge_Id = table.Column<int>(type: "int", nullable: false),
                     Mobile_Number = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Payment_Completed = table.Column<bool>(type: "bit", nullable: false),
                     Transaction_Date = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
@@ -294,7 +296,6 @@ namespace OnlineMobileRecharge.Data.Migrations
                     TaxRateTax_Id = table.Column<int>(type: "int", nullable: false),
                     Recharge_Amount = table.Column<double>(type: "float", nullable: false),
                     Mobile_Number = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Recharge_Type = table.Column<int>(type: "int", nullable: false),
                     Transaction_Date = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
