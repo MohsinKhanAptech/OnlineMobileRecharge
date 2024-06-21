@@ -1,4 +1,6 @@
 ﻿@model OnlineMobileRecharge.Models.RechargeTransaction
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
 @{
     Layout = "_HomeLayout";
     ViewData["Title"] = "Order Summary";
@@ -80,6 +82,9 @@
                                         <span>
                                             Price
                                         </span>
+                                        <span>
+                                            Type
+                                        </span>
                                     </div>
                                     <div class="order__table__items">
                                         <span>
@@ -90,6 +95,9 @@
                                         </span>
                                         <span>
                                             @Html.DisplayFor(model => model.Recharge.Recharge_Price)
+                                        </span>
+                                        <span>
+                                            @Html.DisplayFor(model => model.Recharge.Recharge_Type)
                                         </span>
                                     </div>
                                 </div>
@@ -107,9 +115,17 @@
                         </div>
                         <div class="probtn text-center pt__10">
                             <form class="row gap-2" asp-action="RechargeOrderSummary" method="post">
+                                @if (!SignInManager.IsSignedIn(User) && Model.Recharge.Recharge_Type == EnumRechargeType.Postpaid)
+                                {
+                                    <div class="h6 text-danger">you have to login for postpaid services</div>
+                                    <a asp-area="Identity" asp-page="/Account/Login" class="btn btn-primary">Login</a>
+                                    <a asp-area="Identity" asp-page="/Account/Register" class="btn btn-primary">Register</a>
+                                }else
+                                {
                                 <input hidden asp-for="@Model.Recharge_Id" />
                                 <input asp-for="@Model.Mobile_Number" class="form-control" required placeholder="Phone Number" />
                                 <input type="submit" class="btn btn-primary text-white" value="Make Payment" />
+                                }
                             </form>
                         </div>
                     </div>
