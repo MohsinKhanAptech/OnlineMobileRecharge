@@ -155,6 +155,15 @@ namespace OnlineMobileRecharge.Controllers
             packageTransaction.Package = _context.Packages.Find(packageTransaction.Package_Id);
             packageTransaction.Transaction_Date = DateTime.UtcNow;
             packageTransaction.Session_Id = "0";
+
+            if (packageTransaction.Package.Package_Type == EnumPackageType.Postpaid)
+            {
+                packageTransaction.Payment_Completed = false;
+                _context.PackageTransactions.Add(packageTransaction);
+                _context.SaveChanges();
+                return RedirectToAction(nameof(PackageOrderComplete), new { id = packageTransaction.PackageTransaction_Id });
+            }
+
             _context.PackageTransactions.Add(packageTransaction);
             _context.SaveChanges();
 
@@ -192,11 +201,6 @@ namespace OnlineMobileRecharge.Controllers
             _context.SaveChanges();
             Response.Headers.Append("Location", session.Url);
             _context.SaveChanges();
-
-            if (packageTransaction.Package.Package_Type == EnumPackageType.Postpaid)
-            {
-                return View(nameof(PackageOrderComplete), packageTransaction);
-            }
 
             return new StatusCodeResult(303);
         }
@@ -268,14 +272,14 @@ namespace OnlineMobileRecharge.Controllers
 
             switch (rechargeType)
             {
-                case "prepaid":
-                    recharges = recharges.FindAll(r => r.Recharge_Type.Equals(EnumPackageType.Prepaid));
+                case "special":
+                    recharges = recharges.FindAll(r => r.Recharge_Type.Equals(EnumRechargeType.Special));
+                    break;
+                case "topup":
+                    recharges = recharges.FindAll(r => r.Recharge_Type.Equals(EnumRechargeType.Top_up));
                     break;
                 case "postpaid":
-                    recharges = recharges.FindAll(r => r.Recharge_Type.Equals(EnumPackageType.Postpaid));
-                    break;
-                case "special":
-                    recharges = recharges.FindAll(r => r.Recharge_Type.Equals(EnumPackageType.Special));
+                    recharges = recharges.FindAll(r => r.Recharge_Type.Equals(EnumRechargeType.Postpaid));
                     break;
             }
             if (searchQuery != null)
@@ -332,15 +336,28 @@ namespace OnlineMobileRecharge.Controllers
             if (_signInManager.IsSignedIn(User))
             {
                 var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
-                customRechargeTransaction.User_Id = userId;
-                customRechargeTransaction.IdentityUser = _context.Users.Find(userId);
+                rechargeTransaction.User_Id = userId;
+                rechargeTransaction.IdentityUser = _context.Users.Find(userId);
             }
 
             rechargeTransaction.Recharge = _context.Recharges.Find(rechargeTransaction.Recharge_Id);
             rechargeTransaction.Transaction_Date = DateTime.UtcNow;
-            rechargeTransaction.Session_Id = "0";
+            rechargeTransaction.Session_Id = DateTime.UtcNow.Ticks.ToString();
+
+            if (!_signInManager.IsSignedIn(User) && rechargeTransaction.Recharge.Recharge_Type == EnumRechargeType.Postpaid)
+            {
+                return Redirect("/Identity/Account/Login");
+            }
+
             _context.RechargeTransactions.Add(rechargeTransaction);
             _context.SaveChanges();
+
+            if (rechargeTransaction.Recharge.Recharge_Type == EnumRechargeType.Postpaid)
+            {
+                rechargeTransaction.Payment_Completed = false;
+                _context.SaveChanges();
+                return RedirectToAction(nameof(RechargeOrderComplete), new { id = rechargeTransaction.RechargeTransaction_Id });
+            }
 
             var domain = "https://localhost:7147/";
             var options = new SessionCreateOptions
@@ -351,7 +368,7 @@ namespace OnlineMobileRecharge.Controllers
                 LineItems = new List<SessionLineItemOptions>(),
                 Mode = "payment",
                 SuccessUrl = domain + $"Home/RechargeOrderComplete/{rechargeTransaction.RechargeTransaction_Id}",
-                CancelUrl = domain + $"Home/Index"
+                CancelUrl = domain + $"Home/Recharges"
             };
 
             var sessionLineItem = new SessionLineItemOptions
@@ -372,6 +389,8 @@ namespace OnlineMobileRecharge.Controllers
 
             var service = new SessionService();
             Session session = service.Create(options);
+            rechargeTransaction.Payment_Completed = true;
+            _context.SaveChanges();
             rechargeTransaction.Session_Id = session.Id;
             _context.SaveChanges();
             Response.Headers.Append("Location", session.Url);
@@ -767,10 +786,14 @@ namespace OnlineMobileRecharge.Controllers
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            var rechargeTransactions = _context.RechargeTransactions.Where(x => x.User_Id == userId).Include(x => x.IdentityUser).Include(x => x.Recharge).ToList();
-            var customRechargeTransactions = _context.CustomRechargeTransactions.Where(x => x.User_Id == userId).Include(x => x.IdentityUser).Include(x => x.TaxRate).ToList();
-            var packageTransactions = _context.PackageTransactions.Where(x => x.User_Id == userId).Include(x => x.IdentityUser).Include(x => x.Package).ToList();
-            var serviceTransactions = _context.ServiceTransactions.Where(x => x.User_Id == userId).Include(x => x.IdentityUser).Include(x => x.CallerTune).ToList();
+            var rechargeTransactions = _context.RechargeTransactions.Where(x => x.User_Id == userId)
+                .Include(x => x.IdentityUser).Include(x => x.Recharge).ToList().OrderByDescending(x => x.Transaction_Date);
+            var customRechargeTransactions = _context.CustomRechargeTransactions.Where(x => x.User_Id == userId)
+                .Include(x => x.IdentityUser).Include(x => x.TaxRate).ToList().OrderByDescending(x => x.Transaction_Date);
+            var packageTransactions = _context.PackageTransactions.Where(x => x.User_Id == userId)
+                .Include(x => x.IdentityUser).Include(x => x.Package).ToList().OrderByDescending(x => x.Transaction_Date);
+            var serviceTransactions = _context.ServiceTransactions.Where(x => x.User_Id == userId)
+                .Include(x => x.IdentityUser).Include(x => x.CallerTune).ToList().OrderByDescending(x => x.Transaction_Date);
 
             ViewBag.rechargeTransactions = rechargeTransactions;
             ViewBag.customRechargeTransactions = customRechargeTransactions;
@@ -786,16 +809,120 @@ namespace OnlineMobileRecharge.Controllers
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            var rechargeTransactions = _context.RechargeTransactions.Where(x => x.User_Id == userId).Include(x => x.IdentityUser).Include(x => x.Recharge).ToList();
-            var customRechargeTransactions = _context.CustomRechargeTransactions.Where(x => x.User_Id == userId).Include(x => x.IdentityUser).Include(x => x.TaxRate).ToList();
-            var packageTransactions = _context.PackageTransactions.Where(x => x.User_Id == userId).Include(x => x.IdentityUser).Include(x => x.Package).ToList();
-            var serviceTransactions = _context.ServiceTransactions.Where(x => x.User_Id == userId).Include(x => x.IdentityUser).Include(x => x.CallerTune).ToList();
+            var rechargeTransactions = _context.RechargeTransactions.Where(x => x.User_Id == userId).Include(x => x.Recharge).ToList();
+            var customRechargeTransactions = _context.CustomRechargeTransactions.Where(x => x.User_Id == userId).Include(x => x.TaxRate).ToList();
+            var packageTransactions = _context.PackageTransactions.Where(x => x.User_Id == userId).Include(x => x.Package).ToList();
+            var serviceTransactions = _context.ServiceTransactions.Where(x => x.User_Id == userId).Include(x => x.CallerTune).ToList();
 
             var transactionHistory = new List<object> { rechargeTransactions, customRechargeTransactions, packageTransactions, serviceTransactions };
 
             return transactionHistory;
         }
 
+        // Transaction History
+        [Authorize]
+        public IActionResult PostpaidBills()
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var rechargeTransactions = _context.RechargeTransactions.Where(x => x.User_Id == userId && x.Payment_Completed == false)
+                .Include(x => x.IdentityUser).Include(x => x.Recharge).ToList().OrderByDescending(x => x.RechargeTransaction_Id);
+            var packageTransactions = _context.PackageTransactions.Where(x => x.User_Id == userId && x.Payment_Completed == false)
+                .Include(x => x.IdentityUser).Include(x => x.Package).ToList().OrderByDescending(x => x.PackageTransaction_Id);
+
+            ViewBag.rechargeTransactions = rechargeTransactions;
+            ViewBag.packageTransactions = packageTransactions;
+
+            return View();
+        }
+
+        // download PostpaidBills history
+        [Authorize]
+        public List<object> DownloadPostpaidBills()
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var rechargeTransactions = _context.RechargeTransactions.Where(x => x.User_Id == userId && x.Payment_Completed == false).Include(x => x.Recharge).ToList();
+            var packageTransactions = _context.PackageTransactions.Where(x => x.User_Id == userId && x.Payment_Completed == false).Include(x => x.Package).ToList();
+
+            var transactionHistory = new List<object> { rechargeTransactions, packageTransactions };
+
+            return transactionHistory;
+        }
+
+        [Authorize]
+        public IActionResult PayPostpaidBill(int id, string cat)
+        {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var user = _context.Users.Find(userId);
+            string name = "";
+            string successUrl = "";
+            double price = 0;
+
+
+            if (cat == "recharge")
+            {
+                rechargeTransaction = _context.RechargeTransactions.Include(x => x.IdentityUser).Include(x => x.Recharge).FirstOrDefault(x => x.RechargeTransaction_Id == id);
+                _context.RechargeTransactions.Update(rechargeTransaction);
+                _context.SaveChanges();
+
+                successUrl = $"Home/RechargeOrderComplete/{rechargeTransaction.RechargeTransaction_Id}";
+                price = rechargeTransaction.Recharge.Recharge_Price;
+                name = rechargeTransaction.Recharge.Recharge_Name;
+            }
+            else if (cat == "package")
+            {
+                packageTransaction = _context.PackageTransactions.Include(x => x.IdentityUser).Include(x => x.Package).FirstOrDefault(x => x.PackageTransaction_Id == id);
+                _context.PackageTransactions.Update(packageTransaction);
+                _context.SaveChanges();
+
+                successUrl = $"Home/PackageOrderComplete/{packageTransaction.PackageTransaction_Id}";
+                price = packageTransaction.Package.Package_Price;
+                name = packageTransaction.Package.Package_Name;
+            }
+            else { return BadRequest(); }
+
+            var domain = "https://localhost:7147/";
+            var options = new SessionCreateOptions
+            {
+                PaymentMethodTypes = new List<string> {
+                    "card",
+                },
+                LineItems = new List<SessionLineItemOptions>(),
+                Mode = "payment",
+                SuccessUrl = domain + successUrl,
+                CancelUrl = domain + $"Home/PostpaidBills"
+            };
+
+            var sessionLineItem = new SessionLineItemOptions
+            {
+                PriceData = new SessionLineItemPriceDataOptions
+                {
+                    UnitAmount = (long)(price * 100),
+                    Currency = "PKR",
+                    ProductData = new SessionLineItemPriceDataProductDataOptions
+                    {
+                        Name = name
+                    },
+                },
+                Quantity = 1
+
+            };
+            options.LineItems.Add(sessionLineItem);
+            var service = new SessionService();
+            Session session = service.Create(options);
+            if (cat == "recharge") { rechargeTransaction.Session_Id = session.Id; }
+            else { packageTransaction.Session_Id = session.Id; }
+            _context.SaveChanges();
+            if (cat == "recharge") { rechargeTransaction.Payment_Completed = true; }
+            else { packageTransaction.Payment_Completed = true; }
+            _context.SaveChanges();
+            Response.Headers.Append("Location", session.Url);
+            _context.SaveChanges();
+            return new StatusCodeResult(303);
+
+            return View();
+        }
 
         // contact us page
         public IActionResult Contact() { return View(); }
