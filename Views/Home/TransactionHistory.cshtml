@@ -114,12 +114,12 @@
                                                 </td>
                                             </tr>
                                         }
-                                        @if (ViewBag.rechargeTransactions == null)
-                                        {
-                                            <div class="d3 text-center p-2 my-4">No Results Found</div>
-                                        }
                                     </tbody>
                                 </table>
+                                @if (((IEnumerable<dynamic>)ViewBag.rechargeTransactions).Count() == 0)
+                                {
+                                    <div class="d3 text-center p-2 my-4">No Results Found</div>
+                                }
                             </div>
                         </div>
                     </div>
@@ -170,12 +170,12 @@
                                                 </td>
                                             </tr>
                                         }
-                                        @if (ViewBag.customRechargeTransactions == null)
-                                        {
-                                            <div class="d3 text-center p-2 my-4">No Results Found</div>
-                                        }
                                     </tbody>
                                 </table>
+                                @if (((IEnumerable<dynamic>)ViewBag.customRechargeTransactions).Count() == 0)
+                                {
+                                    <div class="d3 text-center p-2 my-4">No Results Found</div>
+                                }
                             </div>
                         </div>
                     </div>
@@ -222,12 +222,12 @@
                                                 </td>
                                             </tr>
                                         }
-                                        @if (ViewBag.packageTransactions == null)
-                                        {
-                                            <div class="d3 text-center p-2 my-4">No Results Found</div>
-                                        }
                                     </tbody>
                                 </table>
+                                @if (((IEnumerable<dynamic>)ViewBag.packageTransactions).Count() == 0)
+                                {
+                                    <div class="d3 text-center p-2 my-4">No Results Found</div>
+                                }
                             </div>
                         </div>
                     </div>
@@ -278,12 +278,12 @@
                                                 </td>
                                             </tr>
                                         }
-                                        @if (ViewBag.serviceTransactions == null)
-                                        {
-                                            <div class="d3 text-center p-2 my-4">No Results Found</div>
-                                        }
                                     </tbody>
                                 </table>
+                                @if (((IEnumerable<dynamic>)ViewBag.serviceTransactions).Count() == 0)
+                                {
+                                    <div class="d3 text-center p-2 my-4">No Results Found</div>
+                                }
                             </div>
                         </div>
                     </div>
