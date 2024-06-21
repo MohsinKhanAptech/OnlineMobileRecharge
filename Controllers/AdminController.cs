@@ -19,7 +19,19 @@ namespace OnlineMobileRecharge.Controllers
         }
 
         // GET: AdminController
-        public ActionResult Index() { return View(); }
+        public IActionResult Index() {
+            ViewBag.usersCount = _context.Users.Count();
+            ViewBag.packagesCount = _context.Packages.Count();
+            ViewBag.rechargesCount = _context.Recharges.Count();
+            ViewBag.callerTunesCount = _context.CallerTunes.Count();
+
+            ViewBag.rechargeTransactions = _context.RechargeTransactions.Count();
+            ViewBag.customRechargeTransactions = _context.CustomRechargeTransactions.Count();
+            ViewBag.packageTransactions = _context.PackageTransactions.Count();
+            ViewBag.serviceTransactions = _context.ServiceTransactions.Count();
+
+            return View();
+        }
 
         // GET: AdminController/Packages
         public IActionResult Packages(string searchQuery, int minPrice, int maxPrice, string packageType, string sortOrder, int page = 1, int pageSize = 30)
@@ -71,7 +83,7 @@ namespace OnlineMobileRecharge.Controllers
         }
 
         // GET: AdminController/PackageDetails/5
-        public ActionResult PackageDetails(int id)
+        public IActionResult PackageDetails(int id)
         {
             var package = _context.Packages.Find(id);
             if (package != null)
@@ -82,12 +94,12 @@ namespace OnlineMobileRecharge.Controllers
         }
 
         // GET: AdminController/PackageAdd
-        public ActionResult PackageAdd() { return View(); }
+        public IActionResult PackageAdd() { return View(); }
 
         // POST: AdminController/PackageAdd
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult PackageAdd(Package package)
+        public IActionResult PackageAdd(Package package)
         {
             if (ModelState.IsValid)
             {
@@ -99,7 +111,7 @@ namespace OnlineMobileRecharge.Controllers
         }
 
         // GET: AdminController/PackageEdit/5
-        public ActionResult PackageEdit(int id)
+        public IActionResult PackageEdit(int id)
         {
             var package = _context.Packages.Find(id);
             if (package != null)
@@ -112,7 +124,7 @@ namespace OnlineMobileRecharge.Controllers
         // POST: AdminController/PackageEdit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult PackageEdit(int id, Package package)
+        public IActionResult PackageEdit(int id, Package package)
         {
             if (id != package.Package_Id)
             {
@@ -128,7 +140,7 @@ namespace OnlineMobileRecharge.Controllers
         }
 
         // GET: AdminController/PackageDelete/5
-        public ActionResult PackageDelete(int id)
+        public IActionResult PackageDelete(int id)
         {
             var package = _context.Packages.Find(id);
             if (package != null)
@@ -141,7 +153,7 @@ namespace OnlineMobileRecharge.Controllers
         // POST: AdminController/PackageDelete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult PackageDelete(int id, string name)
+        public IActionResult PackageDelete(int id, string name)
         {
             var package = _context.Packages.Find(id);
             if (package != null)
@@ -205,7 +217,7 @@ namespace OnlineMobileRecharge.Controllers
         }
 
         // GET: AdminController/RechargeDetails/5
-        public ActionResult RechargeDetails(int id)
+        public IActionResult RechargeDetails(int id)
         {
             var recharge = _context.Recharges.Find(id);
             if (recharge != null)
@@ -216,12 +228,12 @@ namespace OnlineMobileRecharge.Controllers
         }
 
         // GET: AdminController/RechargeAdd
-        public ActionResult RechargeAdd() { return View(); }
+        public IActionResult RechargeAdd() { return View(); }
 
         // POST: AdminController/RechargeAdd
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult RechargeAdd(Recharge recharge)
+        public IActionResult RechargeAdd(Recharge recharge)
         {
             if (ModelState.IsValid)
             {
@@ -233,7 +245,7 @@ namespace OnlineMobileRecharge.Controllers
         }
 
         // GET: AdminController/RechargeEdit/5
-        public ActionResult RechargeEdit(int id)
+        public IActionResult RechargeEdit(int id)
         {
             var recharge = _context.Recharges.Find(id);
             if (recharge != null)
@@ -246,7 +258,7 @@ namespace OnlineMobileRecharge.Controllers
         // POST: AdminController/RechargeEdit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult RechargeEdit(int id, Recharge recharge)
+        public IActionResult RechargeEdit(int id, Recharge recharge)
         {
             if (id != recharge.Recharge_Id)
             {
@@ -262,7 +274,7 @@ namespace OnlineMobileRecharge.Controllers
         }
 
         // GET: AdminController/RechargeDelete/5
-        public ActionResult RechargeDelete(int id)
+        public IActionResult RechargeDelete(int id)
         {
             var recharge = _context.Recharges.Find(id);
             if (recharge != null)
@@ -275,7 +287,7 @@ namespace OnlineMobileRecharge.Controllers
         // POST: AdminController/RechargeDelete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult RechargeDelete(int id, string name)
+        public IActionResult RechargeDelete(int id, string name)
         {
             var recharge = _context.Recharges.Find(id);
             if (recharge != null)
@@ -327,12 +339,12 @@ namespace OnlineMobileRecharge.Controllers
         }
 
         // GET: AdminController/CallerTuneAdd
-        public ActionResult CallerTuneAdd() { return View(); }
+        public IActionResult CallerTuneAdd() { return View(); }
 
         // POST: AdminController/CallerTuneAdd
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult CallerTuneAdd(CallerTune callertune)
+        public IActionResult CallerTuneAdd(CallerTune callertune)
         {
             if (ModelState.IsValid)
             {
@@ -343,7 +355,7 @@ namespace OnlineMobileRecharge.Controllers
             return View();
         }
         // GET: AdminController/CallerTuneDetails/5
-        public ActionResult CallerTuneDetails(int id)
+        public IActionResult CallerTuneDetails(int id)
         {
             var callerTune = _context.CallerTunes.Find(id);
             if (callerTune != null)
@@ -354,7 +366,7 @@ namespace OnlineMobileRecharge.Controllers
         }
 
         // GET: AdminController/CallerTuneEdit/5
-        public ActionResult CallerTuneEdit(int id)
+        public IActionResult CallerTuneEdit(int id)
         {
             var callertune = _context.CallerTunes.Find(id);
             if (callertune != null)
@@ -367,7 +379,7 @@ namespace OnlineMobileRecharge.Controllers
         // POST: AdminController/CallerTuneEdit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult CallerTuneEdit(int id, CallerTune callertune)
+        public IActionResult CallerTuneEdit(int id, CallerTune callertune)
         {
             if (id != callertune.Tune_Id)
             {
@@ -383,7 +395,7 @@ namespace OnlineMobileRecharge.Controllers
         }
 
         // GET: AdminController/CallerTuneDelete/5
-        public ActionResult CallerTuneDelete(int id)
+        public IActionResult CallerTuneDelete(int id)
         {
             var callertune = _context.CallerTunes.Find(id);
             if (callertune != null)
@@ -396,7 +408,7 @@ namespace OnlineMobileRecharge.Controllers
         // POST: AdminController/CallerTuneDelete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult CallerTuneDelete(int id, string name)
+        public IActionResult CallerTuneDelete(int id, string name)
         {
             var callertune = _context.CallerTunes.Find(id);
             if (callertune != null)
@@ -438,7 +450,7 @@ namespace OnlineMobileRecharge.Controllers
         }
 
         // GET: AdminController/TaxDetails/5
-        public ActionResult TaxDetails(int id)
+        public IActionResult TaxDetails(int id)
         {
             var taxrate = _context.TaxRates.Find(id);
             if (taxrate != null)
@@ -449,12 +461,12 @@ namespace OnlineMobileRecharge.Controllers
         }
 
         // GET: AdminController/TaxAdd
-        public ActionResult TaxAdd() { return View(); }
+        public IActionResult TaxAdd() { return View(); }
 
         // POST: AdminController/TaxAdd
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult TaxAdd(TaxRate taxrate)
+        public IActionResult TaxAdd(TaxRate taxrate)
         {
             if (ModelState.IsValid)
             {
@@ -466,7 +478,7 @@ namespace OnlineMobileRecharge.Controllers
         }
 
         // GET: AdminController/TaxEdit/5
-        public ActionResult TaxEdit(int id)
+        public IActionResult TaxEdit(int id)
         {
             var taxrate = _context.TaxRates.Find(id);
             if (taxrate != null)
@@ -479,7 +491,7 @@ namespace OnlineMobileRecharge.Controllers
         // POST: AdminController/TaxEdit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult TaxEdit(int id, TaxRate taxrate)
+        public IActionResult TaxEdit(int id, TaxRate taxrate)
         {
             if (id != taxrate.Tax_Id)
             {
@@ -495,7 +507,7 @@ namespace OnlineMobileRecharge.Controllers
         }
 
         // GET: AdminController/TaxDelete/5
-        public ActionResult TaxDelete(int id)
+        public IActionResult TaxDelete(int id)
         {
             var taxrate = _context.TaxRates.Find(id);
             if (taxrate != null)
@@ -508,7 +520,7 @@ namespace OnlineMobileRecharge.Controllers
         // POST: AdminController/TaxDelete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult TaxDelete(int id, string name)
+        public IActionResult TaxDelete(int id, string name)
         {
             var taxrate = _context.TaxRates.Find(id);
             if (taxrate != null)
@@ -550,7 +562,7 @@ namespace OnlineMobileRecharge.Controllers
         }
 
         // GET: AdminController/ServiceDetails/5
-        public ActionResult ServiceDetails(int id)
+        public IActionResult ServiceDetails(int id)
         {
             var service = _context.Services.Include(s => s.Caller_Tune).Include(s => s.IdentityUser).First(s => s.Service_Id == id);
             if (service != null)
@@ -590,7 +602,7 @@ namespace OnlineMobileRecharge.Controllers
         }
 
         // GET: AdminController/UserDetails/5
-        public ActionResult UserDetails(string id)
+        public IActionResult UserDetails(string id)
         {
             var user = _context.Users.Find(id);
             if (user != null)
@@ -649,8 +661,8 @@ namespace OnlineMobileRecharge.Controllers
             return View(itemsPerPage);
         }
 
-        // GET: AdminController/PackageTrasnactionDetails/5
-        public IActionResult PackageTrasnactionDetails(int id)
+        // GET: AdminController/PackageTransactionDetails/5
+        public IActionResult PackageTransactionDetails(int id)
         {
             var transaction = _context.PackageTransactions.Include(x => x.Package).Include(x => x.IdentityUser).First(x => x.PackageTransaction_Id == id);
             return View(transaction);
