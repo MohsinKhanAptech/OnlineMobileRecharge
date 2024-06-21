@@ -235,7 +235,7 @@ namespace OnlineMobileRecharge.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult RechargeAdd(Recharge recharge)
         {
-            if (ModelState.IsValid)
+            if (ModelState.IsValid && recharge.Recharge_Taxed_Amount == recharge.Recharge_Price * recharge.Recharge_Tax_Rate / 100)
             {
                 _context.Recharges.Add(recharge);
                 _context.SaveChanges();

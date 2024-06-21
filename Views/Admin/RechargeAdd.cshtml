@@ -30,24 +30,24 @@
                                     <span asp-validation-for="Recharge_Description" class="text-danger"></span>
                                 </div>
                                 <div class="form-floating mb-3">
-                                    <input asp-for="Recharge_Amount" class="form-control" />
-                                    <label asp-for="Recharge_Amount" class="control-label"></label>
-                                    <span asp-validation-for="Recharge_Amount" class="text-danger"></span>
-                                </div>
-                                <div class="form-floating mb-3">
-                                    <input asp-for="Recharge_Price" class="form-control" />
+                                    <input asp-for="Recharge_Price" id="RechargePrice" class="form-control" value="1000" onkeyup="calculateRechargeTax(this)" />
                                     <label asp-for="Recharge_Price" class="control-label"></label>
                                     <span asp-validation-for="Recharge_Price" class="text-danger"></span>
                                 </div>
                                 <div class="form-floating mb-3">
-                                    <input asp-for="Recharge_Tax_Rate" class="form-control" />
+                                    <input asp-for="Recharge_Tax_Rate" id="RechargeTaxRate" class="form-control" value="15" onkeyup="calculateRechargeTax(this)" />
                                     <label asp-for="Recharge_Tax_Rate" class="control-label"></label>
                                     <span asp-validation-for="Recharge_Tax_Rate" class="text-danger"></span>
                                 </div>
                                 <div class="form-floating mb-3">
-                                    <input asp-for="Recharge_Taxed_Amount" class="form-control" />
+                                    <input asp-for="Recharge_Taxed_Amount" id="RechargeTaxAmount" class="form-control" disabled onkeyup="calculateRechargeTax(this)" />
                                     <label asp-for="Recharge_Taxed_Amount" class="control-label"></label>
                                     <span asp-validation-for="Recharge_Taxed_Amount" class="text-danger"></span>
+                                </div>
+                                <div class="form-floating mb-3">
+                                    <input asp-for="Recharge_Amount" id="RechargeAmount" class="form-control" onkeyup="calculateRechargeTax(this)" />
+                                    <label asp-for="Recharge_Amount" class="control-label"></label>
+                                    <span asp-validation-for="Recharge_Amount" class="text-danger"></span>
                                 </div>
                                 <div class="form-floating mb-3">
                                     <select asp-for="Recharge_Type" asp-items="Html.GetEnumSelectList<EnumPackageType>()" class="form-control"></select>
@@ -67,3 +67,35 @@
     </main>
     <partial name="_AdminFooterPartial" />
 </div>
+<script>
+    let inpPrice = document.getElementById("RechargePrice");
+    let taxRate = document.getElementById("RechargeTaxRate");
+    let taxAmount = document.getElementById("RechargeTaxAmount");
+    let inpAmount = document.getElementById("RechargeAmount");
+
+    function calculateRechargeTax(element) {
+        switch(element) {
+            case inpPrice:
+                taxAmount.value = inpPrice.value * taxRate.value / 100
+                inpAmount.value = inpPrice.value - taxAmount.value
+                break;
+            case taxRate:
+                taxAmount.value = inpPrice.value * taxRate.value / 100
+                inpAmount.value = inpPrice.value - taxAmount.value
+                break;
+            case taxAmount:
+                inpPrice.value = taxAmount.value / taxRate.value * 100
+                taxAmount.value = inpPrice.value * taxRate.value / 100
+                inpAmount.value = inpPrice.value - taxAmount.value
+                break;
+            case inpAmount:
+                let x = inpAmount.value / (100 - taxRate.value) * 100
+                inpPrice.value = Math.round((x + Number.EPSILON) * 100) / 100
+
+                taxAmount.value = inpPrice.value * taxRate.value / 100
+                break;
+        }
+    }
+
+    calculateRechargeTax(inpPrice);
+</script>
