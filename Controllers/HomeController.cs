@@ -36,7 +36,7 @@ namespace OnlineMobileRecharge.Controllers
         // index page
         public IActionResult Index() { return View(); }
 
-        // genereate receipt Html
+        // generate receipt Html
         public string GenerateReceiptHtml(string data, string receiptNo)
         {
             return
@@ -217,7 +217,7 @@ namespace OnlineMobileRecharge.Controllers
             return View(packageTransaction);
         }
 
-        // Package genereate receipt
+        // Package generate receipt
         [Authorize]
         public IActionResult PackageGenerateReceipt(int id, bool download)
         {
@@ -409,7 +409,7 @@ namespace OnlineMobileRecharge.Controllers
             return View(rechargeTransaction);
         }
 
-        // Package genereate receipt
+        // Package generate receipt
         [Authorize]
         public IActionResult RechargeGenerateReceipt(int id, bool download)
         {
@@ -544,7 +544,7 @@ namespace OnlineMobileRecharge.Controllers
             return View(customRechargeTransaction);
         }
 
-        // Package genereate receipt
+        // Package generate receipt
         [Authorize]
         public IActionResult CustomRechargeGenerateReceipt(int id, bool download)
         {
@@ -727,7 +727,7 @@ namespace OnlineMobileRecharge.Controllers
             return View(tuneTransaction);
         }
 
-        // Package genereate receipt
+        // Package generate receipt
         [Authorize]
         public IActionResult CallerTuneGenerateReceipt(int id, bool download)
         {
@@ -787,13 +787,13 @@ namespace OnlineMobileRecharge.Controllers
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
             var rechargeTransactions = _context.RechargeTransactions.Where(x => x.User_Id == userId)
-                .Include(x => x.IdentityUser).Include(x => x.Recharge).ToList().OrderByDescending(x => x.Transaction_Date);
+                .Include(x => x.IdentityUser).Include(x => x.Recharge).ToList().OrderByDescending(x => x.Transaction_Date).Take(16);
             var customRechargeTransactions = _context.CustomRechargeTransactions.Where(x => x.User_Id == userId)
-                .Include(x => x.IdentityUser).Include(x => x.TaxRate).ToList().OrderByDescending(x => x.Transaction_Date);
+                .Include(x => x.IdentityUser).Include(x => x.TaxRate).ToList().OrderByDescending(x => x.Transaction_Date).Take(16);
             var packageTransactions = _context.PackageTransactions.Where(x => x.User_Id == userId)
-                .Include(x => x.IdentityUser).Include(x => x.Package).ToList().OrderByDescending(x => x.Transaction_Date);
+                .Include(x => x.IdentityUser).Include(x => x.Package).ToList().OrderByDescending(x => x.Transaction_Date).Take(16);
             var serviceTransactions = _context.ServiceTransactions.Where(x => x.User_Id == userId)
-                .Include(x => x.IdentityUser).Include(x => x.CallerTune).ToList().OrderByDescending(x => x.Transaction_Date);
+                .Include(x => x.IdentityUser).Include(x => x.CallerTune).ToList().OrderByDescending(x => x.Transaction_Date).Take(16);
 
             ViewBag.rechargeTransactions = rechargeTransactions;
             ViewBag.customRechargeTransactions = customRechargeTransactions;
