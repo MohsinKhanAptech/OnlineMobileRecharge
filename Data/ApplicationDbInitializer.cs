@@ -284,6 +284,7 @@ namespace OnlineMobileRecharge.Data
                             Mobile_Number = userPhone,
                             User_Id = user.Id,
                             IdentityUser = await context.Users.FindAsync(user.Id),
+                            Payment_Completed = true,
                             Session_Id = $"{package.Package_Id}Session",
                             Transaction_Date = DateTime.UtcNow,
                         });
@@ -302,6 +303,7 @@ namespace OnlineMobileRecharge.Data
                             Mobile_Number = userPhone,
                             User_Id = user.Id,
                             IdentityUser = await context.Users.FindAsync(user.Id),
+                            Payment_Completed = true,
                             Session_Id = $"{recharge.Recharge_Id}Session",
                             Transaction_Date = DateTime.UtcNow,
                         });
