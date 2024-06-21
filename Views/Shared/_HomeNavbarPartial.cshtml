@@ -89,13 +89,13 @@
                             <a asp-action="Recharges">All Recharges</a>
                         </li>
                         <li>
-                            <a asp-action="Recharges" asp-route-packageType="prepaid">Prepaid Recharges</a>
+                            <a asp-action="Recharges" asp-route-rechargeType="special">Special Recharges</a>
                         </li>
                         <li>
-                            <a asp-action="Recharges" asp-route-packageType="postpaid">Postpaid Recharges</a>
+                            <a asp-action="Recharges" asp-route-rechargeType="topuop">TopUp Recharges</a>
                         </li>
                         <li>
-                            <a asp-action="Recharges" asp-route-packageType="special">Special Recharges</a>
+                            <a asp-action="Recharges" asp-route-rechargeType="postpaid">Postpaid Recharges</a>
                         </li>
                         <li>
                             <a asp-action="CustomRecharge">Custom Recharge</a>
@@ -161,6 +161,9 @@
                                 </span>
                             </a>
                             <ul class="sub-menu">
+                                <li>
+                                    <a asp-action="PostpaidBills">Postpaid Bills</a>
+                                </li>
                                 <li>
                                     <a asp-action="TransactionHistory">Transaction History</a>
                                 </li>
