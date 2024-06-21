@@ -10,7 +10,6 @@ namespace OnlineMobileRecharge.Models
         [Key]
         [DisplayName("Transaction Id")]
         public int PackageTransaction_Id { get; set; }
-        [Required]
         [DisplayName("Session Id")]
         public string Session_Id { get; set; }
         [Required]
@@ -26,6 +25,9 @@ namespace OnlineMobileRecharge.Models
         [Required, Phone]
         [DisplayName("Mobile Number")]
         public string Mobile_Number { get; set; }
+        [Required]
+        [DisplayName("Payment Completed?")]
+        public bool Payment_Completed { get; set; }
         [Required]
         [DisplayName("Transaction Date")]
         public DateTime Transaction_Date { get; set; }

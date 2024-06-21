@@ -11,7 +11,6 @@ namespace OnlineMobileRecharge.Models
         [Key]
         [DisplayName("Transaction Id")]
         public int ServiceTransaction_Id { get; set; }
-        [Required]
         [DisplayName("Session Id")]
         public string Session_Id { get; set; }
         [Required]

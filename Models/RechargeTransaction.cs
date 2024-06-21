@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.CodeAnalysis.CodeFixes;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -12,7 +11,6 @@ namespace OnlineMobileRecharge.Models
         [Key]
         [DisplayName("Transaction Id")]
         public int RechargeTransaction_Id { get; set; }
-        [Required]
         [DisplayName("Session Id")]
         public string Session_Id { get; set; }
         [DisplayName("User Id")]
@@ -28,6 +26,9 @@ namespace OnlineMobileRecharge.Models
         [Required, Phone]
         [DisplayName("Mobile Number")]
         public string Mobile_Number { get; set; }
+        [Required]
+        [DisplayName("Payment Completed?")]
+        public bool Payment_Completed { get; set; }
         [Required]
         [DisplayName("Transaction Date")]
         public DateTime Transaction_Date { get; set; }

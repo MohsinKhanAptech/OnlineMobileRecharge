@@ -10,7 +10,6 @@ namespace OnlineMobileRecharge.Models
         [Key]
         [DisplayName("Transaction Id")]
         public int CustomRecharge_Id { get; set; }
-        [Required]
         [DisplayName("Session Id")]
         public string Session_Id { get; set; }
         [DisplayName("User Id")]
