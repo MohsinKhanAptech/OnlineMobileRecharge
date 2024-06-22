@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
 using OnlineMobileRecharge.Data;
 using OnlineMobileRecharge.Models;
 using OpenHtmlToPdf;
@@ -953,6 +954,27 @@ namespace OnlineMobileRecharge.Controllers
             try
             {
                 _context.Feedbacks.Add(feedback);
+                _context.SaveChanges();
+                return View(nameof(Index));
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
+        // POST: Feedback page form submit
+        [HttpPost]
+        public IActionResult Newsletter(string email)
+        {
+            try
+            {
+                var newsletter = new Newsletter
+                {
+                    Newsletter_Email = email,
+                    Date_Added = DateTime.UtcNow,
+                };
+                _context.Newsletter.Add(newsletter);
                 _context.SaveChanges();
                 return View(nameof(Index));
             }
