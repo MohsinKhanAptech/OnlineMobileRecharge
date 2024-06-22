@@ -18,7 +18,6 @@ namespace OnlineMobileRecharge.Models
         [Required]
         [NotMapped]
         [DisplayName("Caller Tune File")]
-        [FileExtensions(Extensions = ".mp3,.flac")]
         public IFormFile Tune_File { get; set; }
         [Required]
         [DisplayName("Caller Tune Path")]

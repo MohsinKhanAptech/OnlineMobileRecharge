@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Hosting.Internal;
 using OnlineMobileRecharge.Data;
 using OnlineMobileRecharge.Models;
+using IHostingEnvironment = Microsoft.AspNetCore.Hosting.IWebHostEnvironment;
 
 namespace OnlineMobileRecharge.Controllers
 {
@@ -11,15 +13,18 @@ namespace OnlineMobileRecharge.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly ApplicationDbContext _context;
+        private readonly IHostingEnvironment _hostEnv;
 
-        public AdminController(ILogger<HomeController> logger, ApplicationDbContext context)
+        public AdminController(ILogger<HomeController> logger, ApplicationDbContext context, IHostingEnvironment hostingEnvironment)
         {
             _logger = logger;
             _context = context;
+            _hostEnv = hostingEnvironment;
         }
 
         // GET: AdminController
-        public IActionResult Index() {
+        public IActionResult Index()
+        {
             ViewBag.usersCount = _context.Users.Count();
             ViewBag.packagesCount = _context.Packages.Count();
             ViewBag.rechargesCount = _context.Recharges.Count();
@@ -346,14 +351,28 @@ namespace OnlineMobileRecharge.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult CallerTuneAdd(CallerTune callertune)
         {
-            if (ModelState.IsValid)
+            if (callertune.Tune_File.FileName == null)
             {
+                var uniqueFileName = GetUniqueFileName(callertune.Tune_File.FileName);
+                var uploads = Path.Combine(_hostEnv.WebRootPath, "CallerTunes");
+                var filePath = Path.Combine(uploads, uniqueFileName);
+                callertune.Tune_File.CopyTo(new FileStream(filePath, FileMode.Create));
+                callertune.Tune_Path = "/CallerTunes/" + uniqueFileName;
                 _context.CallerTunes.Add(callertune);
                 _context.SaveChanges();
                 return RedirectToAction(nameof(CallerTunes));
             }
-            return View();
+                return RedirectToAction(nameof(Error404));
         }
+        private string GetUniqueFileName(string fileName)
+        {
+            fileName = Path.GetFileName(fileName);
+            return Path.GetFileNameWithoutExtension(fileName)
+                      + "_"
+                      + Guid.NewGuid().ToString().Substring(0, 4)
+                      + Path.GetExtension(fileName);
+        }
+
         // GET: AdminController/CallerTuneDetails/5
         public IActionResult CallerTuneDetails(int id)
         {
@@ -385,8 +404,13 @@ namespace OnlineMobileRecharge.Controllers
             {
                 return RedirectToAction(nameof(Error404));
             }
-            if (ModelState.IsValid)
+            if (callertune.Tune_File.FileName == null)
             {
+                var uniqueFileName = GetUniqueFileName(callertune.Tune_File.FileName);
+                var uploads = Path.Combine(_hostEnv.WebRootPath, "CallerTunes");
+                var filePath = Path.Combine(uploads, uniqueFileName);
+                callertune.Tune_File.CopyTo(new FileStream(filePath, FileMode.Create));
+                callertune.Tune_Path = "/CallerTunes/" + uniqueFileName;
                 _context.CallerTunes.Update(callertune);
                 _context.SaveChanges();
                 return RedirectToAction(nameof(CallerTunes));

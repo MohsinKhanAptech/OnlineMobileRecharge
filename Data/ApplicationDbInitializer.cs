@@ -1,9 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using OnlineMobileRecharge.Models;
-using Org.BouncyCastle.Bcpg;
-using SQLitePCL;
-using Stripe;
 
 namespace OnlineMobileRecharge.Data
 {
@@ -182,9 +179,58 @@ namespace OnlineMobileRecharge.Data
                         {
                             Tune_Name = "Default Tune",
                             Tune_Description = "Default Caller Tune",
-                            Tune_Path = "~/CallerTunes/Default.mp4",
-                            Tune_Price = 0,
-                        }
+                            Tune_Path = "/CallerTunes/Default.mp3",
+                            Tune_Price = 200,
+                        },
+                        new CallerTune
+                        {
+                            Tune_Name = "desperado",
+                            Tune_Description = "desperado theme song ring tone",
+                            Tune_Path = "/CallerTunes/desperado-theme.mp3",
+                            Tune_Price = 200,
+                        },
+                        new CallerTune
+                        {
+                            Tune_Name = "Vivo X80 Pro",
+                            Tune_Description = "Vivo X80 Pro Stock Ringtone",
+                            Tune_Path = "/CallerTunes/vivo.mp3",
+                            Tune_Price = 200,
+                        },
+                        new CallerTune
+                        {
+                            Tune_Name = "Samsung Galaxy",
+                            Tune_Description = "Samsung Galaxy Stock Ringtone",
+                            Tune_Path = "/CallerTunes/samsung_galaxy.mp3",
+                            Tune_Price = 200,
+                        },
+                        new CallerTune
+                        {
+                            Tune_Name = "OPPO Reno",
+                            Tune_Description = "OPPO Reno Stock Ringtone",
+                            Tune_Path = "/CallerTunes/oppo_reno.mp3",
+                            Tune_Price = 200,
+                        },
+                        new CallerTune
+                        {
+                            Tune_Name = "Sad Instrumental",
+                            Tune_Description = "Sad Instrumental Ringtone",
+                            Tune_Path = "/CallerTunes/reelaudio.mp3",
+                            Tune_Price = 200,
+                        },
+                        new CallerTune
+                        {
+                            Tune_Name = "Let Me Down Slowly",
+                            Tune_Description = "Let Me Down Slowly Song Ringtone",
+                            Tune_Path = "/CallerTunes/let_me_down_slowly.mp3",
+                            Tune_Price = 200,
+                        },
+                        new CallerTune
+                        {
+                            Tune_Name = "IPhone Remix",
+                            Tune_Description = "Stock IPhone Ringtone Remix",
+                            Tune_Path = "/CallerTunes/iphone_remix.mp3",
+                            Tune_Price = 250,
+                        },
                     });
                     await context.SaveChangesAsync();
                 }

@@ -245,7 +245,7 @@ namespace OnlineMobileRecharge.Data.Migrations
 
                     b.HasKey("Tune_Id");
 
-                    b.ToTable("CallerTunes");
+                    b.ToTable("CallerTunes", (string)null);
                 });
 
             modelBuilder.Entity("OnlineMobileRecharge.Models.Contact", b =>
@@ -281,7 +281,7 @@ namespace OnlineMobileRecharge.Data.Migrations
 
                     b.HasKey("Contact_Id");
 
-                    b.ToTable("Contacts");
+                    b.ToTable("Contacts", (string)null);
                 });
 
             modelBuilder.Entity("OnlineMobileRecharge.Models.CustomRechargeTransaction", b =>
@@ -327,7 +327,7 @@ namespace OnlineMobileRecharge.Data.Migrations
 
                     b.HasIndex("TaxRateTax_Id");
 
-                    b.ToTable("CustomRechargeTransactions");
+                    b.ToTable("CustomRechargeTransactions", (string)null);
                 });
 
             modelBuilder.Entity("OnlineMobileRecharge.Models.Feedback", b =>
@@ -355,7 +355,7 @@ namespace OnlineMobileRecharge.Data.Migrations
 
                     b.HasKey("Feedback_Id");
 
-                    b.ToTable("Feedbacks");
+                    b.ToTable("Feedbacks", (string)null);
                 });
 
             modelBuilder.Entity("OnlineMobileRecharge.Models.Newsletter", b =>
@@ -375,7 +375,7 @@ namespace OnlineMobileRecharge.Data.Migrations
 
                     b.HasKey("Newsletter_Id");
 
-                    b.ToTable("Newsletter");
+                    b.ToTable("Newsletter", (string)null);
                 });
 
             modelBuilder.Entity("OnlineMobileRecharge.Models.Package", b =>
@@ -417,7 +417,7 @@ namespace OnlineMobileRecharge.Data.Migrations
 
                     b.HasKey("Package_Id");
 
-                    b.ToTable("Packages");
+                    b.ToTable("Packages", (string)null);
                 });
 
             modelBuilder.Entity("OnlineMobileRecharge.Models.PackageTransaction", b =>
@@ -455,7 +455,7 @@ namespace OnlineMobileRecharge.Data.Migrations
 
                     b.HasIndex("User_Id");
 
-                    b.ToTable("PackageTransactions");
+                    b.ToTable("PackageTransactions", (string)null);
                 });
 
             modelBuilder.Entity("OnlineMobileRecharge.Models.Recharge", b =>
@@ -491,7 +491,7 @@ namespace OnlineMobileRecharge.Data.Migrations
 
                     b.HasKey("Recharge_Id");
 
-                    b.ToTable("Recharges");
+                    b.ToTable("Recharges", (string)null);
                 });
 
             modelBuilder.Entity("OnlineMobileRecharge.Models.RechargeTransaction", b =>
@@ -531,7 +531,7 @@ namespace OnlineMobileRecharge.Data.Migrations
 
                     b.HasIndex("Recharge_Id");
 
-                    b.ToTable("RechargeTransactions");
+                    b.ToTable("RechargeTransactions", (string)null);
                 });
 
             modelBuilder.Entity("OnlineMobileRecharge.Models.Service", b =>
@@ -558,7 +558,7 @@ namespace OnlineMobileRecharge.Data.Migrations
 
                     b.HasIndex("User_Id");
 
-                    b.ToTable("Services");
+                    b.ToTable("Services", (string)null);
                 });
 
             modelBuilder.Entity("OnlineMobileRecharge.Models.ServiceTransaction", b =>
@@ -593,7 +593,7 @@ namespace OnlineMobileRecharge.Data.Migrations
 
                     b.HasIndex("User_Id");
 
-                    b.ToTable("ServiceTransactions");
+                    b.ToTable("ServiceTransactions", (string)null);
                 });
 
             modelBuilder.Entity("OnlineMobileRecharge.Models.TaxRate", b =>
@@ -617,7 +617,7 @@ namespace OnlineMobileRecharge.Data.Migrations
 
                     b.HasKey("Tax_Id");
 
-                    b.ToTable("TaxRates");
+                    b.ToTable("TaxRates", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
