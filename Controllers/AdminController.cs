@@ -63,6 +63,12 @@ namespace OnlineMobileRecharge.Controllers
             }
             switch (sortOrder)
             {
+                case "newest":
+                    packages = packages.OrderByDescending(p => p.Package_Id).ToList();
+                    break;
+                case "oldest":
+                    packages = packages.OrderBy(p => p.Package_Id).ToList();
+                    break;
                 case "name":
                     packages = packages.OrderBy(p => p.Package_Name).ToList();
                     break;
@@ -74,6 +80,9 @@ namespace OnlineMobileRecharge.Controllers
                     break;
                 case "price_desc":
                     packages = packages.OrderByDescending(p => p.Package_Price).ToList();
+                    break;
+                default:
+                    packages = packages.OrderByDescending(p => p.Package_Id).ToList();
                     break;
             }
 
@@ -197,6 +206,12 @@ namespace OnlineMobileRecharge.Controllers
             }
             switch (sortOrder)
             {
+                case "newest":
+                    recharges = recharges.OrderByDescending(p => p.Recharge_Id).ToList();
+                    break;
+                case "oldest":
+                    recharges = recharges.OrderBy(p => p.Recharge_Id).ToList();
+                    break;
                 case "name":
                     recharges = recharges.OrderBy(r => r.Recharge_Name).ToList();
                     break;
@@ -208,6 +223,9 @@ namespace OnlineMobileRecharge.Controllers
                     break;
                 case "price_desc":
                     recharges = recharges.OrderByDescending(r => r.Recharge_Price).ToList();
+                    break;
+                default:
+                    recharges = recharges.OrderByDescending(p => p.Recharge_Id).ToList();
                     break;
             }
 
@@ -319,6 +337,12 @@ namespace OnlineMobileRecharge.Controllers
             }
             switch (sortOrder)
             {
+                case "newest":
+                    tune = tune.OrderByDescending(c => c.Tune_Id).ToList();
+                    break;
+                case "oldest":
+                    tune = tune.OrderBy(c => c.Tune_Id).ToList();
+                    break;
                 case "name":
                     tune = tune.OrderBy(c => c.Tune_Name).ToList();
                     break;
@@ -330,6 +354,9 @@ namespace OnlineMobileRecharge.Controllers
                     break;
                 case "price_desc":
                     tune = tune.OrderByDescending(c => c.Tune_Price).ToList();
+                    break;
+                default:
+                    tune = tune.OrderByDescending(c => c.Tune_Id).ToList();
                     break;
             }
 
@@ -455,11 +482,20 @@ namespace OnlineMobileRecharge.Controllers
             }
             switch (sortOrder)
             {
+                case "newest":
+                    taxRate = taxRate.OrderByDescending(t => t.Tax_Id).ToList();
+                    break;
+                case "oldest":
+                    taxRate = taxRate.OrderBy(t => t.Tax_Id).ToList();
+                    break;
                 case "name":
                     taxRate = taxRate.OrderBy(t => t.Tax_Name).ToList();
                     break;
                 case "name_desc":
                     taxRate = taxRate.OrderByDescending(t => t.Tax_Name).ToList();
+                    break;
+                default:
+                    taxRate = taxRate.OrderByDescending(t => t.Tax_Id).ToList();
                     break;
             }
 
@@ -567,11 +603,20 @@ namespace OnlineMobileRecharge.Controllers
             }
             switch (sortOrder)
             {
+                case "newest":
+                    services = services.OrderByDescending(s => s.Service_Id).ToList();
+                    break;
+                case "oldest":
+                    services = services.OrderBy(s => s.Service_Id).ToList();
+                    break;
                 case "name":
                     services = services.OrderBy(s => s.IdentityUser.UserName).ToList();
                     break;
                 case "name_desc":
                     services = services.OrderByDescending(s => s.IdentityUser.UserName).ToList();
+                    break;
+                default:
+                    services = services.OrderByDescending(s => s.Service_Id).ToList();
                     break;
             }
 
@@ -607,11 +652,19 @@ namespace OnlineMobileRecharge.Controllers
             }
             switch (sortOrder)
             {
-                case "name":
+                case "newest":
+                    users = users.OrderByDescending(s => s.Id).ToList();
+                    break;
+                case "oldest":
+                    users = users.OrderBy(s => s.Id).ToList();
+                    break;
                     users = users.OrderBy(s => s.UserName).ToList();
                     break;
                 case "name_desc":
                     users = users.OrderByDescending(s => s.UserName).ToList();
+                    break;
+                default:
+                    users = users.OrderByDescending(s => s.Id).ToList();
                     break;
             }
 
@@ -661,6 +714,12 @@ namespace OnlineMobileRecharge.Controllers
             }
             switch (sortOrder)
             {
+                case "newest":
+                    transactions = transactions.OrderByDescending(p => p.PackageTransaction_Id).ToList();
+                    break;
+                case "oldest":
+                    transactions = transactions.OrderBy(p => p.PackageTransaction_Id).ToList();
+                    break;
                 case "name":
                     transactions = transactions.OrderBy(p => p.Package.Package_Name).ToList();
                     break;
@@ -670,8 +729,8 @@ namespace OnlineMobileRecharge.Controllers
                 case "price":
                     transactions = transactions.OrderBy(p => p.Package.Package_Price).ToList();
                     break;
-                case "price_desc":
-                    transactions = transactions.OrderByDescending(p => p.Package.Package_Price).ToList();
+                default:
+                    transactions = transactions.OrderByDescending(p => p.PackageTransaction_Id).ToList();
                     break;
             }
 
@@ -720,6 +779,12 @@ namespace OnlineMobileRecharge.Controllers
             }
             switch (sortOrder)
             {
+                case "newest":
+                    transactions = transactions.OrderByDescending(p => p.RechargeTransaction_Id).ToList();
+                    break;
+                case "oldest":
+                    transactions = transactions.OrderBy(p => p.RechargeTransaction_Id).ToList();
+                    break;
                 case "name":
                     transactions = transactions.OrderBy(p => p.Recharge.Recharge_Name).ToList();
                     break;
@@ -731,6 +796,9 @@ namespace OnlineMobileRecharge.Controllers
                     break;
                 case "price_desc":
                     transactions = transactions.OrderByDescending(p => p.Recharge.Recharge_Price).ToList();
+                    break;
+                default:
+                    transactions = transactions.OrderByDescending(p => p.RechargeTransaction_Id).ToList();
                     break;
             }
 
@@ -767,6 +835,12 @@ namespace OnlineMobileRecharge.Controllers
             }
             switch (sortOrder)
             {
+                case "newest":
+                    transactions = transactions.OrderByDescending(p => p.CustomRecharge_Id).ToList();
+                    break;
+                case "oldest":
+                    transactions = transactions.OrderBy(p => p.CustomRecharge_Id).ToList();
+                    break;
                 case "name":
                     transactions = transactions.OrderBy(p => p.IdentityUser.UserName).ToList();
                     break;
@@ -778,6 +852,9 @@ namespace OnlineMobileRecharge.Controllers
                     break;
                 case "price_desc":
                     transactions = transactions.OrderByDescending(p => p.Recharge_Price).ToList();
+                    break;
+                default:
+                    transactions = transactions.OrderByDescending(p => p.CustomRecharge_Id).ToList();
                     break;
             }
 
@@ -814,6 +891,12 @@ namespace OnlineMobileRecharge.Controllers
             }
             switch (sortOrder)
             {
+                case "newest":
+                    transactions = transactions.OrderByDescending(p => p.ServiceTransaction_Id).ToList();
+                    break;
+                case "oldest":
+                    transactions = transactions.OrderBy(p => p.ServiceTransaction_Id).ToList();
+                    break;
                 case "name":
                     transactions = transactions.OrderBy(p => p.IdentityUser.UserName).ToList();
                     break;
@@ -825,6 +908,9 @@ namespace OnlineMobileRecharge.Controllers
                     break;
                 case "price_desc":
                     transactions = transactions.OrderByDescending(p => p.CallerTune.Tune_Price).ToList();
+                    break;
+                default:
+                    transactions = transactions.OrderByDescending(p => p.ServiceTransaction_Id).ToList();
                     break;
             }
 
@@ -857,11 +943,20 @@ namespace OnlineMobileRecharge.Controllers
             }
             switch (sortOrder)
             {
+                case "newest":
+                    transactions = transactions.OrderByDescending(p => p.Contact_Id).ToList();
+                    break;
+                case "oldest":
+                    transactions = transactions.OrderBy(p => p.Contact_Id).ToList();
+                    break;
                 case "name":
                     transactions = transactions.OrderBy(p => p.Contact_Email).ToList();
                     break;
                 case "name_desc":
                     transactions = transactions.OrderByDescending(p => p.Contact_Email).ToList();
+                    break;
+                default:
+                    transactions = transactions.OrderByDescending(p => p.Contact_Id).ToList();
                     break;
             }
 
@@ -887,11 +982,20 @@ namespace OnlineMobileRecharge.Controllers
             }
             switch (sortOrder)
             {
+                case "newest":
+                    transactions = transactions.OrderByDescending(p => p.Feedback_Id).ToList();
+                    break;
+                case "oldest":
+                    transactions = transactions.OrderBy(p => p.Feedback_Id).ToList();
+                    break;
                 case "name":
                     transactions = transactions.OrderBy(p => p.Feedback_Email).ToList();
                     break;
                 case "name_desc":
                     transactions = transactions.OrderByDescending(p => p.Feedback_Email).ToList();
+                    break;
+                default:
+                    transactions = transactions.OrderByDescending(p => p.Feedback_Id).ToList();
                     break;
             }
 
@@ -917,11 +1021,20 @@ namespace OnlineMobileRecharge.Controllers
             }
             switch (sortOrder)
             {
+                case "newest":
+                    transactions = transactions.OrderByDescending(p => p.Newsletter_Id).ToList();
+                    break;
+                case "oldest":
+                    transactions = transactions.OrderBy(p => p.Newsletter_Id).ToList();
+                    break;
                 case "name":
                     transactions = transactions.OrderBy(p => p.Newsletter_Email).ToList();
                     break;
                 case "name_desc":
                     transactions = transactions.OrderByDescending(p => p.Newsletter_Email).ToList();
+                    break;
+                default:
+                    transactions = transactions.OrderByDescending(p => p.Newsletter_Id).ToList();
                     break;
             }
 
