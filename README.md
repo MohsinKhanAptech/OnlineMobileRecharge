@@ -1,5 +1,7 @@
 # OnlineMobileRecharge
 
+you need .NET V8 to run this
+
 !!! YE STEPS FOLLOW KRO SB SE PEHLE !!! \
 SQL Server kholo \
 server kholte hi apke samne jo choti si screen ayegi usme "Server name" copy \
